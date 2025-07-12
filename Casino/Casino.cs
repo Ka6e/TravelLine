@@ -19,122 +19,122 @@ public class Casino
     }
     private int GenerateRandomNumber()
     {
-        return rnd.Next( 1, 21 );
+        return rnd.Next(1, 21);
     }
-    private bool IsWin( int number )
+    private bool IsWin(int number)
     {
-        return ( winPositions.Contains( number ) );
+        return (winPositions.Contains(number));
     }
-    private int CalculateWinnings( int bet )
+    private int CalculateWinnings(int bet)
     {
-        int result = bet * ( 1 + ( multiplicator * GenerateRandomNumber() % 17 ) );
+        int result = bet * (1 + (multiplicator * GenerateRandomNumber() % 17));
         return result;
     }
     public static void PrintGameName()
     {
-        Console.WriteLine( GameName );
+        Console.WriteLine(GameName);
         Console.WriteLine();
     }
     private Operation? GetOperation()
     {
         string operationStr = Console.ReadLine();
-        bool isParse = Enum.TryParse( operationStr, out Operation operation );
+        bool isParse = Enum.TryParse(operationStr, out Operation operation);
         return isParse ? operation : null;
     }
     public static void PrintMenu()
     {
-        Console.WriteLine( "1. Start the game" );
-        Console.WriteLine( "2. Check balance" );
-        Console.WriteLine( "3. Exit" );
+        Console.WriteLine("1. Start the game");
+        Console.WriteLine("2. Check balance");
+        Console.WriteLine("3. Exit");
     }
     private void ToUpBalance()
     {
         bool isValid = false;
-        while ( !isValid )
+        while (!isValid)
         {
-            Console.Write( "Please enter amount of money youd like to lose: " );
-            if ( int.TryParse( Console.ReadLine(), out int amount ) && amount > 0 )
+            Console.Write("Please enter amount of money youd like to lose: ");
+            if (int.TryParse(Console.ReadLine(), out int amount) && amount > 0)
             {
                 balance += amount;
-                Console.WriteLine( $"The balance was successfully replenished on: {amount}" );
+                Console.WriteLine($"The balance was successfully replenished on: {amount}");
                 isValid = true;
             }
             else
             {
-                Console.WriteLine( $"Invalid amount value entered." );
+                Console.WriteLine($"Invalid amount value entered.");
             }
         }
     }
 
-    private bool IsValidBet( int bet )
+    private bool IsValidBet(int bet)
     {
-        if ( bet <= 0 )
+        if (bet <= 0)
         {
-            Console.WriteLine( "Your bet must be more than zero." );
+            Console.WriteLine("Your bet must be more than zero.");
             return false;
         }
-        if ( bet > GetBalance() )
+        if (bet > GetBalance())
         {
-            Console.WriteLine( "Your bet is more than your balance." );
+            Console.WriteLine("Your bet is more than your balance.");
             return false;
         }
         return true;
     }
     private void PlayGame()
     {
-        Console.Write( "Please enter your bet: " );
+        Console.Write("Please enter your bet: ");
         string betStr = Console.ReadLine();
-        if ( !int.TryParse( betStr, out int bet ) )
+        if (!int.TryParse(betStr, out int bet))
         {
-            Console.WriteLine( "Invalid bet." );
+            Console.WriteLine("Invalid bet.");
             return;
         }
 
-        if ( !IsValidBet( bet ) )
+        if (!IsValidBet(bet))
         {
             return;
         }
 
         balance -= bet;
         int number = GenerateRandomNumber();
-        if ( IsWin( number ) )
+        if (IsWin(number))
         {
-            int winnings = CalculateWinnings( bet );
+            int winnings = CalculateWinnings(bet);
             balance += winnings;
-            Console.WriteLine( $"Congratulations. You win: {winnings}." );
+            Console.WriteLine($"Congratulations. You win: {winnings}.");
         }
         else
         {
-            Console.WriteLine( "You lose." );
+            Console.WriteLine("You lose.");
         }
     }
-    private void HandlerOperation( Operation? operation )
+    private void HandlerOperation(Operation? operation)
     {
-        switch ( operation )
+        switch (operation)
         {
             case Operation.Play:
                 PlayGame();
                 break;
             case Operation.CheckBalance:
-                Console.WriteLine( $"Your balance: {GetBalance()}" );
+                Console.WriteLine($"Your balance: {GetBalance()}");
                 break;
             case Operation.Exit:
-                Console.WriteLine( "Goodbye" );
+                Console.WriteLine("Goodbye");
                 break;
             default:
-                throw new Exception( $"Invalid operation: {operation}" );
+                throw new Exception($"Invalid operation: {operation}");
         }
     }
     public void Run()
     {
         PrintGameName();
         ToUpBalance();
-        while ( operation != Operation.Exit )
+        while (operation != Operation.Exit)
         {
             PrintMenu();
-            Console.Write( "Select operation: " );
+            Console.Write("Select operation: ");
             operation = GetOperation();
-            HandlerOperation( operation );
+            HandlerOperation(operation);
         }
     }
 }
