@@ -100,7 +100,7 @@ public class Casino
             return;
         }
 
-        if (!IsValidBet( bet ))
+        if ( !IsValidBet( bet ) )
         {
             return;
         }
