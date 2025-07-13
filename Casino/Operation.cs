@@ -3,5 +3,6 @@ internal enum Operation
 {
     Play = 1,
     CheckBalance = 2,
-    Exit = 3
+    Deposit = 3,
+    Exit = 4
 }
