@@ -62,7 +62,7 @@ public class Casino
         while ( !isValid )
         {
             Console.Write( "Please enter the deposit amount: " );
-            if (int.TryParse( Console.ReadLine(), out int amount) && amount > 0 )
+            if ( int.TryParse( Console.ReadLine(), out int amount ) && amount > 0 )
             {
                 balance += amount;
                 Console.WriteLine( $"The balance was successfully replenished on: {amount}" );
@@ -77,7 +77,7 @@ public class Casino
 
     private bool IsValidBet( int bet )
     {
-        if (bet <= 0)
+        if ( bet <= 0 )
         {
             Console.WriteLine( "Your bet must be more than zero." );
             return false;
@@ -107,7 +107,7 @@ public class Casino
 
         balance -= bet;
         int number = GenerateRandomNumber();
-        if ( IsWin(number) )
+        if ( IsWin( number ) )
         {
             int winnings = CalculateWinnings( bet );
             balance += winnings;
