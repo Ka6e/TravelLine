@@ -26,7 +26,7 @@ int AskCount()
         }
         else
         {
-            Console.WriteLine( "Это не число." );
+            Console.WriteLine( "Некорректное колличество" );
         }
     }
 }
