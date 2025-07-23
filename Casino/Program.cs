@@ -1,9 +1,9 @@
-﻿using CasinoGame;
+﻿using CasinoGameController;
 
 try
 {
-    Casino casino = new Casino();
-    casino.Run();
+    CasinoController casinoController = new CasinoController();
+    casinoController.Run();
 }
 catch ( Exception ex )
 {

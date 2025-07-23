@@ -1,4 +1,4 @@
-﻿namespace Operations;
+﻿namespace CasinoGameController;
 internal enum Operation
 {
     Play = 1,
