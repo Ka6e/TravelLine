@@ -9,45 +9,38 @@ catch ( Exception ex )
     Console.WriteLine( $"Ошибка: {ex.Message}" );
 }
 
-string AskProduct()
+string ReadString( string promt )
 {
-    Console.Write( "Введите название товара: " );
-    return Console.ReadLine();
+    while ( true )
+    {
+        Console.Write( promt );
+        string str = Console.ReadLine();
+        if ( !String.IsNullOrEmpty( str ) )
+        {
+            return str;
+        }
+        Console.WriteLine( "Некорректное значение. Повторите ввод." );
+    }
 }
 
 int AskCount()
 {
-    Console.Write( "Введите колличество товара: " );
+    Console.Write( "Введите количество товара: " );
     while ( true )
     {
         if ( int.TryParse( Console.ReadLine(), out int result ) && result > 0 )
         {
             return result;
         }
-        else
-        {
-            Console.WriteLine( "Некорректное колличество" );
-        }
+        Console.WriteLine( "Некорректное колличество. Повторите ввод." );
     }
-}
-
-string AskName()
-{
-    Console.Write( "Введите имя получателя: " );
-    return Console.ReadLine();
-}
-
-string AskAdress()
-{
-    Console.Write( "Введите адресс доставки: " );
-    return Console.ReadLine();
 }
 
 bool ConfirmOrder( string name, int count, string product, string address )
 {
     Console.WriteLine( $"Здравствуйте, {name}, вы заказали {count} {product} на адрес {address}, все верно? (yes/no)" );
     string response = Console.ReadLine();
-    return response == "yes" ? true : false;
+    return response == "yes";
 }
 
 void ShowOrder( string name, string product, int count, string address, DateTime data )
@@ -57,7 +50,7 @@ void ShowOrder( string name, string product, int count, string address, DateTime
 
 bool IsValidOrder( string name, string product, string address )
 {
-    if ( name == string.Empty || product == string.Empty || address == string.Empty )
+    if ( String.IsNullOrEmpty( name ) || String.IsNullOrEmpty( product ) || String.IsNullOrEmpty( address ) )
     {
         return false;
     }
@@ -72,10 +65,10 @@ static void ShowOptions()
 
 void ProcessOrder()
 {
-    string product = AskProduct();
+    string product = ReadString( "Введите нзавние товара: " );
     int count = AskCount();
-    string name = AskName();
-    string address = AskAdress();
+    string name = ReadString( "Введите имя получателя: " );
+    string address = ReadString( "Введите адрес доставки: " );
     DateTime dateTime = DateTime.Today.AddDays( 3 );
     if ( !IsValidOrder( name, product, address ) )
     {
