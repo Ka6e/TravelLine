@@ -33,7 +33,7 @@ public class Casino
         return 0;
     }
 
-    public bool IsValidBet( int bet ) => bet > 0 ? true : false;
+    public bool IsValidBet( int bet ) => bet > _balance ? false : true;
 
     private int GenerateRandomNumber()
     {

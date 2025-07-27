@@ -17,7 +17,7 @@ namespace CasinoGameController
             while ( _operation != Operation.Exit )
             {
                 PrintMenu();
-                Console.WriteLine( "Select operation: " );
+                Console.Write( "Select operation: " );
                 _operation = GetOperation();
                 HandleOperation( _operation );
                 Console.WriteLine();
@@ -57,19 +57,19 @@ namespace CasinoGameController
             int bet = ReadNumber( "Please enter your bet: " );
             if ( !_casino.IsValidBet( bet ) )
             {
-                Console.WriteLine( "Invalid bet: not enough balance or zero." );
+                Console.WriteLine( "Invalid bet: not enough balance" );
+                return;
             }
-
             int winnings = _casino.Play( bet );
-            Console.WriteLine( bet == 0 ? $"Congratulations.You win: {winnings}." : "You lose." );
+            Console.WriteLine( winnings > 0 ? $"Congratulations. You win: {winnings}." : "You lose." );
         }
 
-        private int ReadNumber( string promt )
+        private int ReadNumber( string prompt )
         {
             while ( true )
             {
 
-                Console.Write( promt );
+                Console.Write( prompt );
                 string betStr = Console.ReadLine();
                 if ( int.TryParse( betStr, out int number ) && number > 0 )
                 {
