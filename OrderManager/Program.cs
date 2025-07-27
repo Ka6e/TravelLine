@@ -85,7 +85,7 @@ void ProcessOrder()
     }
 }
 
-void HandelrOperation( Operation? operation )
+void HandleOperation( Operation? operation )
 {
     switch ( operation )
     {
@@ -112,7 +112,7 @@ void Run()
     {
         ShowOptions();
         operation = GetOperation();
-        HandelrOperation( operation );
+        HandleOperation( operation );
     }
 }
 
