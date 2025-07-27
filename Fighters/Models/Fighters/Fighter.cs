@@ -21,7 +21,7 @@ namespace Fighters.Models.Fighters
         private IWeapon _weapon;
         private IRace _race;
         private IClass _class;
-        private readonly IAtackStrategy _atackStrategy;
+        private IAttackStrategy _atackStrategy = new StandartAttackStrategy();
 
         public Fighter( FighterConfig config )
         {
@@ -41,6 +41,8 @@ namespace Fighters.Models.Fighters
             _maxHealth = race.Health + @class.Health;
             _currentHealth = _maxHealth;
         }
+
+        public void SetAttackStrategy( IAttackStrategy strategy ) => _atackStrategy = strategy;
 
         public int Atack() => _atackStrategy.CalculateDamage( _totalStrength );
 

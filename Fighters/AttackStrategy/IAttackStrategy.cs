@@ -1,6 +1,6 @@
 ﻿namespace Fighters.AtackStrategy
 {
-    public interface IAtackStrategy
+    public interface IAttackStrategy
     {
         int CalculateDamage( int damage );
     }

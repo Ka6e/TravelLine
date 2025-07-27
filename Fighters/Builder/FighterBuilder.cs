@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using Fighters.Extensions;
+﻿using Fighters.Extensions;
 using Fighters.Models.Armors;
 using Fighters.Models.Class;
 using Fighters.Models.Fighters;

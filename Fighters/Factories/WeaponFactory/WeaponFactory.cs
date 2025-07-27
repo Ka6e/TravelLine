@@ -4,19 +4,19 @@ namespace Fighters.Factories.WeaponFactory;
 
 public class WeaponFactory : IWeaponfactory
 {
-    public IWeapon Create( Weapons weapon )
+    public IWeapon Create( Weapon weapon )
     {
         switch ( weapon )
         {
-            case Weapons.Fists:
+            case Weapon.Fists:
                 return new Fists();
-            case Weapons.Katana:
+            case Weapon.Katana:
                 return new Katana();
-            case Weapons.Knife:
+            case Weapon.Knife:
                 return new Knife();
-            case Weapons.MagicStaff:
+            case Weapon.MagicStaff:
                 return new MagicStaff();
-            case Weapons.Sword:
+            case Weapon.Sword:
                 return new Sword();
             default:
                 throw new NotImplementedException( "Invalid weapon" );

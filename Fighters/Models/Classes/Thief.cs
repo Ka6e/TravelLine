@@ -1,4 +1,4 @@
-﻿using Fighters.Models.Fighter;
+﻿using Fighters.Models.Fighters;
 
 namespace Fighters.Models.Class
 {

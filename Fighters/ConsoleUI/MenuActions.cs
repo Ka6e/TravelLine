@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Fighters.ConsoleUI
+namespace Fighters.UI
 {
     public enum MenuActions
     {

@@ -4,17 +4,17 @@ namespace Fighters.Factories.RaceFactory;
 
 public class RaceFactory : IRaceFactory
 {
-    public IRace Create( Races race )
+    public IRace Create( Race race )
     {
         switch ( race )
         {
-            case Races.Elf:
+            case Race.Elf:
                 return new Elf();
-            case Races.Goblin:
+            case Race.Goblin:
                 return new Goblin();
-            case Races.Human:
+            case Race.Human:
                 return new Human();
-            case Races.Orc:
+            case Race.Orc:
                 return new Orc();
             default:
                 throw new NotImplementedException( "Invalid race" );

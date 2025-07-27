@@ -6,13 +6,17 @@ using Fighters.Factories.RaceFactory;
 using Fighters.Factories.WeaponFactory;
 using Fighters.Manager;
 
-namespace Fighters.ConsoleUI
+namespace Fighters.UI
 {
     public class ConsoleUI
     {
-        private GameManager _manager = new();
+        private readonly GameManager _manager;
         private MenuActions? _menuAction;
 
+        public ConsoleUI( GameManager manager )
+        {
+            _manager = manager;
+        }
         public void Run()
         {
 
@@ -31,10 +35,10 @@ namespace Fighters.ConsoleUI
                 case MenuActions.AddFighter:
                     Console.WriteLine();
                     string name = SetName( "Enter name: " );
-                    Races race = ChooseRace( "Choose race: " );
-                    Classes @class = ChooseClass( "Choose class: " );
-                    Weapons weapon = ChooseWeapon( "Choose weapon: " );
-                    Armors armor = ChooseArmor( "Choose armor: " );
+                    Race race = ChooseEnum<Race>( "Choose race: " );
+                    Class @class = ChooseEnum<Class>( "Choose class: " );
+                    Weapon weapon = ChooseEnum<Weapon>( "Choose weapon: " );
+                    Armor armor = ChooseEnum<Armor>( "Choose armor: " );
 
                     var fighterDto = new FighterDTO( name, race, @class, weapon, armor );
 
@@ -79,38 +83,6 @@ namespace Fighters.ConsoleUI
             return attr?.Description ?? value.ToString();
         }
 
-        private void ShowAllRaces()
-        {
-            foreach ( var race in Enum.GetValues( typeof( Races ) ) )
-            {
-                Console.WriteLine( $"{( int )race} {race.ToString()}" );
-            }
-        }
-
-        private void ShowAllWeapons()
-        {
-            foreach ( var weapon in Enum.GetValues( typeof( Weapons ) ) )
-            {
-                Console.WriteLine( $"{( int )weapon}. {weapon}" );
-            }
-        }
-
-        private void ShowAllArmors()
-        {
-            foreach ( var armor in Enum.GetValues( typeof( Armors ) ) )
-            {
-                Console.WriteLine( $"{( int )armor}. {armor}" );
-            }
-        }
-
-        private void ShowAllClasses()
-        {
-            foreach ( var @class in Enum.GetValues( typeof( Classes ) ) )
-            {
-                Console.WriteLine( $"{( int )@class}. {@class}" );
-            }
-        }
-
         private string SetName( string promt )
         {
             Console.Write( promt );
@@ -127,63 +99,23 @@ namespace Fighters.ConsoleUI
 
         }
 
-        private Races ChooseRace( string promt )
+        private T ChooseEnum<T>( string prompt ) where T : Enum
         {
             while ( true )
             {
-                Console.WriteLine( "Races: " );
-                ShowAllRaces();
-                Console.Write( promt );
-                if ( int.TryParse( Console.ReadLine(), out var choice ) )
-                {
-                    return ( Races )choice;
-                }
-                Console.WriteLine( "Incorrect race." );
-            }
-        }
+                Console.WriteLine( $"{typeof( T ).Name}s:" );
 
-        private Classes ChooseClass( string promt )
-        {
-            while ( true )
-            {
-                Console.WriteLine( "Classes: " );
-                ShowAllClasses();
-                Console.Write( promt );
-                if ( int.TryParse( Console.ReadLine(), out var choice ) )
+                foreach ( var value in Enum.GetValues( typeof( T ) ) )
                 {
-                    return ( Classes )choice;
+                    Console.WriteLine( $"{( int )value}. {value}" );
                 }
-                Console.WriteLine( "Incorrect class." );
-            }
-        }
 
-        private Weapons ChooseWeapon( string promt )
-        {
-            while ( true )
-            {
-                Console.WriteLine( "Weapons: " );
-                ShowAllWeapons();
-                Console.Write( promt );
-                if ( int.TryParse( Console.ReadLine(), out var choice ) )
+                Console.Write( prompt );
+                if ( int.TryParse( Console.ReadLine(), out var choice ) && Enum.IsDefined( typeof( T ), choice ) )
                 {
-                    return ( Weapons )choice;
+                    return ( T )( object )choice;
                 }
-                Console.WriteLine( "Incorrect weapon." );
-            }
-        }
-
-        private Armors ChooseArmor( string promt )
-        {
-            while ( true )
-            {
-                Console.WriteLine( "Armors: " );
-                ShowAllArmors();
-                Console.Write( promt );
-                if ( int.TryParse( Console.ReadLine(), out var choice ) )
-                {
-                    return ( Armors )choice;
-                }
-                Console.WriteLine( "Incorrect armor." );
+                Console.WriteLine( $"Incorrect {typeof( T ).Name}" );
             }
         }
     }

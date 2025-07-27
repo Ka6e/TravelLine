@@ -1,6 +1,6 @@
 ﻿namespace Fighters.Factories.WeaponFactory
 {
-    public enum Weapons
+    public enum Weapon
     {
         Fists = 1,
         Katana = 2,

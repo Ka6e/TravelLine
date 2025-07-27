@@ -1,6 +1,6 @@
 ﻿namespace Fighters.Factories.ArmorFactory
 {
-    public enum Armors
+    public enum Armor
     {
         NoAmrom = 1,
         LeatherArmor = 2,

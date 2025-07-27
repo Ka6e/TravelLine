@@ -7,8 +7,8 @@ namespace Fighters.Extensions
 {
     public record FighterDTO(
         string Name,
-        Races Race,
-        Classes Class,
-        Weapons Weapon,
-        Armors Armor );
+        Race Race,
+        Class Class,
+        Weapon Weapon,
+        Armor Armor );
 }

@@ -4,6 +4,6 @@ namespace Fighters.Factories.RaceFactory
 {
     public interface IRaceFactory
     {
-        IRace Create( Races race );
+        IRace Create( Race race );
     }
 }

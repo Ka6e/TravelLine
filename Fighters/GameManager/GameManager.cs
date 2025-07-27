@@ -5,6 +5,7 @@ using Fighters.Factories.ArmorFactory;
 using Fighters.Factories.ClassFactory;
 using Fighters.Factories.RaceFactory;
 using Fighters.Factories.WeaponFactory;
+using Fighters.Logger;
 using Fighters.Models.Fighters;
 
 namespace Fighters.Manager
@@ -16,8 +17,13 @@ namespace Fighters.Manager
         private readonly ClassFactory _classFactory = new();
         private readonly ArmorFactory _armorFactory = new();
         private List<Fighter> _fighters = new();
-        private GameEngine _engine = new();
+        private FightersLogger _logger;
+        private GameEngine _engine;
 
+        public GameManager( IFightersLogger logger )
+        {
+            _engine = new GameEngine( logger );
+        }
         public void ShowFighters()
         {
             foreach ( var fighter in _fighters )
@@ -42,7 +48,7 @@ namespace Fighters.Manager
 
         public void Fight()
         {
-            _engine.RunBattle();
+            _engine.RunBattle( _fighters );
         }
 
         private FighterConfig BuildConfig( FighterDTO fighterDTO )

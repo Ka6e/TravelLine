@@ -4,6 +4,6 @@ namespace Fighters.Factories.ClassFactory
 {
     public interface IClassFactory
     {
-        IClass Create( Classes @class );
+        IClass Create( Class @class );
     }
 }

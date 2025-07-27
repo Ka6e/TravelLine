@@ -4,6 +4,6 @@ namespace Fighters.Factories.ArmorFactory
 {
     public interface IArmorFactory
     {
-        IArmor Create( Armors armor );
+        IArmor Create( Armor armor );
     }
 }

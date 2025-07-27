@@ -5,21 +5,21 @@ namespace Fighters.Factories.ClassFactory;
 
 public class ClassFactory : IClassFactory
 {
-    public IClass Create( Classes @class )
+    public IClass Create( Class @class )
     {
         switch ( @class )
         {
-            case Classes.Assassin:
+            case Class.Assassin:
                 return new Assassin();
-            case Classes.Barbarian:
+            case Class.Barbarian:
                 return new Barbarian();
-            case Classes.Knight:
+            case Class.Knight:
                 return new Knight();
-            case Classes.Samurai:
+            case Class.Samurai:
                 return new Samurai();
-            case Classes.Thief:
+            case Class.Thief:
                 return new Thief();
-            case Classes.Wizzard:
+            case Class.Wizzard:
                 return new Wizzard();
             default:
                 throw new NotImplementedException( "Invalid class." );

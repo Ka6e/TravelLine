@@ -4,6 +4,6 @@ namespace Fighters.Factories.WeaponFactory
 {
     public interface IWeaponfactory
     {
-        IWeapon Create( Weapons weapon );
+        IWeapon Create( Weapon weapon );
     }
 }

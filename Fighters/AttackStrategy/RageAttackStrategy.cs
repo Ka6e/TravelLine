@@ -1,13 +1,13 @@
-﻿using System.Net.NetworkInformation;
+﻿using Fighters.AtackStrategy;
 
-namespace Fighters.AtackStrategy
+namespace Fighters.AttackStrategy
 {
-    public class StandartAtackStrategy : IAtackStrategy
+    public class RageAttackStrategy : IAttackStrategy
     {
         private Random _rnd = new Random();
-        private const double minDamage = 0.8;
-        private const double maxDamage = 1.1;
-        private const double criticalChance = 0.3;
+        private const double minDamage = 1.0;
+        private const double maxDamage = 1.5;
+        private const double criticalChance = 0.5;
         private const double criticalMultiplier = 2.0;
         public int CalculateDamage( int baseDamage )
         {

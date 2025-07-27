@@ -1,6 +1,6 @@
 ﻿namespace Fighters.Factories.RaceFactory
 {
-    public enum Races
+    public enum Race
     {
         Elf = 1,
         Goblin = 2,

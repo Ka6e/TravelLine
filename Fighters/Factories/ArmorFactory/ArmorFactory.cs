@@ -5,19 +5,19 @@ namespace Fighters.Factories.ArmorFactory;
 
 public class ArmorFactory : IArmorFactory
 {
-    public IArmor Create( Armors armor )
+    public IArmor Create( Armor armor )
     {
         switch ( armor )
         {
-            case Armors.NoAmrom:
+            case Armor.NoAmrom:
                 return new NoArmor();
-            case Armors.LeatherArmor:
+            case Armor.LeatherArmor:
                 return new LeatherArmor();
-            case Armors.ChainMail:
+            case Armor.ChainMail:
                 return new ChainMail();
-            case Armors.IronArmor:
+            case Armor.IronArmor:
                 return new IronArmor();
-            case Armors.PlateArmor:
+            case Armor.PlateArmor:
                 return new PlateArmor();
             default:
                 throw new Exception( "Invalid armor" );

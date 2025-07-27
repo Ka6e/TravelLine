@@ -1,6 +1,6 @@
 ﻿namespace Fighters.Factories.ClassFactory
 {
-    public enum Classes
+    public enum Class
     {
         Assassin = 1,
         Barbarian = 2,
