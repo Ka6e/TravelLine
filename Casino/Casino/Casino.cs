@@ -1,44 +1,14 @@
 ﻿namespace CasinoGame;
 public class Casino
 {
-    private static readonly string _gameName = @"
-#       #   ##   #   #  ###   ###  
-#       #  #  #  ##  #   #   #   # 
-#   #   #  #  #  # # #   #   #   # 
-#  # #  #  #  #  #  ##   #   #   # 
- ##   ##    ##   #   #  ###   ###  ";
     private static readonly int _multiplicator = 10;
     private static readonly List<int> _winPositions = new List<int>() { 18, 19, 20 };
     private readonly Random _rnd = new Random();
     private int _balance;
 
-    public static void PrintGameName()
-    {
-        Console.WriteLine( _gameName );
-        Console.WriteLine();
-    }
-
     public int GetBalance()
     {
         return _balance;
-    }
-
-    public bool IsValidBet( int bet ) => bet > 0 ? true : false;
-
-    private int GenerateRandomNumber()
-    {
-        return _rnd.Next( 1, 21 );
-    }
-
-    private bool IsWin( int number )
-    {
-        return _winPositions.Contains( number );
-    }
-
-    private int CalculateWinnings( int bet )
-    {
-        int result = bet * ( 1 + _multiplicator * GenerateRandomNumber() % 17 );
-        return result;
     }
 
     public void ToUpBalance( int amount )
@@ -61,5 +31,23 @@ public class Casino
             return winnings;
         }
         return 0;
+    }
+
+    public bool IsValidBet( int bet ) => bet > 0 ? true : false;
+
+    private int GenerateRandomNumber()
+    {
+        return _rnd.Next( 1, 21 );
+    }
+
+    private bool IsWin( int number )
+    {
+        return _winPositions.Contains( number );
+    }
+
+    private int CalculateWinnings( int bet )
+    {
+        int result = bet * ( 1 + _multiplicator * GenerateRandomNumber() % 17 );
+        return result;
     }
 }

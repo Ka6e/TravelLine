@@ -13,14 +13,13 @@ namespace CasinoGameController
 
         public void Run()
         {
-            Casino.PrintGameName();
             Deposit();
             while ( _operation != Operation.Exit )
             {
                 PrintMenu();
                 Console.WriteLine( "Select operation: " );
                 _operation = GetOperation();
-                HandlerOperation( _operation );
+                HandleOperation( _operation );
                 Console.WriteLine();
             }
         }
@@ -32,7 +31,7 @@ namespace CasinoGameController
             return isParse ? operation : null;
         }
 
-        private void HandlerOperation( Operation? operation )
+        private void HandleOperation( Operation? operation )
         {
             switch ( operation )
             {
@@ -55,14 +54,7 @@ namespace CasinoGameController
 
         private void Play()
         {
-            Console.Write( "Please enter your bet: " );
-            string betStr = Console.ReadLine();
-            if ( !int.TryParse( betStr, out int bet ) )
-            {
-                Console.WriteLine( "Invalid bet." );
-                return;
-            }
-
+            int bet = ReadNumber( "Please enter your bet: " );
             if ( !_casino.IsValidBet( bet ) )
             {
                 Console.WriteLine( "Invalid bet: not enough balance or zero." );
@@ -72,23 +64,26 @@ namespace CasinoGameController
             Console.WriteLine( bet == 0 ? $"Congratulations.You win: {winnings}." : "You lose." );
         }
 
+        private int ReadNumber( string promt )
+        {
+            while ( true )
+            {
+
+                Console.Write( promt );
+                string betStr = Console.ReadLine();
+                if ( int.TryParse( betStr, out int number ) && number > 0 )
+                {
+                    return number;
+                }
+                Console.WriteLine( "Invalid number." );
+            }
+        }
+
         private void Deposit()
         {
-            bool isValid = false;
-            while ( !isValid )
-            {
-                Console.Write( "Please enter the deposit amount: " );
-                if ( int.TryParse( Console.ReadLine(), out int amount ) && amount > 0 )
-                {
-                    _casino.ToUpBalance( amount );
-                    Console.WriteLine( $"The balance was successfully replenished on: {amount}" );
-                    isValid = true;
-                }
-                else
-                {
-                    Console.WriteLine( $"Invalid amount value entered." );
-                }
-            }
+            int amount = ReadNumber( "Please enter your amount: " );
+            _casino.ToUpBalance( amount );
+            Console.WriteLine( $"The balance was successfully replenished on: {amount}" );
         }
 
         private void PrintMenu()
