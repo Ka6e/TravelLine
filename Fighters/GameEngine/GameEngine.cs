@@ -24,34 +24,31 @@ namespace Fighters.Engine
                 return;
             }
 
-            _logger.Log( "Battle started." );
+            _logger.Log( "Tournament started." );
             int round = 1;
 
             while ( alliveFighters.Count > 1 )
             {
                 _logger.Log( $"Round: {round}" );
 
-                for ( int i = 0; i < alliveFighters.Count - 1; i += 2 )
-                {
-                    var firstFighter = alliveFighters[ i ];
-                    var secondFigter = alliveFighters[ i + 1 ];
+                var firstFighter = alliveFighters.ElementAt( _random.Next( 0, alliveFighters.Count ) );
+                alliveFighters.Remove( firstFighter );
+                var secondFighter = alliveFighters.ElementAt( _random.Next( 0, alliveFighters.Count ) );
+                alliveFighters.Remove( secondFighter );
 
-                    alliveFighters.Remove( firstFighter );
-                    alliveFighters.Remove( secondFigter );
+                _logger.Log( $"{firstFighter.Name} VS {secondFighter.Name}" );
 
-                    _logger.Log( $"{firstFighter.Name} VS {secondFigter.Name}" );
-                    var winnerOfDuel = RunDuel( firstFighter, secondFigter );
-                    winnerOfDuel.HealFull();
-                    alliveFighters.Add( winnerOfDuel );
-                    _logger.Log( $"Winner: {winnerOfDuel.Name}" );
-                }
+                var winnerOfDuel = RunDuel( firstFighter, secondFighter );
+                winnerOfDuel.HealFull();
+                alliveFighters.Add( winnerOfDuel );
+                _logger.Log( $"Winner: {winnerOfDuel.Name}" );
+
                 round++;
-                _logger.Log( "\n" );
             }
 
             var winner = alliveFighters.First();
-            _logger.Log( "Battle ended." );
-            _logger.Log( $"Winner is: {winner.Name}." );
+            _logger.Log( "Tournament ended." );
+            _logger.Log( $"The winner of the tournament is: {winner.Name}." );
         }
 
         private Fighter RunDuel( Fighter first, Fighter second )
@@ -68,18 +65,7 @@ namespace Fighters.Engine
             {
                 _logger.Log( $"Round of duel: {round}" );
                 ExecuteAtack( attacker, defender );
-                if ( IsLowHP( defender ) )
-                {
-                    ChangeStrategy( defender, new RageAttackStrategy() );
-                }
-                if ( second.IsAlive )
-                {
-                    ExecuteAtack( defender, attacker );
-                    if ( IsLowHP( attacker ) )
-                    {
-                        ChangeStrategy( attacker, new RageAttackStrategy() );
-                    }
-                }
+                ExecuteAtack( defender, attacker );
                 round++;
             }
             return attacker.IsAlive ? attacker : defender;
@@ -93,18 +79,21 @@ namespace Fighters.Engine
 
         private void ChangeStrategy( Fighter fighter, IAttackStrategy attackStrategy )
         {
-            if ( IsLowHP( fighter ) )
-            {
-                fighter.SetAttackStrategy( attackStrategy );
-            }
+            fighter.SetAttackStrategy( attackStrategy );
         }
 
         private void ExecuteAtack( Fighter attacker, Fighter defender )
         {
-            int damage = attacker.Atack();
+            int damage = attacker.Attack();
             int realDamage = defender.TakeDamage( damage );
-            _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage "
-                + $"{defender.Name} health: {defender.GetCurrentHealth()}/{defender.GetMaxHealth()}" );
+            if ( realDamage != 0 )
+            {
+                _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage "
+                    + $"{defender.Name} health: {defender.GetCurrentHealth()}/{defender.GetMaxHealth()}" );
+                return;
+            }
+
+            _logger.Log( $"{attacker.Name} attacks {defender.Name}, but couldn't penetrate the armor!" );
         }
 
         private bool IsEnoughFighters( List<Fighter> fighters )

@@ -38,7 +38,7 @@ namespace Fighters.Models.Fighters
 
         public void SetAttackStrategy( IAttackStrategy strategy ) => _atackStrategy = strategy;
 
-        public int Atack() => _atackStrategy.CalculateDamage( _totalStrength );
+        public int Attack() => _atackStrategy.CalculateDamage( _totalStrength, this );
 
         public int GetCurrentHealth() => _currentHealth;
 
@@ -51,6 +51,10 @@ namespace Fighters.Models.Fighters
             return realDamage;
         }
 
+        public void Heal( int healAmount )
+        {
+            _currentHealth += healAmount;
+        }
         public override string ToString()
         {
             return $"Name: {Name}\n" +

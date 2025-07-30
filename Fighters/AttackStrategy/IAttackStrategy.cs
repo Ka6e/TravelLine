@@ -1,7 +1,9 @@
-﻿namespace Fighters.AtackStrategy
+﻿using Fighters.Models.Fighters;
+
+namespace Fighters.AtackStrategy
 {
     public interface IAttackStrategy
     {
-        int CalculateDamage( int damage );
+        int CalculateDamage( int damage, IFighter fighter );
     }
 }

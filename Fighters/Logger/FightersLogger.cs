@@ -9,7 +9,7 @@
 
         public void LogError( string message )
         {
-            Console.WriteLine( $"Error: {message}" );
+            Console.WriteLine( $"Error: {message}\n" );
         }
     }
 }
