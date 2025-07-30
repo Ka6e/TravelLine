@@ -3,10 +3,10 @@
     public class StandartAttackStrategy : IAttackStrategy
     {
         private Random _rnd = new Random();
-        private const double minDamage = 0.8;
-        private const double maxDamage = 1.1;
-        private const double criticalChance = 0.3;
-        private const double criticalMultiplier = 2.0;
+        private const double minDamage = 0.6;
+        private const double maxDamage = 0.95;
+        private const double criticalChance = 0.2;
+        private const double criticalMultiplier = 1.5;
         public int CalculateDamage( int baseDamage )
         {
             var variation = _rnd.NextDouble() * ( maxDamage - minDamage ) + minDamage;

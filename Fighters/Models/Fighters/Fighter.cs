@@ -34,13 +34,7 @@ namespace Fighters.Models.Fighters
             Initvariables( config.Race, config.Class, config.Weapon, config.Armor );
         }
 
-        private void Initvariables( IRace race, IClass @class, IWeapon weapon, IArmor armor )
-        {
-            _totalStrength = race.Strength + @class.Strength + weapon.Strength;
-            _totalArmor = armor.Defence + race.Armor;
-            _maxHealth = race.Health + @class.Health;
-            _currentHealth = _maxHealth;
-        }
+        public void HealFull() => _currentHealth = _maxHealth;
 
         public void SetAttackStrategy( IAttackStrategy strategy ) => _atackStrategy = strategy;
 
@@ -69,6 +63,14 @@ namespace Fighters.Models.Fighters
                 $"Weapon: {_weapon.GetType().Name}\n" +
                 $"ArmorType: {_armor.GetType().Name}\n" +
                 $"Status: {( IsAlive ? "Alive" : "Dead" )}\n";
+        }
+
+        private void Initvariables( IRace race, IClass @class, IWeapon weapon, IArmor armor )
+        {
+            _totalStrength = race.Strength + @class.Strength + weapon.Strength;
+            _totalArmor = armor.Defence + race.Armor;
+            _maxHealth = race.Health + @class.Health;
+            _currentHealth = _maxHealth;
         }
     }
 }

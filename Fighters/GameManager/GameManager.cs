@@ -23,6 +23,7 @@ namespace Fighters.Manager
         {
             _engine = new GameEngine( logger );
         }
+
         public void ShowFighters()
         {
             foreach ( var fighter in _fighters )
@@ -42,7 +43,7 @@ namespace Fighters.Manager
                 .SetArmor( cfg.Armor )
                 .Build();
 
-            _fighters.Add( result.value );
+            _fighters.Add( result );
         }
 
         public void Fight()

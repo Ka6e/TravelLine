@@ -41,6 +41,7 @@ namespace Fighters.Engine
 
                     _logger.Log( $"{firstFighter.Name} VS {secondFigter.Name}" );
                     var winnerOfDuel = RunDuel( firstFighter, secondFigter );
+                    winnerOfDuel.HealFull();
                     alliveFighters.Add( winnerOfDuel );
                     _logger.Log( $"Winner: {winnerOfDuel.Name}" );
                 }
@@ -50,7 +51,7 @@ namespace Fighters.Engine
 
             var winner = alliveFighters.First();
             _logger.Log( "Battle ended." );
-            _logger.Log( $"Winner is: {winner.Name} with {winner.GetCurrentHealth()}/{winner.GetMaxHealth()} HP left." );
+            _logger.Log( $"Winner is: {winner.Name}." );
         }
 
         private Fighter RunDuel( Fighter first, Fighter second )
@@ -102,9 +103,8 @@ namespace Fighters.Engine
         {
             int damage = attacker.Atack();
             int realDamage = defender.TakeDamage( damage );
-            _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage " +
-                      $"({realDamage} after armor). " +
-                      $"{defender.Name} health: {defender.GetCurrentHealth()}/{defender.GetMaxHealth()}" );
+            _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage "
+                + $"{defender.Name} health: {defender.GetCurrentHealth()}/{defender.GetMaxHealth()}" );
         }
 
         private bool IsEnoughFighters( List<Fighter> fighters )

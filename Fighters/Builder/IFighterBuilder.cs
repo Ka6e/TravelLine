@@ -14,6 +14,6 @@ namespace Fighters.Builder
         IFighterBuilder SetRace( IRace race );
         IFighterBuilder SetWeapon( IWeapon weapon );
         IFighterBuilder SetArmor( IArmor armor );
-        BuilderResult<Fighter> Build();
+        Fighter Build();
     }
 }

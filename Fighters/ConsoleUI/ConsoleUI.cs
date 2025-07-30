@@ -17,6 +17,7 @@ namespace Fighters.UI
         {
             _manager = manager;
         }
+
         public void Run()
         {
 
@@ -93,8 +94,7 @@ namespace Fighters.UI
                 {
                     return name;
                 }
-
-                Console.WriteLine( "Incorrect name." );
+                Console.Write( "Incorrect name. Try again: " );
             }
 
         }

@@ -44,28 +44,11 @@ namespace Fighters.Builder
             return this;
         }
 
-        public BuilderResult<Fighter> Build()
+        public Fighter Build()
         {
-            if ( !IsValid( _name, _race, _class, _armor, _weapon ) )
-            {
-                return BuilderResult<Fighter>.Failure( "Not all parameters of the fighter are set." );
-            }
             var config = new FighterConfig( _name, _race, _class, _weapon, _armor );
             var figter = new Fighter( config );
-            return BuilderResult<Fighter>.Success( figter );
-        }
-
-        private bool IsValid( string name, IRace race, IClass @class, IArmor armor, IWeapon weapon )
-        {
-            if ( name == null
-                || race == null
-                || @class == null
-                || armor == null
-                || weapon == null )
-            {
-                return false;
-            }
-            return true;
+            return figter;
         }
     }
 }
