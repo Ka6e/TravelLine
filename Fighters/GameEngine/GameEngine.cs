@@ -1,6 +1,5 @@
 ﻿using Fighters.AtackStrategy;
 using Fighters.AttackStrategy;
-using Fighters.Builder;
 using Fighters.Logger;
 using Fighters.Models.Fighters;
 
@@ -8,7 +7,6 @@ namespace Fighters.Engine
 {
     public class GameEngine
     {
-        private int _round = 1;
         private IFightersLogger _logger;
         private Random _random = new Random();
 
@@ -19,19 +17,40 @@ namespace Fighters.Engine
 
         public void RunBattle( List<Fighter> fighters )
         {
-            var alliveFighters = fighters;
+            var alliveFighters = fighters.Where( f => f.IsAlive ).ToList();
             if ( !IsEnoughFighters( alliveFighters ) )
             {
                 _logger.LogError( $"Not enough fighters. You need at least 2 fighters. It's only {alliveFighters.Count} now." );
                 return;
             }
 
-            var winners = new List<Fighter>();
+            _logger.Log( "Battle started." );
+            int round = 1;
 
             while ( alliveFighters.Count > 1 )
             {
+                _logger.Log( $"Round: {round}" );
 
+                for ( int i = 0; i < alliveFighters.Count - 1; i += 2 )
+                {
+                    var firstFighter = alliveFighters[ i ];
+                    var secondFigter = alliveFighters[ i + 1 ];
+
+                    alliveFighters.Remove( firstFighter );
+                    alliveFighters.Remove( secondFigter );
+
+                    _logger.Log( $"{firstFighter.Name} VS {secondFigter.Name}" );
+                    var winnerOfDuel = RunDuel( firstFighter, secondFigter );
+                    alliveFighters.Add( winnerOfDuel );
+                    _logger.Log( $"Winner: {winnerOfDuel.Name}" );
+                }
+                round++;
+                _logger.Log( "\n" );
             }
+
+            var winner = alliveFighters.First();
+            _logger.Log( "Battle ended." );
+            _logger.Log( $"Winner is: {winner.Name} with {winner.GetCurrentHealth()}/{winner.GetMaxHealth()} HP left." );
         }
 
         private Fighter RunDuel( Fighter first, Fighter second )
@@ -46,6 +65,7 @@ namespace Fighters.Engine
             int round = 1;
             while ( attacker.IsAlive && defender.IsAlive )
             {
+                _logger.Log( $"Round of duel: {round}" );
                 ExecuteAtack( attacker, defender );
                 if ( IsLowHP( defender ) )
                 {
@@ -63,12 +83,6 @@ namespace Fighters.Engine
             }
             return attacker.IsAlive ? attacker : defender;
         }
-
-        //private void PerformTurn( Fighter first, Fighter second )
-        //{
-        //    ExecuteAtack( first, second );
-        //    CheckAndChangeStrategy()
-        //}
 
         private bool IsLowHP( Fighter fighter )
         {
@@ -88,11 +102,14 @@ namespace Fighters.Engine
         {
             int damage = attacker.Atack();
             int realDamage = defender.TakeDamage( damage );
-            _logger.Log( $"{attacker.Name} " );
+            _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage " +
+                      $"({realDamage} after armor). " +
+                      $"{defender.Name} health: {defender.GetCurrentHealth()}/{defender.GetMaxHealth()}" );
         }
+
         private bool IsEnoughFighters( List<Fighter> fighters )
         {
-            return fighters.Count > 2;
+            return fighters.Count >= 2;
         }
 
     }

@@ -17,7 +17,6 @@ namespace Fighters.Manager
         private readonly ClassFactory _classFactory = new();
         private readonly ArmorFactory _armorFactory = new();
         private List<Fighter> _fighters = new();
-        private FightersLogger _logger;
         private GameEngine _engine;
 
         public GameManager( IFightersLogger logger )
