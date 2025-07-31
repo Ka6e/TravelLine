@@ -1,5 +1,4 @@
-﻿using Fighters.AttackStrategy;
-using Fighters.Models.Fighters;
+﻿using Fighters.Models.Fighters;
 
 namespace Fighters.AttackStrategy
 {

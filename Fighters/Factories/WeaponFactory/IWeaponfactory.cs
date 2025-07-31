@@ -2,7 +2,7 @@
 
 namespace Fighters.Factories.WeaponFactory
 {
-    public interface IWeaponfactory
+    public interface IWeaponFactory
     {
         IWeapon Create( Weapon weapon );
     }
