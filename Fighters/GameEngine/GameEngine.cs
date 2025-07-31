@@ -123,7 +123,6 @@ namespace Fighters.Engine
             SetRandomStrategy( attacker );
             int damage = attacker.Attack();
             int realDamage = defender.TakeDamage( damage );
-            _logger.Log( $"{attacker.GetAttackStrategy()}" );
             if ( realDamage != 0 )
             {
                 _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage \n"

@@ -52,12 +52,12 @@ namespace Fighters.Models.Fighters
         }
 
         public IClass GetClass() => _class;
+
         public void Heal( int healAmount )
         {
             Health += healAmount;
         }
 
-        public IAttackStrategy GetAttackStrategy() => _atackStrategy;
         public override string ToString()
         {
             return $"Name: {Name}\n" +
