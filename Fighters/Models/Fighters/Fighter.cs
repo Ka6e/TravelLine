@@ -13,12 +13,9 @@ namespace Fighters.Models.Fighters
         public int Health { get; set; }
         public int Armor { get; set; }
         public int Strength { get; set; }
-        public int Initiative { get; private set; }
+        public int Initiative { get; set; }
         public bool IsAlive => Health > 0;
 
-        //private int _currentHealth;
-        //private int _totalStrength;
-        //private int _totalArmor;
         private int _maxHealth;
         private IArmor _armor;
         private IWeapon _weapon;
@@ -50,7 +47,6 @@ namespace Fighters.Models.Fighters
         public int TakeDamage( int damage )
         {
             int realDamage = Math.Max( damage - Armor, 0 );
-            //_currentHealth = Math.Max( 0, _currentHealth - realDamage );
             Health = Math.Max( 0, Health - realDamage );
             return realDamage;
         }
@@ -58,7 +54,6 @@ namespace Fighters.Models.Fighters
         public IClass GetClass() => _class;
         public void Heal( int healAmount )
         {
-            //_currentHealth += healAmount;
             Health += healAmount;
         }
 
@@ -83,10 +78,6 @@ namespace Fighters.Models.Fighters
             Armor = armor.Defence + race.Armor;
             Strength = race.Strength + @class.Strength + weapon.Strength;
             Health = _maxHealth;
-            //_totalStrength = race.Strength + @class.Strength + weapon.Strength;
-            //_totalArmor = armor.Defence + race.Armor;
-            //_maxHealth = race.Health + @class.Health;
-            //_currentHealth = _maxHealth;
         }
     }
 }

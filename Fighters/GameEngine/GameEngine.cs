@@ -73,7 +73,12 @@ namespace Fighters.Engine
             {
                 _logger.Log( $"Round of duel: {round}" );
                 ExecuteAtack( attacker, defender );
-                ExecuteAtack( defender, attacker );
+
+                if ( defender.IsAlive )
+                {
+                    ExecuteAtack( defender, attacker );
+                }
+
                 round++;
             }
             return attacker.IsAlive ? attacker : defender;
@@ -81,7 +86,7 @@ namespace Fighters.Engine
 
         private bool IsLowHP( Fighter fighter )
         {
-            int expression = ( fighter.GetCurrentHealth() / fighter.GetMaxHealth() ) * 100;
+            double expression = ( ( double )fighter.GetCurrentHealth() / ( double )fighter.GetMaxHealth() ) * 100;
             return expression <= 20 ? true : false;
         }
 
@@ -92,35 +97,40 @@ namespace Fighters.Engine
 
         private IAttackStrategy GetRandomStrategy()
         {
-            int index = _random.Next( 0, _attackStrategy.Count - 2 );
+            int index = _random.Next( 0, _attackStrategy.Count - 1 );
             return _attackStrategy[ index ];
+        }
+
+        private void SetRandomStrategy( Fighter fighter )
+        {
+            if ( IsLowHP( fighter ) )
+            {
+                fighter.SetAttackStrategy( new RageAttackStrategy() );
+            }
+            if ( fighter.GetClass() is Barbarian && IsLowHP( fighter ) )
+            {
+                fighter.SetAttackStrategy( new BerserkAttackStrategy() );
+            }
+            else
+            {
+                fighter.SetAttackStrategy( GetRandomStrategy() );
+            }
+
         }
 
         private void ExecuteAtack( Fighter attacker, Fighter defender )
         {
-            if ( attacker.GetClass() is Barbarian && IsLowHP( attacker ) )
-            {
-                attacker.SetAttackStrategy( new BerserkAttackStrategy() );
-            }
-            if ( IsLowHP( attacker ) )
-            {
-                attacker.SetAttackStrategy( new RageAttackStrategy() );
-            }
-            else
-            {
-                attacker.SetAttackStrategy( GetRandomStrategy() );
-            }
-
+            SetRandomStrategy( attacker );
             int damage = attacker.Attack();
             int realDamage = defender.TakeDamage( damage );
             _logger.Log( $"{attacker.GetAttackStrategy()}" );
             if ( realDamage != 0 )
             {
-                _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage "
-                    + $"{defender.Name} health: {defender.GetCurrentHealth()}/{defender.GetMaxHealth()}" );
+                _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage \n"
+                    + $"{attacker.Name} hp: {attacker.GetCurrentHealth()}/{attacker.GetMaxHealth()} \t"
+                    + $"{defender.Name} hp: {defender.GetCurrentHealth()}/{defender.GetMaxHealth()}" );
                 return;
             }
-
             _logger.Log( $"{attacker.Name} attacks {defender.Name}, but couldn't penetrate the armor!" );
         }
 
