@@ -32,7 +32,7 @@ namespace Fighters.Manager
             }
         }
 
-        public void AddFighter( FighterDTO fighterDTO )
+        public void AddFighter( FighterEnumConfig fighterDTO )
         {
             var builder = new FighterBuilder();
             var cfg = BuildConfig( fighterDTO );
@@ -51,7 +51,7 @@ namespace Fighters.Manager
             _engine.RunBattle( _fighters );
         }
 
-        private FighterConfig BuildConfig( FighterDTO fighterDTO )
+        private FighterConfig BuildConfig( FighterEnumConfig fighterDTO )
         {
             var cfg = new FighterConfig(
                 fighterDTO.Name,

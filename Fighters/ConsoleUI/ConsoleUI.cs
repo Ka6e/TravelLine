@@ -41,7 +41,7 @@ namespace Fighters.UI
                     Weapon weapon = ChooseEnum<Weapon>( "Choose weapon: " );
                     Armor armor = ChooseEnum<Armor>( "Choose armor: " );
 
-                    var fighterDto = new FighterDTO( name, race, @class, weapon, armor );
+                    var fighterDto = new FighterEnumConfig( name, race, @class, weapon, armor );
 
                     _manager.AddFighter( fighterDto );
                     Console.WriteLine();

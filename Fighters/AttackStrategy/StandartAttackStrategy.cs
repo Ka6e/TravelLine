@@ -1,6 +1,6 @@
 ﻿using Fighters.Models.Fighters;
 
-namespace Fighters.AtackStrategy
+namespace Fighters.AttackStrategy
 {
     public class StandartAttackStrategy : IAttackStrategy
     {
@@ -9,7 +9,7 @@ namespace Fighters.AtackStrategy
         private const double maxDamage = 1.0;
         private const double criticalChance = 0.2;
         private const double criticalMultiplier = 1.5;
-        public int CalculateDamage( int baseDamage, IFighter fighter )
+        public int CalculateDamage( int baseDamage, Fighter fighter )
         {
             var variation = _rnd.NextDouble() * ( maxDamage - minDamage ) + minDamage;
             var damage = ( int )( baseDamage * variation );

@@ -1,6 +1,6 @@
-﻿using Fighters.AtackStrategy;
-using Fighters.AttackStrategy;
+﻿using Fighters.AttackStrategy;
 using Fighters.Logger;
+using Fighters.Models.Class;
 using Fighters.Models.Fighters;
 
 namespace Fighters.Engine
@@ -9,6 +9,14 @@ namespace Fighters.Engine
     {
         private IFightersLogger _logger;
         private Random _random = new Random();
+
+        private readonly List<IAttackStrategy> _attackStrategy = new List<IAttackStrategy>
+        {
+            new StandartAttackStrategy(),
+            new RageAttackStrategy(),
+            new VampirismAttackStrategy(),
+            new BerserkAttackStrategy(),
+        };
 
         public GameEngine( IFightersLogger logger )
         {
@@ -82,10 +90,30 @@ namespace Fighters.Engine
             fighter.SetAttackStrategy( attackStrategy );
         }
 
+        private IAttackStrategy GetRandomStrategy()
+        {
+            int index = _random.Next( 0, _attackStrategy.Count - 2 );
+            return _attackStrategy[ index ];
+        }
+
         private void ExecuteAtack( Fighter attacker, Fighter defender )
         {
+            if ( attacker.GetClass() is Barbarian && IsLowHP( attacker ) )
+            {
+                attacker.SetAttackStrategy( new BerserkAttackStrategy() );
+            }
+            if ( IsLowHP( attacker ) )
+            {
+                attacker.SetAttackStrategy( new RageAttackStrategy() );
+            }
+            else
+            {
+                attacker.SetAttackStrategy( GetRandomStrategy() );
+            }
+
             int damage = attacker.Attack();
             int realDamage = defender.TakeDamage( damage );
+            _logger.Log( $"{attacker.GetAttackStrategy()}" );
             if ( realDamage != 0 )
             {
                 _logger.Log( $"{attacker.Name} attacks {defender.Name} for {realDamage} damage "

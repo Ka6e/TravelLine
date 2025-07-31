@@ -1,4 +1,4 @@
-﻿using Fighters.AtackStrategy;
+﻿using Fighters.AttackStrategy;
 using Fighters.Models.Fighters;
 
 namespace Fighters.AttackStrategy
@@ -6,11 +6,11 @@ namespace Fighters.AttackStrategy
     public class BerserkAttackStrategy : IAttackStrategy
     {
         private Random _random = new Random();
-        public int CalculateDamage( int baseDamage, IFighter fighter )
+        public int CalculateDamage( int baseDamage, Fighter fighter )
         {
             if ( _random.NextDouble() < 0.1 )
             {
-                fighter.TakeDamage( 10 );
+                fighter.Health -= 10;
                 return 0;
             }
 

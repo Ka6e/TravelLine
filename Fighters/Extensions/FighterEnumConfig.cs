@@ -5,7 +5,7 @@ using Fighters.Factories.WeaponFactory;
 
 namespace Fighters.Extensions
 {
-    public record FighterDTO(
+    public record FighterEnumConfig(
         string Name,
         Race Race,
         Class Class,
