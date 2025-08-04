@@ -11,7 +11,6 @@ namespace Fighters.AttackStrategy
             int damage = ( int )( baseDamage * ( _random.NextDouble() * 0.5 + 0.75 ) );
             int heal = ( damage / 3 );
             fighter.Heal( heal );
-
             return damage;
         }
     }

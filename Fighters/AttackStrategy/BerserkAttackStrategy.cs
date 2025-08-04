@@ -13,7 +13,6 @@ namespace Fighters.AttackStrategy
                 fighter.ReduceHealth( 10 );
                 return 0;
             }
-
             var damage = baseDamage * 2;
             return damage;
         }

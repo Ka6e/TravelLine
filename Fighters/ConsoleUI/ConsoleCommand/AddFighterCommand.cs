@@ -25,7 +25,6 @@ namespace Fighters.ConsoleUI.ConsoleCommands
             Class @class = ChooseEnum<Class>( "Choose class: " );
             Weapon weapon = ChooseEnum<Weapon>( "Choose weapon: " );
             Armor armor = ChooseEnum<Armor>( "Choose armor: " );
-
             var fighterDto = new FighterEnumConfig( name, race, @class, weapon, armor );
             _gameManager.AddFighter( fighterDto );
             Console.WriteLine();
@@ -44,7 +43,6 @@ namespace Fighters.ConsoleUI.ConsoleCommands
                 }
                 Console.Write( "Incorrect name. Try again: " );
             }
-
         }
 
         private T ChooseEnum<T>( string prompt ) where T : Enum
@@ -52,12 +50,10 @@ namespace Fighters.ConsoleUI.ConsoleCommands
             while ( true )
             {
                 Console.WriteLine( $"{typeof( T ).Name}s:" );
-
                 foreach ( var value in Enum.GetValues( typeof( T ) ) )
                 {
                     Console.WriteLine( $"{( int )value}. {value}" );
                 }
-
                 Console.Write( prompt );
                 if ( int.TryParse( Console.ReadLine(), out var choice ) && Enum.IsDefined( typeof( T ), choice ) )
                 {

@@ -20,7 +20,6 @@ public class Program
                 new PlayGameCommand( manager ),
                 new ExitCommand()
             };
-
             var ui = new ConsoleUI.ConsoleUI( commands );
             ui.Run();
         }

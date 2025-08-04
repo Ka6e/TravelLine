@@ -45,7 +45,6 @@ namespace Fighters.ConsoleUI
                 Console.ReadKey();
                 Console.Clear();
             }
-
         }
 
         private void ShowMenu()

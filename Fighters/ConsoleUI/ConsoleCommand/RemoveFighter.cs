@@ -9,7 +9,6 @@ namespace Fighters.ConsoleUI.ConsoleCommand
         public string Name => "Remove fighter";
         public string Description => "Removes the fighters you need";
 
-
         public RemoveFighter( GameManager.GameManager gameManager )
         {
             _gameManager = gameManager;
@@ -18,13 +17,11 @@ namespace Fighters.ConsoleUI.ConsoleCommand
         public void Execute()
         {
             Console.Clear();
-
             while ( true )
             {
                 ShowOptions();
                 Console.Write( "Choose option: " );
                 int choice = ChooseOption();
-
                 switch ( choice )
                 {
                     case 1:
