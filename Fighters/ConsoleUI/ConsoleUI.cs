@@ -1,122 +1,61 @@
-﻿using System.ComponentModel;
-using Fighters.Extensions;
-using Fighters.Factories.ArmorFactory;
-using Fighters.Factories.ClassFactory;
-using Fighters.Factories.RaceFactory;
-using Fighters.Factories.WeaponFactory;
-using Fighters.Manager;
+﻿using Fighters.ConsoleUI.ConsoleCommands;
 
-namespace Fighters.UI
+namespace Fighters.ConsoleUI
 {
     public class ConsoleUI
     {
-        private readonly GameManager _manager;
-        private MenuActions? _menuAction;
+        private readonly List<IConsoleCommand> _consoleCommands;
 
-        public ConsoleUI( GameManager manager )
+        public ConsoleUI( List<IConsoleCommand> consoleCommands )
         {
-            _manager = manager;
+            _consoleCommands = consoleCommands;
         }
 
         public void Run()
         {
-
-            while ( _menuAction != MenuActions.Exit )
+            while ( true )
             {
                 ShowMenu();
-                _menuAction = GetAction();
-                HandleAction( _menuAction );
+                Console.Write( "Select the command: " );
+                ExecuteCommand();
             }
         }
 
-        private void HandleAction( MenuActions? action )
+        private void ExecuteCommand()
         {
-            switch ( action )
+            if ( int.TryParse( Console.ReadLine(), out int number ) )
             {
-                case MenuActions.AddFighter:
-                    Console.WriteLine();
-                    string name = SetName( "Enter name: " );
-                    Race race = ChooseEnum<Race>( "Choose race: " );
-                    Class @class = ChooseEnum<Class>( "Choose class: " );
-                    Weapon weapon = ChooseEnum<Weapon>( "Choose weapon: " );
-                    Armor armor = ChooseEnum<Armor>( "Choose armor: " );
-
-                    var fighterDto = new FighterEnumConfig( name, race, @class, weapon, armor );
-
-                    _manager.AddFighter( fighterDto );
-                    Console.WriteLine();
-                    break;
-                case MenuActions.ShowFighters:
-                    Console.WriteLine();
-                    _manager.ShowFighters();
-                    break;
-                case MenuActions.Play:
-                    Console.WriteLine();
-                    _manager.Fight();
-                    break;
-                case MenuActions.Exit:
-                    break;
-                default:
-                    throw new Exception( "Unknown action." );
+                if ( number >= 1 && number <= _consoleCommands.Count )
+                {
+                    Console.Clear();
+                    _consoleCommands[ number - 1 ].Execute();
+                }
+                else
+                {
+                    Console.WriteLine( "Unknown command." );
+                    Console.WriteLine( "Press any key to try again." );
+                    Console.ReadKey();
+                    Console.Clear();
+                }
             }
-        }
+            else
+            {
+                Console.WriteLine( "Unknown command." );
+                Console.WriteLine( "Press any key to try again." );
+                Console.ReadKey();
+                Console.Clear();
+            }
 
-        private MenuActions? GetAction()
-        {
-            Console.Write( "Choose action: " );
-            bool isParsed = Enum.TryParse( Console.ReadLine(), out MenuActions result );
-            return isParsed ? result : null;
         }
 
         private void ShowMenu()
         {
-            foreach ( MenuActions action in Enum.GetValues( typeof( MenuActions ) ) )
+            Console.WriteLine( "=== Menu ===" );
+            for ( int i = 0; i < _consoleCommands.Count; i++ )
             {
-                Console.WriteLine( $"{( int )action}. {GetEnumDescribtion( action )}" );
+                Console.WriteLine( $"{i + 1}.{_consoleCommands[ i ].Name}: ({_consoleCommands[ i ].Description})" );
             }
-        }
-
-        private string GetEnumDescribtion( Enum value )
-        {
-            var field = value.GetType().GetField( value.ToString() );
-            var attr = field?.GetCustomAttributes( typeof( DescriptionAttribute ), false )
-                .FirstOrDefault() as DescriptionAttribute;
-            return attr?.Description ?? value.ToString();
-        }
-
-        private string SetName( string promt )
-        {
-            Console.Write( promt );
-            while ( true )
-            {
-                string name = Console.ReadLine();
-                if ( !String.IsNullOrWhiteSpace( name ) )
-                {
-                    return name;
-                }
-                Console.Write( "Incorrect name. Try again: " );
-            }
-
-        }
-
-        private T ChooseEnum<T>( string prompt ) where T : Enum
-        {
-            while ( true )
-            {
-                Console.WriteLine( $"{typeof( T ).Name}s:" );
-
-                foreach ( var value in Enum.GetValues( typeof( T ) ) )
-                {
-                    Console.WriteLine( $"{( int )value}. {value}" );
-                }
-
-                Console.Write( prompt );
-                if ( int.TryParse( Console.ReadLine(), out var choice ) && Enum.IsDefined( typeof( T ), choice ) )
-                {
-                    return ( T )( object )choice;
-                }
-                Console.WriteLine( $"Incorrect {typeof( T ).Name}" );
-            }
+            Console.WriteLine();
         }
     }
 }

@@ -6,20 +6,14 @@ public class WeaponFactory : IWeaponFactory
 {
     public IWeapon Create( Weapon weapon )
     {
-        switch ( weapon )
+        return weapon switch
         {
-            case Weapon.Fists:
-                return new Fists();
-            case Weapon.Katana:
-                return new Katana();
-            case Weapon.Knife:
-                return new Knife();
-            case Weapon.MagicStaff:
-                return new MagicStaff();
-            case Weapon.Sword:
-                return new Sword();
-            default:
-                throw new NotImplementedException( "Invalid weapon" );
-        }
+            Weapon.Fists => new Fists(),
+            Weapon.Katana => new Katana(),
+            Weapon.Knife => new Knife(),
+            Weapon.MagicStaff => new MagicStaff(),
+            Weapon.Sword => new Sword(),
+            _ => throw new ArgumentException( "Invalid weapon", nameof( weapon ) )
+        };
     }
 }

@@ -1,4 +1,4 @@
-﻿using Fighters.Models.Class;
+﻿using Fighters.Models.Classes;
 using Fighters.Models.Fighters;
 
 namespace Fighters.Factories.ClassFactory;
@@ -7,22 +7,15 @@ public class ClassFactory : IClassFactory
 {
     public IClass Create( Class @class )
     {
-        switch ( @class )
+        return @class switch
         {
-            case Class.Assassin:
-                return new Assassin();
-            case Class.Barbarian:
-                return new Barbarian();
-            case Class.Knight:
-                return new Knight();
-            case Class.Samurai:
-                return new Samurai();
-            case Class.Thief:
-                return new Thief();
-            case Class.Wizzard:
-                return new Wizzard();
-            default:
-                throw new NotImplementedException( "Invalid class." );
-        }
+            Class.Assassin => new Assassin(),
+            Class.Barbarian => new Barbarian(),
+            Class.Knight => new Knight(),
+            Class.Samurai => new Samurai(),
+            Class.Thief => new Thief(),
+            Class.Wizzard => new Wizzard(),
+            _ => throw new ArgumentException( "Invalid class.", nameof( @class ) )
+        };
     }
 }

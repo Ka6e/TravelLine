@@ -1,6 +1,6 @@
 ﻿using Fighters.Models.Fighters;
 
-namespace Fighters.Models.Class
+namespace Fighters.Models.Classes
 {
     public class Thief : IClass
     {

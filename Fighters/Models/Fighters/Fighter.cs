@@ -1,7 +1,7 @@
 ﻿using Fighters.AttackStrategy;
 using Fighters.Extensions;
 using Fighters.Models.Armors;
-using Fighters.Models.Class;
+using Fighters.Models.Classes;
 using Fighters.Models.Races;
 using Fighters.Models.Weapons;
 
@@ -9,13 +9,13 @@ namespace Fighters.Models.Fighters
 {
     public class Fighter : IFighter
     {
-        public string Name { get; set; }
-        public int Health { get; set; }
-        public int Armor { get; set; }
-        public int Strength { get; set; }
-        public int Initiative { get; set; }
-        public bool IsAlive => Health > 0;
+        public string Name { get; }
+        public int Armor { get; }
+        public int Strength { get; }
+        public int Initiative { get; }
+        public bool IsAlive => _health > 0;
 
+        private int _health;
         private int _maxHealth;
         private IArmor _armor;
         private IWeapon _weapon;
@@ -31,23 +31,26 @@ namespace Fighters.Models.Fighters
             _weapon = config.Weapon;
             _armor = config.Armor;
             Initiative = config.Class.Initiative;
-            Initvariables( config.Race, config.Class, config.Weapon, config.Armor );
+            _maxHealth = _race.Health + _class.Health;
+            Armor = _race.Armor + _armor.Defence;
+            Strength = _race.Strength + _class.Strength + _weapon.Strength;
+            _health = _maxHealth;
         }
 
-        public void HealFull() => Health = _maxHealth;
+        public void HealFull() => _health = _maxHealth;
 
         public void SetAttackStrategy( IAttackStrategy strategy ) => _atackStrategy = strategy;
 
         public int Attack() => _atackStrategy.CalculateDamage( Strength, this );
 
-        public int GetCurrentHealth() => Health;
+        public int GetCurrentHealth() => _health;
 
         public int GetMaxHealth() => _maxHealth;
 
         public int TakeDamage( int damage )
         {
             int realDamage = Math.Max( damage - Armor, 0 );
-            Health = Math.Max( 0, Health - realDamage );
+            _health = Math.Max( 0, _health - realDamage );
             return realDamage;
         }
 
@@ -55,13 +58,18 @@ namespace Fighters.Models.Fighters
 
         public void Heal( int healAmount )
         {
-            Health += healAmount;
+            _health += healAmount;
+        }
+
+        public void ReduceHealth( int amount )
+        {
+            _health = Math.Max( 0, _health - amount );
         }
 
         public override string ToString()
         {
             return $"Name: {Name}\n" +
-                $"Health: {Health}/{_maxHealth}\n" +
+                $"Health: {_health}/{_maxHealth}\n" +
                 $"Strength: {Strength}\n" +
                 $"Armor: {Armor}\n" +
                 $"Initiative: {Initiative}\n" +
@@ -70,14 +78,6 @@ namespace Fighters.Models.Fighters
                 $"Weapon: {_weapon.GetType().Name}\n" +
                 $"ArmorType: {_armor.GetType().Name}\n" +
                 $"Status: {( IsAlive ? "Alive" : "Dead" )}\n";
-        }
-
-        private void Initvariables( IRace race, IClass @class, IWeapon weapon, IArmor armor )
-        {
-            _maxHealth = race.Health + @class.Health;
-            Armor = armor.Defence + race.Armor;
-            Strength = race.Strength + @class.Strength + weapon.Strength;
-            Health = _maxHealth;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Fighters.Models.Class
+﻿namespace Fighters.Models.Classes
 {
     public interface IClass
     {

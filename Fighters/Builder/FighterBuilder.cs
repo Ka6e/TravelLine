@@ -1,6 +1,6 @@
 ﻿using Fighters.Extensions;
 using Fighters.Models.Armors;
-using Fighters.Models.Class;
+using Fighters.Models.Classes;
 using Fighters.Models.Fighters;
 using Fighters.Models.Races;
 using Fighters.Models.Weapons;
@@ -14,6 +14,7 @@ namespace Fighters.Builder
         private IClass _class;
         private IArmor _armor;
         private IWeapon _weapon;
+
         public IFighterBuilder SetName( string name )
         {
             _name = name;

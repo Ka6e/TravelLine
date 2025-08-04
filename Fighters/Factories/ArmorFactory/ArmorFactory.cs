@@ -7,20 +7,14 @@ public class ArmorFactory : IArmorFactory
 {
     public IArmor Create( Armor armor )
     {
-        switch ( armor )
+        return armor switch
         {
-            case Armor.NoAmrom:
-                return new NoArmor();
-            case Armor.LeatherArmor:
-                return new LeatherArmor();
-            case Armor.ChainMail:
-                return new ChainMail();
-            case Armor.IronArmor:
-                return new IronArmor();
-            case Armor.PlateArmor:
-                return new PlateArmor();
-            default:
-                throw new Exception( "Invalid armor" );
-        }
+            Armor.NoAmrom => new NoArmor(),
+            Armor.LeatherArmor => new LeatherArmor(),
+            Armor.ChainMail => new ChainMail(),
+            Armor.IronArmor => new IronArmor(),
+            Armor.PlateArmor => new PlateArmor(),
+            _ => throw new ArgumentException( "Invalid armor", nameof( armor ) )
+        };
     }
 }

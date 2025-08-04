@@ -10,7 +10,7 @@ namespace Fighters.AttackStrategy
         {
             if ( _random.NextDouble() < 0.1 )
             {
-                fighter.Health -= 10;
+                fighter.ReduceHealth( 10 );
                 return 0;
             }
 

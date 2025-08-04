@@ -3,12 +3,10 @@
     public interface IFighter
     {
         string Name { get; }
-
-
         public int GetCurrentHealth();
         public int GetMaxHealth();
         public int Attack();
-        int TakeDamage( int damage );
-        bool IsAlive { get; }
+        public int TakeDamage( int damage );
+        public bool IsAlive { get; }
     }
 }

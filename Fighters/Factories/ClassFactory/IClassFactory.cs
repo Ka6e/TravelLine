@@ -1,4 +1,4 @@
-﻿using Fighters.Models.Class;
+﻿using Fighters.Models.Classes;
 
 namespace Fighters.Factories.ClassFactory
 {

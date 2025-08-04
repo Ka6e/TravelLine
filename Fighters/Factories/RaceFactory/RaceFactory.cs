@@ -6,18 +6,13 @@ public class RaceFactory : IRaceFactory
 {
     public IRace Create( Race race )
     {
-        switch ( race )
+        return race switch
         {
-            case Race.Elf:
-                return new Elf();
-            case Race.Goblin:
-                return new Goblin();
-            case Race.Human:
-                return new Human();
-            case Race.Orc:
-                return new Orc();
-            default:
-                throw new NotImplementedException( "Invalid race" );
-        }
+            Race.Elf => new Elf(),
+            Race.Goblin => new Goblin(),
+            Race.Human => new Human(),
+            Race.Orc => new Orc(),
+            _ => throw new ArgumentException( "Invalid race", nameof( race ) )
+        };
     }
 }

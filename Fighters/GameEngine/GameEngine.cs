@@ -1,9 +1,9 @@
 ﻿using Fighters.AttackStrategy;
 using Fighters.Logger;
-using Fighters.Models.Class;
+using Fighters.Models.Classes;
 using Fighters.Models.Fighters;
 
-namespace Fighters.Engine
+namespace Fighters.GameEngine
 {
     public class GameEngine
     {
@@ -72,13 +72,12 @@ namespace Fighters.Engine
             while ( attacker.IsAlive && defender.IsAlive )
             {
                 _logger.Log( $"Round of duel: {round}" );
-                ExecuteAtack( attacker, defender );
+                ExecuteAttack( attacker, defender );
 
                 if ( defender.IsAlive )
                 {
-                    ExecuteAtack( defender, attacker );
+                    ExecuteAttack( defender, attacker );
                 }
-
                 round++;
             }
             return attacker.IsAlive ? attacker : defender;
@@ -87,12 +86,7 @@ namespace Fighters.Engine
         private bool IsLowHP( Fighter fighter )
         {
             double expression = ( ( double )fighter.GetCurrentHealth() / ( double )fighter.GetMaxHealth() ) * 100;
-            return expression <= 20 ? true : false;
-        }
-
-        private void ChangeStrategy( Fighter fighter, IAttackStrategy attackStrategy )
-        {
-            fighter.SetAttackStrategy( attackStrategy );
+            return expression <= 20;
         }
 
         private IAttackStrategy GetRandomStrategy()
@@ -115,10 +109,9 @@ namespace Fighters.Engine
             {
                 fighter.SetAttackStrategy( GetRandomStrategy() );
             }
-
         }
 
-        private void ExecuteAtack( Fighter attacker, Fighter defender )
+        private void ExecuteAttack( Fighter attacker, Fighter defender )
         {
             SetRandomStrategy( attacker );
             int damage = attacker.Attack();

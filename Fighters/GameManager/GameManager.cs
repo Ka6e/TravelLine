@@ -1,5 +1,4 @@
 ﻿using Fighters.Builder;
-using Fighters.Engine;
 using Fighters.Extensions;
 using Fighters.Factories.ArmorFactory;
 using Fighters.Factories.ClassFactory;
@@ -8,7 +7,7 @@ using Fighters.Factories.WeaponFactory;
 using Fighters.Logger;
 using Fighters.Models.Fighters;
 
-namespace Fighters.Manager
+namespace Fighters.GameManager
 {
     public class GameManager
     {
@@ -17,11 +16,11 @@ namespace Fighters.Manager
         private readonly ClassFactory _classFactory = new();
         private readonly ArmorFactory _armorFactory = new();
         private List<Fighter> _fighters = new();
-        private GameEngine _engine;
+        private GameEngine.GameEngine _engine;
 
         public GameManager( IFightersLogger logger )
         {
-            _engine = new GameEngine( logger );
+            _engine = new GameEngine.GameEngine( logger );
         }
 
         public void ShowFighters()
@@ -35,15 +34,18 @@ namespace Fighters.Manager
         public void AddFighter( FighterEnumConfig fighterDTO )
         {
             var builder = new FighterBuilder();
-            var cfg = BuildConfig( fighterDTO );
-            var result = builder.SetName( cfg.Name )
-                .SetRace( cfg.Race )
-                .SetClass( cfg.Class )
-                .SetWeapon( cfg.Weapon )
-                .SetArmor( cfg.Armor )
+            var result = builder.SetName( fighterDTO.Name )
+                .SetRace( _raceFactory.Create( fighterDTO.Race ) )
+                .SetClass( _classFactory.Create( fighterDTO.Class ) )
+                .SetWeapon( _weaponFactory.Create( fighterDTO.Weapon ) )
+                .SetArmor( _armorFactory.Create( fighterDTO.Armor ) )
                 .Build();
-
             _fighters.Add( result );
+        }
+
+        public List<Fighter> GetFighters()
+        {
+            return _fighters;
         }
 
         public void Fight()
@@ -51,16 +53,28 @@ namespace Fighters.Manager
             _engine.RunBattle( _fighters );
         }
 
-        private FighterConfig BuildConfig( FighterEnumConfig fighterDTO )
+        public void RemoveAllFighters()
         {
-            var cfg = new FighterConfig(
-                fighterDTO.Name,
-                _raceFactory.Create( fighterDTO.Race ),
-                _classFactory.Create( fighterDTO.Class ),
-                _weaponFactory.Create( fighterDTO.Weapon ),
-                _armorFactory.Create( fighterDTO.Armor )
-                );
-            return cfg;
+            if ( _fighters.Count != 0 )
+            {
+                _fighters.Clear();
+            }
+        }
+
+        public void RemoveDeadFighters()
+        {
+            if ( _fighters.Count != 0 )
+            {
+                _fighters.RemoveAll( x => !x.IsAlive );
+            }
+        }
+
+        public void RemoveFighter( Fighter fighter )
+        {
+            if ( _fighters.Contains( fighter ) )
+            {
+                _fighters.Remove( fighter );
+            }
         }
     }
 }
