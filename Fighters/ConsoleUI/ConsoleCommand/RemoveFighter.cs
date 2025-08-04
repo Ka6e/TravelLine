@@ -31,14 +31,13 @@ namespace Fighters.ConsoleUI.ConsoleCommand
                         RemoveSingleFighter();
                         break;
                     case 2:
-                        _gameManager.RemoveDeadFighters();
-                        Console.WriteLine( "Dead fighters removed." );
+                        RemoveDeadFighters();
                         break;
                     case 3:
-                        _gameManager.RemoveAllFighters();
-                        Console.WriteLine( "All fighters removed." );
+                        RemoveAll();
                         break;
                     case 4:
+                        Console.Clear();
                         return;
                     default:
                         Console.WriteLine( "Invalid option." );
@@ -57,7 +56,6 @@ namespace Fighters.ConsoleUI.ConsoleCommand
             {
                 return;
             }
-
             var figter = figters[ index ];
             _gameManager.RemoveFighter( figter );
             Console.WriteLine( $"Fighter {figter.Name} removed." );
@@ -72,23 +70,37 @@ namespace Fighters.ConsoleUI.ConsoleCommand
             Console.WriteLine( "4. Back" );
         }
 
+        private void RemoveAll()
+        {
+            if ( !IsEnoughFighters() )
+            {
+                return;
+            }
+            Console.WriteLine( "All fighters removed." );
+            _gameManager.RemoveAllFighters();
+        }
+
+        private void RemoveDeadFighters()
+        {
+            if ( !IsEnoughFighters() )
+            {
+                return;
+            }
+            _gameManager.RemoveDeadFighters();
+            Console.WriteLine( "Dead fighters removed." );
+        }
 
         private bool ValidateFighterList( List<Fighter> fighters, out int index )
         {
-
             index = -1;
-
-            if ( fighters.Count == 0 )
+            if ( !IsEnoughFighters() )
             {
-                Console.WriteLine( "No fighters to rmeove." );
                 return false;
             }
-
             Console.WriteLine( "Choose a fighter to remove:" );
             ShowFighters();
             Console.Write( "Enter number: " );
             int choice = ChooseOption();
-
             if ( choice < 1 || choice > fighters.Count )
             {
                 Console.WriteLine( "Invalid fighter number." );
@@ -97,6 +109,8 @@ namespace Fighters.ConsoleUI.ConsoleCommand
             index = choice - 1;
             return true;
         }
+
+
         private void ShowFighters()
         {
             var figters = _gameManager.GetFighters();
@@ -104,6 +118,16 @@ namespace Fighters.ConsoleUI.ConsoleCommand
             {
                 Console.WriteLine( $"{i + 1}. {figters[ i ]}" );
             }
+        }
+
+        private bool IsEnoughFighters( string message = "No fighters to remove." )
+        {
+            if ( _gameManager.GetFighters().Count == 0 )
+            {
+                Console.WriteLine( message );
+                return false;
+            }
+            return true;
         }
 
         private int ChooseOption()
