@@ -22,6 +22,14 @@ namespace Fighters.ConsoleUI.ConsoleCommand
                 ShowOptions();
                 Console.Write( "Choose option: " );
                 int choice = ChooseOption();
+                if ( choice < 1 || choice > 4 )
+                {
+                    Console.WriteLine( "Invalid option." );
+                    Console.WriteLine( "Press any key to continue." );
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
                 switch ( choice )
                 {
                     case 1:
@@ -36,13 +44,7 @@ namespace Fighters.ConsoleUI.ConsoleCommand
                     case 4:
                         Console.Clear();
                         return;
-                    default:
-                        Console.WriteLine( "Invalid option." );
-                        break;
                 }
-                Console.WriteLine( "Press any key to continue." );
-                Console.ReadKey();
-                Console.Clear();
             }
         }
 
@@ -51,6 +53,9 @@ namespace Fighters.ConsoleUI.ConsoleCommand
             var figters = _gameManager.GetFighters();
             if ( !ValidateFighterList( figters, out int index ) )
             {
+                Console.WriteLine( "Press any key to continue." );
+                Console.ReadKey();
+                Console.Clear();
                 return;
             }
             var figter = figters[ index ];
@@ -71,6 +76,9 @@ namespace Fighters.ConsoleUI.ConsoleCommand
         {
             if ( !IsEnoughFighters() )
             {
+                Console.WriteLine( "Press any key to continue." );
+                Console.ReadKey();
+                Console.Clear();
                 return;
             }
             Console.WriteLine( "All fighters removed." );
@@ -81,6 +89,9 @@ namespace Fighters.ConsoleUI.ConsoleCommand
         {
             if ( !IsEnoughFighters() )
             {
+                Console.WriteLine( "Press any key to continue." );
+                Console.ReadKey();
+                Console.Clear();
                 return;
             }
             _gameManager.RemoveDeadFighters();
