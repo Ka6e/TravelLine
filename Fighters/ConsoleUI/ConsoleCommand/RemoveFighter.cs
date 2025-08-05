@@ -95,6 +95,7 @@ namespace Fighters.ConsoleUI.ConsoleCommand
                 return false;
             }
             Console.WriteLine( "Choose a fighter to remove:" );
+            Console.WriteLine();
             ShowFighters();
             Console.Write( "Enter number: " );
             int choice = ChooseOption();

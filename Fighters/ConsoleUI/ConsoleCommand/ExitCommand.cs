@@ -9,7 +9,7 @@ namespace Fighters.ConsoleUI.ConsoleCommand
 
         public void Execute()
         {
-            Console.WriteLine( "Exeting." );
+            Console.WriteLine( "Сlosing the game" );
             Environment.Exit( 0 );
         }
     }
