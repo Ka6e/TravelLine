@@ -119,7 +119,6 @@ namespace Fighters.ConsoleUI.ConsoleCommand
             return true;
         }
 
-
         private void ShowFighters()
         {
             var figters = _gameManager.GetFighters();
