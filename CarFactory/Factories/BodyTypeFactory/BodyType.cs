@@ -1,4 +1,4 @@
-﻿namespace CarFactory.Models.BodyType
+﻿namespace CarFactory.Factories.BodyTypeFactory
 {
     public enum BodyType
     {

@@ -16,19 +16,32 @@ namespace CarFactory.UI
         {
             while ( true )
             {
+                ShowName();
                 ExecuteCommand();
             }
         }
 
         public void ExecuteCommand()
         {
-            var command = AnsiConsole.Prompt(
-                new SelectionPrompt<ICommand>()
+            var commandName = _commands.Select( x => x.Name ).ToList();
+
+            var choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
                 .Title( "Choose the commad." )
                 .PageSize( 10 )
-                .AddChoices( _commands ) );
+                .AddChoices( commandName ) );
 
-            command.Execute();
+            var selectedCommand = _commands.FirstOrDefault( x => x.Name == choice );
+            selectedCommand.Execute();
+        }
+
+
+        private void ShowName()
+        {
+            AnsiConsole.Write(
+                new FigletText( "Car-factory" )
+                .Centered()
+                .Color( Color.Red ) );
         }
     }
 }

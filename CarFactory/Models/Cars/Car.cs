@@ -18,7 +18,7 @@ namespace CarFactory.Models.Cars
         {
             if ( !IsValidNumber( number ) )
             {
-                throw new ArgumentException( "Invalid car number" + number );
+                throw new ArgumentException( "Invalid car number " + number );
             }
             Number = number;
             Color = color;
@@ -38,18 +38,9 @@ namespace CarFactory.Models.Cars
             return ( int )Math.Round( maxSpeed );
         }
 
-        public override string ToString()
-        {
-            return $"Number: {Number}\n" +
-                $"Color: [{Color.ToString().ToLower()}]{Color}[/]" +
-                $"BodyType: {BodyType.ToString()}" +
-                $"Engine: {Engine.ToString()}" +
-                $"Transmission: {Transmission.ToString()}";
-        }
-
         private bool IsValidNumber( string number )
         {
-            Regex regex = new Regex( @"$[0-9][A-Z]{3}[0-9]{2}$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
+            Regex regex = new Regex( @"^[A-Z][0-9]{3}[A-Z]{2}$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
             if ( regex.IsMatch( number ) )
             {
                 return true;

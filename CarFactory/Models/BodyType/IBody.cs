@@ -2,6 +2,7 @@
 {
     public interface IBody
     {
+        string Name { get; }
         int Weight { get; }
     }
 }

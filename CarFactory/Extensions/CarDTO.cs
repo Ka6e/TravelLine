@@ -1,6 +1,6 @@
-﻿using CarFactory.Factories.EngineFactory;
+﻿using CarFactory.Factories.BodyTypeFactory;
+using CarFactory.Factories.EngineFactory;
 using CarFactory.Factories.TransmissionFactory;
-using CarFactory.Models.BodyType;
 using CarFactory.Models.Colors;
 
 namespace CarFactory.Extensions

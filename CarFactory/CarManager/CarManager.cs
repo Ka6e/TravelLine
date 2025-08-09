@@ -4,7 +4,6 @@ using CarFactory.Factories.BodyTypeFactory;
 using CarFactory.Factories.EngineFactory;
 using CarFactory.Factories.TransmissionFactory;
 using CarFactory.Models.Cars;
-using Spectre.Console;
 
 namespace CarFactory.CarManager
 {
@@ -27,12 +26,9 @@ namespace CarFactory.CarManager
             _cars.Add( car );
         }
 
-        public void ShowCars()
+        public List<Car> GetCars()
         {
-            foreach ( var car in _cars )
-            {
-                AnsiConsole.Write( car.ToString() );
-            }
+            return _cars;
         }
     }
 }
