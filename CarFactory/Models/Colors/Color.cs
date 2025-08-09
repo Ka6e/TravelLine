@@ -7,7 +7,7 @@
         Blue,
         Black,
         White,
-        Gray,
+        Grey,
         Yellow
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CarFactory.Models.Transmissions
 {
-    public class ManualTransmission : ITransmission
+    public class RoboticTransmission : ITransmission
     {
         public int NumberOfGears => 6;
     }

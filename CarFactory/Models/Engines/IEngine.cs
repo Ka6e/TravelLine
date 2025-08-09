@@ -7,6 +7,7 @@ namespace CarFactory.Models.Engines
         string Name { get; }
         FuelKind FuelType { get; }
         int HorsePower { get; }
+        int MaxRPM { get; }
         double Volume { get; }
     }
 }

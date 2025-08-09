@@ -3,6 +3,9 @@
     public enum Transmissions
     {
         ManualTransmission,
-        AutomaticTransmission
+        AutomaticTransmission,
+        RoboticTransmission,
+        CVTTransmission,
+        DualClutchTransmission
     }
 }

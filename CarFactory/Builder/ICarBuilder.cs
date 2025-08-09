@@ -1,4 +1,5 @@
-﻿using CarFactory.Models.BodyType;
+﻿using System.Xml.Linq;
+using CarFactory.Models.BodyType;
 using CarFactory.Models.Cars;
 using CarFactory.Models.Colors;
 using CarFactory.Models.Engines;
@@ -8,10 +9,11 @@ namespace CarFactory.Builder
 {
     public interface ICarBuilder
     {
+        ICarBuilder SetName( string name );
         ICarBuilder SetEngine( IEngine engine );
         ICarBuilder SetTransmission( ITransmission transmission );
         ICarBuilder SetColor( Color color );
-        ICarBuilder SetBodyType( BodyType bodyType );
+        ICarBuilder SetBodyType( IBody bodyType );
         Car Build();
     }
 

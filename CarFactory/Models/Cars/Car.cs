@@ -1,4 +1,6 @@
-﻿using CarFactory.Models.Colors;
+﻿using System.Text.RegularExpressions;
+using CarFactory.Models.BodyType;
+using CarFactory.Models.Colors;
 using CarFactory.Models.Engines;
 using CarFactory.Models.Transmissions;
 
@@ -6,28 +8,53 @@ namespace CarFactory.Models.Cars
 {
     public class Car : ICar
     {
-        private readonly IEngine _engine;
-        private readonly ITransmission _transmission;
-        private readonly Color _color;
-        private readonly BodyType.BodyType _bodyType;
-        public Car( IEngine engine, ITransmission transmission, Color color, BodyType.BodyType bodyType )
+        public string Number { get; }
+        public Color Color { get; }
+        public IBody BodyType { get; }
+        public IEngine Engine { get; }
+        public ITransmission Transmission { get; }
+
+        public Car( string number, Color color, IBody body, IEngine engine, ITransmission transmission )
         {
-            _engine = engine;
-            _transmission = transmission;
-            _color = color;
-            _bodyType = bodyType;
+            if ( !IsValidNumber( number ) )
+            {
+                throw new ArgumentException( "Invalid car number" + number );
+            }
+            Number = number;
+            Color = color;
+            BodyType = body;
+            Engine = engine;
+            Transmission = transmission;
         }
 
-        public IEngine Engine => _engine;
+        public int MaxSpeed()
+        {
+            double adjustmentCoefficient = 0.106;
+            double maxSpeed = ( Engine.MaxRPM * Engine.HorsePower / BodyType.Weight ) * adjustmentCoefficient;
+            if ( maxSpeed < 0 )
+            {
+                throw new InvalidOperationException( "Calculated max speed is negative, which is invalid." );
+            }
+            return ( int )Math.Round( maxSpeed );
+        }
 
-        public ITransmission Transmission => _transmission;
+        public override string ToString()
+        {
+            return $"Number: {Number}\n" +
+                $"Color: [{Color.ToString().ToLower()}]{Color}[/]" +
+                $"BodyType: {BodyType.ToString()}" +
+                $"Engine: {Engine.ToString()}" +
+                $"Transmission: {Transmission.ToString()}";
+        }
 
-        public Color Color => _color;
-
-        public BodyType.BodyType bodyType => _bodyType;
-
-        public int MaxSpeed => 500;
-
-        public int MaxGear => _transmission.NumberOfGears;
+        private bool IsValidNumber( string number )
+        {
+            Regex regex = new Regex( @"$[0-9][A-Z]{3}[0-9]{2}$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
+            if ( regex.IsMatch( number ) )
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

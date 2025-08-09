@@ -8,13 +8,20 @@ namespace CarFactory.Builder
 {
     public class CarBuilder : ICarBuilder
     {
+        private string _name;
         private IEngine _engine;
         private ITransmission _transmission;
         private Color _color;
-        private BodyType _bodyType;
+        private IBody _bodyType;
 
 
-        public ICarBuilder SetBodyType( BodyType bodyType )
+        public ICarBuilder SetName( string name )
+        {
+            _name = name;
+            return this;
+        }
+
+        public ICarBuilder SetBodyType( IBody bodyType )
         {
             _bodyType = bodyType;
             return this;
@@ -40,7 +47,7 @@ namespace CarFactory.Builder
 
         public Car Build()
         {
-            var car = new Car( _engine, _transmission, _color, _bodyType );
+            var car = new Car( _name, _color, _bodyType, _engine, _transmission );
             return car;
         }
     }
