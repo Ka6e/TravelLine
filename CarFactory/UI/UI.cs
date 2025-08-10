@@ -35,7 +35,6 @@ namespace CarFactory.UI
             selectedCommand.Execute();
         }
 
-
         private void ShowName()
         {
             AnsiConsole.Write(

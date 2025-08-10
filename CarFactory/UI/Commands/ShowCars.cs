@@ -23,15 +23,13 @@ namespace CarFactory.UI.Commands
         public void ShowCar()
         {
             var cars = _manager.GetCars();
-
             var table = new Table();
-
             table.AddColumn( "Number" );
             table.AddColumn( "Color" );
             table.AddColumn( "BodyType" );
             table.AddColumn( "Engine" );
             table.AddColumn( "Transmission" );
-
+            table.AddColumn( "Max Speed" );
             foreach ( var car in cars )
             {
                 table.AddRow(
@@ -39,9 +37,9 @@ namespace CarFactory.UI.Commands
                     car.Color.ToString(),
                     car.BodyType.Name,
                     car.Engine.Name,
-                    car.Transmission.Name );
+                    car.Transmission.Name,
+                    car.MaxSpeed().ToString() );
             }
-
             AnsiConsole.Write( table );
         }
     }

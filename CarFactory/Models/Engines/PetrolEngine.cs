@@ -1,5 +1,4 @@
-﻿
-using CarFactory.Models.Engines.FuelType;
+﻿using CarFactory.Models.Engines.FuelType;
 
 namespace CarFactory.Models.Engines
 {

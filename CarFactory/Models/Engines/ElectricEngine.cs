@@ -8,6 +8,6 @@ namespace CarFactory.Models.Engines
         public FuelKind FuelType => FuelKind.Electric;
         public int HorsePower => 486;
         public double Volume => 0;
-        public int MaxRPM => 15000;
+        public int MaxRPM => 8000;
     }
 }

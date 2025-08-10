@@ -29,13 +29,11 @@ namespace CarFactory.Models.Cars
 
         public int MaxSpeed()
         {
-            double adjustmentCoefficient = 0.106;
-            double maxSpeed = ( Engine.MaxRPM * Engine.HorsePower / BodyType.Weight ) * adjustmentCoefficient;
-            if ( maxSpeed < 0 )
-            {
-                throw new InvalidOperationException( "Calculated max speed is negative, which is invalid." );
-            }
-            return ( int )Math.Round( maxSpeed );
+            double wheelRadius = 0.34;
+            double gearRatio = 4.0;
+            double metersPerMinute = ( Engine.MaxRPM / gearRatio ) * ( 2 * Math.PI * wheelRadius );
+            double kmPerHour = metersPerMinute * 60 / 1000;
+            return ( int )Math.Round( kmPerHour );
         }
 
         private bool IsValidNumber( string number )

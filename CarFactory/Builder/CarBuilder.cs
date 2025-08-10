@@ -14,7 +14,6 @@ namespace CarFactory.Builder
         private Color _color;
         private IBody _bodyType;
 
-
         public ICarBuilder SetName( string name )
         {
             _name = name;

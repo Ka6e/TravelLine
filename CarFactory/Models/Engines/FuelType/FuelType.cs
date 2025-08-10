@@ -5,7 +5,6 @@
         Petrol,
         Diesel,
         Gas,
-        Electric,
-        Hybrid
+        Electric
     }
 }

@@ -5,7 +5,6 @@
         PetrolEngine,
         DieselEngine,
         GasEngine,
-        ElectricEngine,
-        //HybridEngine
+        ElectricEngine
     }
 }

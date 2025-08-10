@@ -24,9 +24,7 @@ namespace CarFactory.UI.Commands
             var body = SelectBody();
             var enige = SelectEngine();
             var transmission = SelectTransmission();
-
             var CarDto = new CarDTO( name, color, body, enige, transmission );
-
             _carManager.CreateaCar( CarDto );
             AnsiConsole.Clear();
         }
