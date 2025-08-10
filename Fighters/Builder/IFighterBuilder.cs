@@ -1,5 +1,4 @@
-﻿using Fighters.Extensions;
-using Fighters.Models.Armors;
+﻿using Fighters.Models.Armors;
 using Fighters.Models.Classes;
 using Fighters.Models.Fighters;
 using Fighters.Models.Races;

@@ -2,7 +2,6 @@
 
 namespace Fighters.Factories.ArmorFactory;
 
-
 public class ArmorFactory : IArmorFactory
 {
     public IArmor Create( Armor armor )

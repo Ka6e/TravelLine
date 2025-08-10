@@ -9,7 +9,6 @@ namespace Fighters.GameEngine
     {
         private IFightersLogger _logger;
         private Random _random = new Random();
-
         private readonly List<IAttackStrategy> _attackStrategy = new List<IAttackStrategy>
         {
             new StandartAttackStrategy(),

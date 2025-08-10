@@ -1,6 +1,6 @@
 ﻿using Fighters.Models.Races;
-namespace Fighters.Factories.RaceFactory;
 
+namespace Fighters.Factories.RaceFactory;
 
 public class RaceFactory : IRaceFactory
 {
