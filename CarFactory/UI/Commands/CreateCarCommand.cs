@@ -6,13 +6,13 @@ using Spectre.Console;
 
 namespace CarFactory.UI.Commands
 {
-    public class CreateCar : ICommand
+    public class CreateCarCommand : ICommand
     {
         private readonly CarManager.CarManager _carManager;
 
         public string Name => "Create a car";
 
-        public CreateCar( CarManager.CarManager carManager )
+        public CreateCarCommand( CarManager.CarManager carManager )
         {
             _carManager = carManager;
         }
@@ -20,19 +20,18 @@ namespace CarFactory.UI.Commands
         public void Execute()
         {
             string name = SetNumber( "Enter the number of your car" );
-            var color = SelectColor();
-            var body = SelectBody();
-            var enige = SelectEngine();
-            var transmission = SelectTransmission();
-            var CarDto = new CarDTO( name, color, body, enige, transmission );
-            _carManager.CreateaCar( CarDto );
+            Models.Colors.Color color = SelectColor();
+            BodyType body = SelectBody();
+            Engines enige = SelectEngine();
+            Transmissions transmission = SelectTransmission();
+            var carDto = new CarDTO( name, color, body, enige, transmission );
+            _carManager.CreateaCar( carDto );
             AnsiConsole.Clear();
         }
 
         private string SetNumber( string prompt )
         {
             string example = "A256BC";
-            var startCurPos = Console.GetCursorPosition();
             AnsiConsole.Write( $"{prompt} example({example}): " );
             while ( true )
             {
@@ -53,6 +52,7 @@ namespace CarFactory.UI.Commands
                 .PageSize( 10 )
                 .MoreChoicesText( "[grey](Move up and down to reveal more engines)[/]" )
                 .AddChoices( Enum.GetValues<Engines>() ) );
+
             return engine;
         }
 
@@ -64,10 +64,11 @@ namespace CarFactory.UI.Commands
                 .PageSize( 10 )
                 .MoreChoicesText( "[grey](Move up and down to reveal more transmissions)[/]" )
                 .AddChoices( Enum.GetValues<Transmissions>() ) );
+
             return transmissions;
         }
 
-        private CarFactory.Models.Colors.Color SelectColor()
+        private Models.Colors.Color SelectColor()
         {
             var colorMap = new Dictionary<string, Models.Colors.Color>()
             {
@@ -99,6 +100,7 @@ namespace CarFactory.UI.Commands
                 .PageSize( 10 )
                 .MoreChoicesText( "[grey](Move up and down to reveal more colors)[/]" )
                 .AddChoices( Enum.GetValues<BodyType>() ) );
+
             return body;
         }
     }

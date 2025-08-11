@@ -3,11 +3,11 @@ using Spectre.Console;
 
 namespace CarFactory.UI
 {
-    public class UI
+    public class ConsoleUserInterface
     {
         private readonly List<ICommand> _commands;
 
-        public UI( List<ICommand> commands )
+        public ConsoleUserInterface( List<ICommand> commands )
         {
             _commands = commands;
         }

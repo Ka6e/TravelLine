@@ -2,12 +2,12 @@
 
 namespace CarFactory.UI.Commands
 {
-    public class ShowCars : ICommand
+    public class ShowCarsCommand : ICommand
     {
         private readonly CarManager.CarManager _manager;
         public string Name => "Show cars";
 
-        public ShowCars( CarManager.CarManager carManager )
+        public ShowCarsCommand( CarManager.CarManager carManager )
         {
             _manager = carManager;
         }

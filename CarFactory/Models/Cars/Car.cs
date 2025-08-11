@@ -33,17 +33,15 @@ namespace CarFactory.Models.Cars
             double gearRatio = 4.0;
             double metersPerMinute = ( Engine.MaxRPM / gearRatio ) * ( 2 * Math.PI * wheelRadius );
             double kmPerHour = metersPerMinute * 60 / 1000;
+
             return ( int )Math.Round( kmPerHour );
         }
 
         private bool IsValidNumber( string number )
         {
             Regex regex = new Regex( @"^[A-Z][0-9]{3}[A-Z]{2}$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
-            if ( regex.IsMatch( number ) )
-            {
-                return true;
-            }
-            return false;
+
+            return regex.IsMatch( number );
         }
     }
 }

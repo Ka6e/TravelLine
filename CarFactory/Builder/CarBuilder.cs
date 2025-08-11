@@ -46,8 +46,7 @@ namespace CarFactory.Builder
 
         public Car Build()
         {
-            var car = new Car( _name, _color, _bodyType, _engine, _transmission );
-            return car;
+            return new Car( _name, _color, _bodyType, _engine, _transmission );
         }
     }
 }

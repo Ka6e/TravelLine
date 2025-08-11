@@ -1,4 +1,5 @@
-﻿using CarFactory.UI.Commands;
+﻿using CarFactory.UI;
+using CarFactory.UI.Commands;
 using Spectre.Console;
 
 namespace CarFactory;
@@ -12,11 +13,12 @@ public class Program
             var carManager = new CarManager.CarManager();
             var commands = new List<ICommand>
             {
-                new CreateCar( carManager ),
-                new ShowCars( carManager ),
-                new Exit(),
+                new CreateCarCommand( carManager ),
+                new ShowCarsCommand( carManager ),
+                new ExitCommand(),
             };
-            UI.UI ui = new UI.UI( commands );
+
+            ConsoleUserInterface ui = new ConsoleUserInterface( commands );
             ui.Run();
         }
         catch ( Exception ex )

@@ -1,6 +1,6 @@
 ﻿namespace CarFactory.UI.Commands
 {
-    public class Exit : ICommand
+    public class ExitCommand : ICommand
     {
         public string Name => "Exit";
 
