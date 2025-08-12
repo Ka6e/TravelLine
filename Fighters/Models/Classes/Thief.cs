@@ -1,6 +1,4 @@
-﻿using Fighters.Models.Fighters;
-
-namespace Fighters.Models.Classes
+﻿namespace Fighters.Models.Classes
 {
     public class Thief : IClass
     {
