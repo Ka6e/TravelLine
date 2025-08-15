@@ -98,7 +98,7 @@ namespace Fighters.ConsoleUI.ConsoleCommand
             Console.WriteLine( "Dead fighters removed." );
         }
 
-        private bool ValidateFighterList( List<Fighter> fighters, out int index )
+        private bool ValidateFighterList( List<IFighter> fighters, out int index )
         {
             index = -1;
             if ( !IsEnoughFighters() )

@@ -22,7 +22,7 @@ namespace Fighters.GameEngine
             _logger = logger;
         }
 
-        public void RunBattle( List<Fighter> fighters )
+        public void RunBattle( List<IFighter> fighters )
         {
             var alliveFighters = fighters.Where( f => f.IsAlive ).ToList();
             if ( !IsEnoughFighters( alliveFighters ) )
@@ -51,7 +51,7 @@ namespace Fighters.GameEngine
             _logger.Log( $"The winner of the tournament is: {winner.Name}." );
         }
 
-        private Fighter RunDuel( Fighter first, Fighter second )
+        private IFighter RunDuel( IFighter first, IFighter second )
         {
             var order = new[] { first, second }
             .OrderByDescending( x => x.Initiative )
@@ -72,7 +72,7 @@ namespace Fighters.GameEngine
             return attacker.IsAlive ? attacker : defender;
         }
 
-        private bool IsLowHP( Fighter fighter )
+        private bool IsLowHP( IFighter fighter )
         {
             double expression = ( ( double )fighter.GetCurrentHealth() / ( double )fighter.GetMaxHealth() ) * 100;
             return expression <= 20;
@@ -84,15 +84,15 @@ namespace Fighters.GameEngine
             return _attackStrategy[ index ];
         }
 
-        private void SetRandomStrategy( Fighter fighter )
+        private void SetRandomStrategy( IFighter fighter )
         {
-            if ( IsLowHP( fighter ) )
-            {
-                fighter.SetAttackStrategy( new RageAttackStrategy() );
-            }
-            if ( fighter.GetClass() is Barbarian && IsLowHP( fighter ) )
+            if ( fighter.Class is Barbarian && IsLowHP( fighter ) )
             {
                 fighter.SetAttackStrategy( new BerserkAttackStrategy() );
+            }
+            else if ( IsLowHP( fighter ) )
+            {
+                fighter.SetAttackStrategy( new RageAttackStrategy() );
             }
             else
             {
@@ -100,7 +100,7 @@ namespace Fighters.GameEngine
             }
         }
 
-        private void ExecuteAttack( Fighter attacker, Fighter defender )
+        private void ExecuteAttack( IFighter attacker, IFighter defender )
         {
             SetRandomStrategy( attacker );
             int damage = attacker.Attack();
@@ -115,7 +115,7 @@ namespace Fighters.GameEngine
             _logger.Log( $"{attacker.Name} attacks {defender.Name}, but couldn't penetrate the armor!" );
         }
 
-        private bool IsEnoughFighters( List<Fighter> fighters )
+        private bool IsEnoughFighters( List<IFighter> fighters )
         {
             return fighters.Count >= 2;
         }

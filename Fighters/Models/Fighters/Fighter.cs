@@ -10,30 +10,30 @@ namespace Fighters.Models.Fighters
     public class Fighter : IFighter
     {
         public string Name { get; }
-        public int Armor { get; }
+        public int Defence { get; }
         public int Strength { get; }
         public int Initiative { get; }
         public bool IsAlive => _health > 0;
+        public IArmor Armor { get; }
+        public IWeapon Weapon { get; }
+        public IRace Race { get; }
+        public IClass Class { get; }
 
         private int _health;
         private int _maxHealth;
-        private IArmor _armor;
-        private IWeapon _weapon;
-        private IRace _race;
-        private IClass _class;
         private IAttackStrategy _atackStrategy = new StandartAttackStrategy();
 
         public Fighter( FighterConfig config )
         {
             Name = config.Name;
-            _race = config.Race;
-            _class = config.Class;
-            _weapon = config.Weapon;
-            _armor = config.Armor;
+            Race = config.Race;
+            Class = config.Class;
+            Weapon = config.Weapon;
+            Armor = config.Armor;
             Initiative = config.Class.Initiative;
-            _maxHealth = _race.Health + _class.Health;
-            Armor = _race.Armor + _armor.Defence;
-            Strength = _race.Strength + _class.Strength + _weapon.Strength;
+            _maxHealth = Race.Health + Class.Health;
+            Defence = Race.Armor + Armor.Defence;
+            Strength = Race.Strength + Class.Strength + Weapon.Strength;
             _health = _maxHealth;
         }
 
@@ -49,12 +49,12 @@ namespace Fighters.Models.Fighters
 
         public int TakeDamage( int damage )
         {
-            int realDamage = Math.Max( damage - Armor, 0 );
+            int realDamage = Math.Max( damage - Defence, 0 );
             _health = Math.Max( 0, _health - realDamage );
             return realDamage;
         }
 
-        public IClass GetClass() => _class;
+        public IClass GetClass() => Class;
 
         public void Heal( int healAmount )
         {
@@ -73,10 +73,10 @@ namespace Fighters.Models.Fighters
                 $"Strength: {Strength}\n" +
                 $"Armor: {Armor}\n" +
                 $"Initiative: {Initiative}\n" +
-                $"Race: {_race.GetType().Name}\n" +
-                $"Class: {_class.GetType().Name}\n" +
-                $"Weapon: {_weapon.GetType().Name}\n" +
-                $"ArmorType: {_armor.GetType().Name}\n" +
+                $"Race: {Race.GetType().Name}\n" +
+                $"Class: {Class.GetType().Name}\n" +
+                $"Weapon: {Weapon.GetType().Name}\n" +
+                $"ArmorType: {Armor.GetType().Name}\n" +
                 $"Status: {( IsAlive ? "Alive" : "Dead" )}\n";
         }
     }

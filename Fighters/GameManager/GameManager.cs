@@ -15,7 +15,7 @@ namespace Fighters.GameManager
         private readonly WeaponFactory _weaponFactory = new();
         private readonly ClassFactory _classFactory = new();
         private readonly ArmorFactory _armorFactory = new();
-        private List<Fighter> _fighters = new();
+        private List<IFighter> _fighters = new();
         private GameEngine.GameEngine _engine;
 
         public GameManager( IFightersLogger logger )
@@ -43,7 +43,7 @@ namespace Fighters.GameManager
             _fighters.Add( result );
         }
 
-        public List<Fighter> GetFighters()
+        public List<IFighter> GetFighters()
         {
             return _fighters;
         }
@@ -69,7 +69,7 @@ namespace Fighters.GameManager
             }
         }
 
-        public void RemoveFighter( Fighter fighter )
+        public void RemoveFighter( IFighter fighter )
         {
             if ( _fighters.Contains( fighter ) )
             {
