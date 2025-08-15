@@ -45,7 +45,7 @@ namespace Fighters.Builder
             return this;
         }
 
-        public Fighter Build()
+        public IFighter Build()
         {
             var config = new FighterConfig( _name, _race, _class, _weapon, _armor );
             var figter = new Fighter( config );

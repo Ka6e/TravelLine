@@ -4,6 +4,6 @@ namespace Fighters.AttackStrategy
 {
     public interface IAttackStrategy
     {
-        int CalculateDamage( int baseDamage, Fighter fighter );
+        int CalculateDamage( int baseDamage, IFighter fighter );
     }
 }

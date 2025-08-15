@@ -9,11 +9,12 @@ namespace Fighters.AttackStrategy
         private const double maxDamage = 1.5;
         private const double criticalChance = 0.5;
         private const double criticalMultiplier = 2.0;
-        public int CalculateDamage( int baseDamage, Fighter fighter )
+        protected virtual double NextRandomDouble() => _rnd.NextDouble();
+        public int CalculateDamage( int baseDamage, IFighter fighter )
         {
-            var variation = _rnd.NextDouble() * ( maxDamage - minDamage ) + minDamage;
+            var variation = NextRandomDouble() * ( maxDamage - minDamage ) + minDamage;
             var damage = ( int )( baseDamage * variation );
-            bool isCritical = _rnd.NextDouble() < criticalChance;
+            bool isCritical = NextRandomDouble() < criticalChance;
             return isCritical ? ( int )( damage * criticalMultiplier ) : damage;
         }
     }

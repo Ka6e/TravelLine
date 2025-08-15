@@ -6,7 +6,7 @@ namespace Fighters.AttackStrategy
     {
         private Random _random = new Random();
 
-        public int CalculateDamage( int baseDamage, Fighter fighter )
+        public int CalculateDamage( int baseDamage, IFighter fighter )
         {
             int damage = ( int )( baseDamage * ( _random.NextDouble() * 0.5 + 0.75 ) );
             int heal = ( damage / 3 );
