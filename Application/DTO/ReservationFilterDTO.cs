@@ -10,7 +10,6 @@ public class ReservationFilterDTO
     public TimeOnly? ArrivalTime { get; set; }
     public TimeOnly? DepartureTime { get; set; }
     public string? GuestName { get; set; }
-    public string? GuestPhoneNumber { get; set; }
     public decimal? Total { get; set; }
     public Currency? Currency { get; set; }
 }

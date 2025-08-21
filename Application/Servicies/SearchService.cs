@@ -56,11 +56,15 @@ public class SearchService : ISearchService
             Country = p.Country,
             City = p.City,
             Address = p.Address,
-            Rooms = p.RoomTypes.Select( r => new RoomDTO
+            Rooms = p.RoomTypes.Select( r => new RoomTypeDTO
             {
                 Name = r.Name,
                 DailyPrice = r.DailyPrice,
-                MaxGuests = r.MaxPersonCount
+                MaxPersonCount = r.MaxPersonCount,
+                MinPersonCount = r.MinPersonCount,
+                Currency = r.Currency,
+                Servicies = r.Servicies,
+                Amenities = r.Amenities,
             } ).ToList(),
         } ).ToList();
     }
