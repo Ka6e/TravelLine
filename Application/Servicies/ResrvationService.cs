@@ -5,14 +5,18 @@ using Domain.Repositories;
 using Infrastructure;
 
 namespace Application.Servicies;
-public class ReservationService : IReservertionService
+public class ReservationService : IReservartionService
 {
     private readonly IReservationRepository _repository;
+    private readonly IRoomTypeRepository _roomTypeRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ReservationService( IReservationRepository repository, IUnitOfWork unitOfWork )
+    public ReservationService( IReservationRepository repository,
+        IRoomTypeRepository roomTypeRepository,
+        IUnitOfWork unitOfWork )
     {
         _repository = repository;
+        _roomTypeRepository = roomTypeRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -23,20 +27,27 @@ public class ReservationService : IReservertionService
             throw new InvalidOperationException( "This room is already booked for the selected dates." );
         }
         Reservation reservation = Mapper.Mapper.ToReservation( reservationDTO );
+
+        RoomType room = await _roomTypeRepository.GetById( reservationDTO.RoomTypeId );
+        if ( room == null )
+        {
+            throw new ArgumentException( "Room doesn't exist" );
+        }
+        reservation.CalculateTotal( room );
         _repository.Create( reservation );
         await _unitOfWork.CommitAsync();
     }
-    public async Task<ReservationDTO?> GetById( int id )
+    public async Task<ReservationResponseDTO?> GetById( int id )
     {
         Reservation reservation = await _repository.GetById( id );
-        return reservation == null ? null : Mapper.Mapper.ToResevationDTO( reservation );
+        return reservation == null ? null : Mapper.Mapper.ToReservationResponseDTO( reservation );
     }
 
-    public async Task<List<ReservationDTO>> GetAll( ReservationFilterDTO reservationFilter )
+    public async Task<List<ReservationResponseDTO>> GetAll( ReservationFilterDTO reservationFilter )
     {
         List<Reservation> reservation = await _repository.GetAll();
         var query = FilterList( reservation, reservationFilter );
-        return query == null ? null : query.Select(r => Mapper.Mapper.ToResevationDTO(r)).ToList();
+        return query == null ? null : query.Select( r => Mapper.Mapper.ToReservationResponseDTO( r ) ).ToList();
     }
 
     private async Task<bool> IsValidReservation( ReservationDTO reservationDTO )
@@ -60,25 +71,25 @@ public class ReservationService : IReservertionService
 
         if ( reservationFilterDTO.ArrivalDate != null && reservationFilterDTO.DepartureDate != null )
         {
-            query.Where( r => r.ArrivalDate == reservationFilterDTO.ArrivalDate
-            && r.DepartureDate == reservationFilterDTO.DepartureDate );
+            query = query.Where( r => r.ArrivalDate == reservationFilterDTO.ArrivalDate
+             && r.DepartureDate == reservationFilterDTO.DepartureDate );
         }
         if ( reservationFilterDTO.ArrivalTime != null && reservationFilterDTO.DepartureTime != null )
         {
-            query.Where( r => r.ArrivalTime == reservationFilterDTO.ArrivalTime
+            query = query.Where( r => r.ArrivalTime == reservationFilterDTO.ArrivalTime
             && r.DepartureTime == reservationFilterDTO.DepartureTime );
         }
         if ( !string.IsNullOrWhiteSpace( reservationFilterDTO.GuestName ) )
         {
-            query.Where( r => r.GuestName == reservationFilterDTO.GuestName );
+            query = query.Where( r => r.GuestName == reservationFilterDTO.GuestName );
         }
-        if ( reservationFilterDTO.Total != 0 )
+        if ( reservationFilterDTO.Total != null && reservationFilterDTO.Total != 0 )
         {
-            query.Where( r => r.Total == reservationFilterDTO.Total );
+            query = query.Where( r => r.Total == reservationFilterDTO.Total );
         }
         if ( reservationFilterDTO.Currency != null )
         {
-            query.Where( r => r.Currency == reservationFilterDTO.Currency );
+            query = query.Where( r => r.Currency == reservationFilterDTO.Currency );
         }
 
         return query;

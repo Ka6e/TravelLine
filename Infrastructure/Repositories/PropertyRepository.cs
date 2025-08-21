@@ -30,6 +30,13 @@ public class PropertyRepository : IPropertyRepository
 
     public async Task<Property?> GetById( int id )
     {
-        return await _dbContext.Properties.FirstOrDefaultAsync( x => x.Id == id ); 
+        return await _dbContext.Properties.FirstOrDefaultAsync( x => x.Id == id );
+    }
+
+    public async Task<List<RoomType>> GetRoomsByProperty(int id)
+    {
+        return await _dbContext.RoomTypes
+            .Where(r => r.PropertyId == id)
+            .ToListAsync();
     }
 }

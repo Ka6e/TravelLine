@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BookingManagerDbContext))]
-    [Migration("20250819205858_InitialMigration")]
+    [Migration("20250821114900_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -48,6 +48,9 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsDeleated")
+                        .HasColumnType("bit");
+
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
 
@@ -62,6 +65,60 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Property", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("ArrivalDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("ArrivalTime")
+                        .HasColumnType("time");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("DepartureDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("DepartureTime")
+                        .HasColumnType("time");
+
+                    b.Property<string>("GuestName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsCanceled")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PropertyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PropertyId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Reservation", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.RoomType", b =>
@@ -80,7 +137,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("DailyPrice")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MaxPersonCount")
                         .HasColumnType("int");
@@ -96,9 +157,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("PropertyId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PropertyId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Servicies")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -107,29 +165,49 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("PropertyId");
 
-                    b.HasIndex("PropertyId1");
-
                     b.ToTable("RoomType", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Reservation", b =>
+                {
+                    b.HasOne("Domain.Entities.Property", "Property")
+                        .WithMany("Reservations")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.RoomType", "RoomType")
+                        .WithMany("Reservations")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Property");
+
+                    b.Navigation("RoomType");
                 });
 
             modelBuilder.Entity("Domain.Entities.RoomType", b =>
                 {
                     b.HasOne("Domain.Entities.Property", "Property")
-                        .WithMany()
+                        .WithMany("RoomTypes")
                         .HasForeignKey("PropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Domain.Entities.Property", null)
-                        .WithMany("roomTypes")
-                        .HasForeignKey("PropertyId1");
 
                     b.Navigation("Property");
                 });
 
             modelBuilder.Entity("Domain.Entities.Property", b =>
                 {
-                    b.Navigation("roomTypes");
+                    b.Navigation("Reservations");
+
+                    b.Navigation("RoomTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomType", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Configurations;
-public class ReservationConfiuguration : IEntityTypeConfiguration<Reservation>
+public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
 {
     public void Configure( EntityTypeBuilder<Reservation> builder )
     {
@@ -12,10 +12,12 @@ public class ReservationConfiuguration : IEntityTypeConfiguration<Reservation>
         builder.HasKey( res => res.Id );
 
         builder.HasOne( res => res.Property )
-            .WithMany( p => p.Reservations );
+            .WithMany( p => p.Reservations )
+            .OnDelete( DeleteBehavior.Restrict );
 
         builder.HasOne( res => res.RoomType )
-            .WithMany( r => r.Reservations );
+            .WithMany( r => r.Reservations )
+            .OnDelete( DeleteBehavior.Restrict );
 
         builder.Property( r => r.ArrivalDate )
             .IsRequired();
@@ -36,6 +38,7 @@ public class ReservationConfiuguration : IEntityTypeConfiguration<Reservation>
             .IsRequired();
 
         builder.Property( res => res.Total )
+            .HasPrecision( 18, 2 )
             .IsRequired();
 
         builder.Property( res => res.Currency )

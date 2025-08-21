@@ -41,7 +41,7 @@ public class RoomTypesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRoom( int id, [FromBody] RoomTypeDTO roomDTO )
+    public async Task<IActionResult> UpdateRoom( int id, [FromBody] RoomTypeRequestDTO roomDTO )
     {
         try
         {

@@ -49,7 +49,7 @@ public class RoomTypeService : IRoomTypeService
         return roomType == null ? null : Mapper.Mapper.ToRoomTypeDTO( roomType );
     }
 
-    public async Task Update( int id, RoomTypeDTO roomTypeDTO )
+    public async Task Update( int id, RoomTypeRequestDTO roomTypeDTO )
     {
         RoomType roomType = await _roomTypeRepository.GetById( id );
         if ( roomType == null )
@@ -61,7 +61,7 @@ public class RoomTypeService : IRoomTypeService
         await _unitOfWork.CommitAsync();
     }
 
-    private void UpdateRoom( RoomType roomType, RoomTypeDTO roomTypeDTO )
+    private void UpdateRoom( RoomType roomType, RoomTypeRequestDTO roomTypeDTO )
     {
         roomType.SetName( roomTypeDTO.Name );
         roomType.SetDailyPrice( roomTypeDTO.DailyPrice );

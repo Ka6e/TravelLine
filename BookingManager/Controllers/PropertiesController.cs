@@ -19,6 +19,10 @@ public class PropertiesController : ControllerBase
     public async Task<IActionResult> GetProperties()
     {
         List<PropertyDTO> properties = await _propertyService.GetAll();
+        if ( properties.Count == 0 )
+        {
+            return NoContent();
+        }
         return Ok( properties );
     }
 

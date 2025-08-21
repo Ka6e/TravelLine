@@ -8,9 +8,9 @@ namespace BookingManager.Controllers;
 [Route( "/api/reservations" )]
 public class ReservationsController : ControllerBase
 {
-    private readonly IReservertionService _reservertionService;
+    private readonly IReservartionService _reservertionService;
 
-    public ReservationsController( IReservertionService reservertionService )
+    public ReservationsController( IReservartionService reservertionService )
     {
         _reservertionService = reservertionService;
     }
@@ -18,7 +18,7 @@ public class ReservationsController : ControllerBase
     [HttpGet( "{id}" )]
     public async Task<IActionResult> GetReservation( int id )
     {
-        ReservationDTO reservationDTO = await _reservertionService.GetById( id );
+        ReservationResponseDTO reservationDTO = await _reservertionService.GetById( id );
         if ( reservationDTO == null )
         {
             return NotFound();
@@ -40,9 +40,14 @@ public class ReservationsController : ControllerBase
         }
     }
 
-    //[HttpGet]
-    //public async Task<IActionResult> GetReservations( [FromQuery] ReservationFilterDTO reservationFilter )
-    //{
-    //    List<ReservationDTO> reservationDTOs = await _reservertionService.GetAll( reservationFilter );
-    //}
+    [HttpGet]
+    public async Task<IActionResult> GetReservations( [FromQuery] ReservationFilterDTO reservationFilter )
+    {
+        List<ReservationResponseDTO> reservationDTO = await _reservertionService.GetAll( reservationFilter );
+        if ( reservationDTO == null  && reservationDTO.Count == 0)
+        {
+            return NoContent();
+        }
+        return Ok(Ok(reservationDTO));
+    }
 }

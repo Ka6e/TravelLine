@@ -33,6 +33,7 @@ public class Mapper
     {
         return new RoomTypeDTO
         {
+            PropertyId = roomType.PropertyId,
             Name = roomType.Name,
             DailyPrice = roomType.DailyPrice,
             Currency = roomType.Currency,
@@ -70,6 +71,22 @@ public class Mapper
             reservationDTO.GuestPhoneNumber,
             reservationDTO.Currency
             );
+    }
+
+    public static ReservationResponseDTO ToReservationResponseDTO(Reservation reservation)
+    {
+        return new ReservationResponseDTO
+        {
+            PropertyId = reservation.PropertyId,
+            RoomTypeId = reservation.RoomTypeId,
+            ArrivalDate = reservation.ArrivalDate,
+            DepartureDate = reservation.DepartureDate,
+            ArrivalTime = reservation.ArrivalTime,
+            DepartureTime = reservation.DepartureTime,
+            GuestName = reservation.GuestName,
+            Total = reservation.Total,
+            Currency = reservation.Currency
+        };
     }
 
     public static ReservationDTO ToResevationDTO( Reservation reservation )

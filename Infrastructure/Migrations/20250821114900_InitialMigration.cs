@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -21,7 +22,8 @@ namespace Infrastructure.Migrations
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false)
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    IsDeleated = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,13 +38,13 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PropertyId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DailyPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DailyPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Currency = table.Column<int>(type: "int", nullable: false),
                     MinPersonCount = table.Column<int>(type: "int", nullable: false),
                     MaxPersonCount = table.Column<int>(type: "int", nullable: false),
                     Servicies = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amenities = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PropertyId1 = table.Column<int>(type: "int", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,27 +55,65 @@ namespace Infrastructure.Migrations
                         principalTable: "Property",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RoomType_Property_PropertyId1",
-                        column: x => x.PropertyId1,
-                        principalTable: "Property",
-                        principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Reservation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PropertyId = table.Column<int>(type: "int", nullable: false),
+                    RoomTypeId = table.Column<int>(type: "int", nullable: false),
+                    ArrivalDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    DepartureDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ArrivalTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    DepartureTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    GuestName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GuestPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsCanceled = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservation_Property_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Property",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservation_RoomType_RoomTypeId",
+                        column: x => x.RoomTypeId,
+                        principalTable: "RoomType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservation_PropertyId",
+                table: "Reservation",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservation_RoomTypeId",
+                table: "Reservation",
+                column: "RoomTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoomType_PropertyId",
                 table: "RoomType",
                 column: "PropertyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoomType_PropertyId1",
-                table: "RoomType",
-                column: "PropertyId1");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Reservation");
+
             migrationBuilder.DropTable(
                 name: "RoomType");
 

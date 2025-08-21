@@ -19,13 +19,16 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         //builder.Services.AddScoped
-        builder.Services.AddDbContext<BookingManagerDbContext>( op => op.UseSqlServer( builder.Configuration.GetConnectionString( "DefaultConnection" ) ) );
+        builder.Services.AddDbContext<BookingManagerDbContext>( op => 
+        op.UseSqlServer( builder.Configuration.GetConnectionString( "DefaultConnection" ) ) );
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
         builder.Services.AddScoped<IPropertySevice, PropertyService>();
         builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
         builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
         builder.Services.AddScoped<ISearchService, SearchService>();
+        builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+        builder.Services.AddScoped<IReservartionService, ReservationService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

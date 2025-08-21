@@ -29,6 +29,8 @@ public class Reservation
         string guestPhoneNumber,
         Currency currency )
     {
+        PropertyId = propertyId;
+        RoomTypeId = roomId;
         SetDate( arrivalDate, departureDate);
         SetTime(arrivalTime, departuretime);
         SetGuest( guestName, guestPhoneNumber );
@@ -82,7 +84,7 @@ public class Reservation
         {
             throw new ArgumentNullException( nameof( roomType ) );
         }
-        int nights = DepartureDate.Day - DepartureDate.Day;
+        int nights = DepartureDate.Day - ArrivalDate.Day;
         if ( nights <= 0 )
         {
             throw new ArgumentException( "Reservation must be at least 1 night." );

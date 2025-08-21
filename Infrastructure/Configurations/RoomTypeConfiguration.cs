@@ -19,6 +19,7 @@ public class RoomTypeConfiguration : IEntityTypeConfiguration<RoomType>
             .IsRequired();
 
         builder.Property( r => r.DailyPrice )
+            .HasPrecision( 18, 2 )
             .IsRequired();
 
         builder.Property( r => r.MinPersonCount )
@@ -37,6 +38,7 @@ public class RoomTypeConfiguration : IEntityTypeConfiguration<RoomType>
 
         builder.HasMany( r => r.Reservations )
             .WithOne( res => res.RoomType )
-            .HasForeignKey( res => res.RoomTypeId );
+            .HasForeignKey( res => res.RoomTypeId )
+            .OnDelete( DeleteBehavior.Restrict );
     }
 }

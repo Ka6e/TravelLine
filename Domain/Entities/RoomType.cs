@@ -3,19 +3,18 @@
 namespace Domain.Entities;
 public class RoomType
 {
-    public int Id { get; set; }
-    public int PropertyId { get; set; }
-    public Property Property { get; set; } = null!;
-    public string Name { get; set; }
-    public decimal DailyPrice { get; set; }
-    public Currency Currency { get; set; }
-    public int MinPersonCount { get; set; }
-    public int MaxPersonCount { get; set; }
-    public RoomServicie Servicies { get; set; }
-    public Amenity Amenities { get; set; }
+    public int Id { get; private set; }
+    public int PropertyId { get; private set; }
+    public Property Property { get; private set; }
+    public string Name { get; private set; }
+    public decimal DailyPrice { get; private set; }
+    public Currency Currency { get; private set; }
+    public int MinPersonCount { get; private set; }
+    public int MaxPersonCount { get; private set; }
+    public RoomServicie Servicies { get; private set; }
+    public Amenity Amenities { get; private set; }
     public List<Reservation> Reservations { get; } = new List<Reservation>();
-
-    public bool IsDeleted {  get; private set; } = false;
+    public bool IsDeleted { get; private set; } = false;
 
     public RoomType(
         int propertyId,
@@ -31,18 +30,19 @@ public class RoomType
         SetName( name );
         SetServicies( roomServicie );
         Currency = currency;
-        SetCapacity(minPersonCount, maxPersonCount);
-        SetServicies(Servicies);
+        SetDailyPrice( price );
+        SetCapacity( minPersonCount, maxPersonCount );
+        SetServicies( roomServicie );
         SetAmenities( amenity );
     }
 
     protected RoomType()
     {
-        
+
     }
     public void SetName( string name )
     {
-        if ( string.IsNullOrWhiteSpace(name) )
+        if ( string.IsNullOrWhiteSpace( name ) )
         {
             throw new ArgumentException( "Room cannot be empty." );
         }

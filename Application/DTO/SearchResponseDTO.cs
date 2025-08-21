@@ -5,5 +5,5 @@ public class SearchResponseDTO
     public string Country { get; set; }
     public string City { get; set; }
     public string Address { get; set; }
-    public List<RoomDTO> Rooms { get; set; }
+    public List<RoomTypeDTO> Rooms { get; set; }
 }

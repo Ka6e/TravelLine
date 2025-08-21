@@ -65,13 +65,13 @@ public class PropertyService : IPropertySevice
 
     public async Task<List<RoomTypeDTO>> GetRoomTypesProperty( int id )
     {
-        Property property = await _propertyRepository.GetById( id );
-        if ( property == null )
+        List<RoomType> rooms = await _propertyRepository.GetRoomsByProperty( id );
+        if ( rooms == null )
         {
             throw new KeyNotFoundException( $"Property with id {id} not found." );
         }
-        List<RoomTypeDTO> roomTypes = property.RoomTypes.Select( r => Mapper.Mapper.ToRoomTypeDTO( r ) ).ToList();
-        return roomTypes == null ? null : roomTypes;
+
+        return rooms == null ? null : rooms.Select( r => Mapper.Mapper.ToRoomTypeDTO( r ) ).ToList();
     }
 
 
@@ -80,7 +80,7 @@ public class PropertyService : IPropertySevice
         property.SetName( propertyDTO.Name );
         property.SetCountry( propertyDTO.Country );
         property.SetCity( propertyDTO.City );
-        property.SetAddress( property.Address );
-        property.SetCoordinats( property.Latitude, property.Longitude );
+        property.SetAddress( propertyDTO.Address );
+        property.SetCoordinats( propertyDTO.Latitude, propertyDTO.Longitude );
     }
 }

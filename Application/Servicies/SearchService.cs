@@ -58,6 +58,7 @@ public class SearchService : ISearchService
             Address = p.Address,
             Rooms = p.RoomTypes.Select( r => new RoomTypeDTO
             {
+                PropertyId = r.PropertyId,
                 Name = r.Name,
                 DailyPrice = r.DailyPrice,
                 MaxPersonCount = r.MaxPersonCount,
