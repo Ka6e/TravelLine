@@ -9,6 +9,7 @@ const elements = {
     loginInput: document.getElementById('login-input'),
     loginError: document.querySelector('.login__error'),
     loginForm: document.querySelector('.login'),
+    logOut: document.querySelector('.header__logout'),
     startPage: document.querySelector('.start-page'),
     startLink: document.querySelector('.start-page__start'),
     compare: document.querySelector('.compare'),
@@ -54,7 +55,7 @@ const Login = () => {
         if (ValidateLogin(value)) {
             elements.loginForm.style.display = 'none';
             elements.startPage.style.display = 'block';
-            elements.user.style.display = 'block';
+            elements.user.style.display = 'grid';
             elements.startLink.style.display = 'block';
             sessionStorage.setItem('loggedIn', 'true');
         }
@@ -73,7 +74,7 @@ const NavigateHome = () => {
     elements.logo.addEventListener('click', () => {
         if (sessionStorage.getItem('loggedIn') === 'true') {
             elements.startPage.style.display = 'block';
-            elements.user.style.display = 'block';
+            elements.user.style.display = 'grid';
             elements.loginForm.style.display = 'none';
             elements.loginLink.style.display = 'none';
             elements.startLink.style.display = 'block';
@@ -87,6 +88,15 @@ const NavigateHome = () => {
     })
 }
 
+
+const LogOut = () => {
+    elements.logOut.addEventListener('click', () => {
+        sessionStorage.setItem('loggedIn', 'false');
+        elements.loginLink.style.display = 'block';
+        elements.user.style.display = 'none';
+        elements.startLink.style.display = 'none';
+    })
+}
 const ValidateJSON = (json) => {
     if (!json.trim()) {
         return 'Field is required';
@@ -137,6 +147,7 @@ const CompareJSON = () => {
 
 ShowLoginForm();
 Login();
+LogOut();
 NavigateHome();
 ShowCompare();
 CompareJSON();
