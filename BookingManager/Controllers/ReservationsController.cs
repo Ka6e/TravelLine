@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Interface;
+using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingManager.Controllers;
@@ -9,10 +10,13 @@ namespace BookingManager.Controllers;
 public class ReservationsController : ControllerBase
 {
     private readonly IReservartionService _reservertionService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ReservationsController( IReservartionService reservertionService )
+    public ReservationsController( IReservartionService reservertionService,
+        IUnitOfWork unitOfWork )
     {
         _reservertionService = reservertionService;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet( "{id}" )]
@@ -32,7 +36,8 @@ public class ReservationsController : ControllerBase
         try
         {
             await _reservertionService.CreateReservation( reservationDTO );
-            return Ok(new {Messege = "Reservationa created successefully."});
+            await _unitOfWork.CommitAsync();
+            return Ok( new { Messege = "Reservationa created successefully." } );
         }
         catch ( InvalidOperationException ex )
         {
@@ -44,10 +49,10 @@ public class ReservationsController : ControllerBase
     public async Task<IActionResult> GetReservations( [FromQuery] ReservationFilterDTO reservationFilter )
     {
         List<ReservationResponseDTO> reservationDTO = await _reservertionService.GetAll( reservationFilter );
-        if ( reservationDTO == null  && reservationDTO.Count == 0)
+        if ( reservationDTO == null && reservationDTO.Count == 0 )
         {
             return NoContent();
         }
-        return Ok(Ok(reservationDTO));
+        return Ok( Ok( reservationDTO ) );
     }
 }

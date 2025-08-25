@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Interface;
+using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingManager.Controllers;
@@ -9,10 +10,12 @@ namespace BookingManager.Controllers;
 public class RoomTypesController : ControllerBase
 {
     private readonly IRoomTypeService _roomTypeService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public RoomTypesController( IRoomTypeService roomTypeService )
+    public RoomTypesController( IRoomTypeService roomTypeService, IUnitOfWork unitOfWork )
     {
         _roomTypeService = roomTypeService;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet( "{id}" )]
@@ -36,19 +39,21 @@ public class RoomTypesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateRoom( [FromBody] RoomTypeDTO roomType )
     {
-        int newId =  await _roomTypeService.Create( roomType )  ;
-        return CreatedAtAction( nameof( CreateRoom ), new { id = newId}, newId);
+        int newId = await _roomTypeService.Create( roomType );
+        await _unitOfWork.CommitAsync();
+        return CreatedAtAction( nameof( CreateRoom ), new { id = newId }, newId );
     }
 
-    [HttpPut("{id}")]
+    [HttpPut( "{id}" )]
     public async Task<IActionResult> UpdateRoom( int id, [FromBody] RoomTypeRequestDTO roomDTO )
     {
         try
         {
             await _roomTypeService.Update( id, roomDTO );
+            await _unitOfWork.CommitAsync();
             return Ok();
         }
-        catch ( KeyNotFoundException ex)
+        catch ( KeyNotFoundException ex )
         {
             return NotFound( ex.Message );
         }
@@ -58,6 +63,7 @@ public class RoomTypesController : ControllerBase
     public async Task<IActionResult> DeleteRoomType( int id )
     {
         await _roomTypeService.Delete( id );
+        await _unitOfWork.CommitAsync();
         return NoContent();
     }
 

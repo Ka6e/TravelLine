@@ -4,6 +4,7 @@ using Application.Interface;
 using Infrastructure.Repositories;
 using Application.Servicies;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Extension;
 
 namespace BookingManager;
 
@@ -18,16 +19,17 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        //builder.Services.AddScoped
-        builder.Services.AddDbContext<BookingManagerDbContext>( op => 
-        op.UseSqlServer( builder.Configuration.GetConnectionString( "DefaultConnection" ) ) );
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+
+        builder.Services.AddInfrastructure( builder.Configuration );
+        //builder.Services.AddDbContext<BookingManagerDbContext>( op => 
+        //op.UseSqlServer( builder.Configuration.GetConnectionString( "DefaultConnection" ) ) );
+        //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        //builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+        //builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
+        //builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
         builder.Services.AddScoped<IPropertySevice, PropertyService>();
-        builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
         builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
         builder.Services.AddScoped<ISearchService, SearchService>();
-        builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
         builder.Services.AddScoped<IReservartionService, ReservationService>();
         var app = builder.Build();
 
