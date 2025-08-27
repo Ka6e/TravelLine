@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Infrastructure;
+namespace Infrastructure.Migrations;
 public class BookingManagerDbContextFactory : IDesignTimeDbContextFactory<BookingManagerDbContext>
 {
     public BookingManagerDbContext CreateDbContext( string[] args )

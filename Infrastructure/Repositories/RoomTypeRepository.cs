@@ -3,18 +3,18 @@ using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
-public class RoomTypeRepository : IRoomTypeRepository
+internal class RoomTypeRepository : IRoomTypeRepository
 {
     private BookingManagerDbContext _dbContext;
 
-    public RoomTypeRepository(BookingManagerDbContext dbContext)
+    public RoomTypeRepository( BookingManagerDbContext dbContext )
     {
         _dbContext = dbContext;
     }
 
     public void Create( RoomType roomType )
     {
-        _dbContext.RoomTypes.Add( roomType);
+        _dbContext.RoomTypes.Add( roomType );
     }
 
     public void Delete( RoomType roomType )
@@ -25,7 +25,7 @@ public class RoomTypeRepository : IRoomTypeRepository
 
     public async Task<List<RoomType>> GetAll()
     {
-       return await _dbContext.RoomTypes.ToListAsync();
+        return await _dbContext.RoomTypes.Where( rt => rt.IsDeleted == false ).ToListAsync();
     }
 
     public async Task<RoomType?> GetById( int id )

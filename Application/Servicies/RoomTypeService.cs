@@ -1,25 +1,22 @@
 ﻿using Application.DTO;
+using Application.Extensions;
 using Application.Interface;
 using Domain.Entities;
 using Domain.Repositories;
-using Infrastructure;
 
 namespace Application.Servicies;
 public class RoomTypeService : IRoomTypeService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IRoomTypeRepository _roomTypeRepository;
-    public RoomTypeService( IRoomTypeRepository roomTypeRepository, IUnitOfWork unitOfWork )
+    public RoomTypeService( IRoomTypeRepository roomTypeRepository)
     {
         _roomTypeRepository = roomTypeRepository;
-        _unitOfWork = unitOfWork;
     }
 
-    public async Task<int> Create( RoomTypeDTO roomType )
+    public async Task<int> Create( RoomTypeDTO roomTypeDto )
     {
-        RoomType room = Mapper.Mapper.ToRoomType( roomType );
+        RoomType room = roomTypeDto.ConvertToEntity();
         _roomTypeRepository.Create( room );
-        await _unitOfWork.CommitAsync();
 
         return room.Id;
     }
@@ -32,7 +29,6 @@ public class RoomTypeService : IRoomTypeService
             throw new KeyNotFoundException( $"RoomType with {nameof( id )} {id} not found." );
         }
         _roomTypeRepository.Delete( roomType );
-        await _unitOfWork.CommitAsync();
     }
 
     public async Task<List<RoomTypeDTO>> GetAll()
@@ -40,13 +36,13 @@ public class RoomTypeService : IRoomTypeService
         List<RoomType> roomTypeDTOs = await _roomTypeRepository.GetAll();
         var filtered = roomTypeDTOs.Where(rt => rt.IsDeleted == false );
 
-        return filtered.Select( r => Mapper.Mapper.ToRoomTypeDTO( r ) ).ToList();
+        return filtered.Select( r => r.ConvertToDto() ).ToList();
     }
 
     public async Task<RoomTypeDTO?> GetById( int id )
     {
         RoomType roomType = await _roomTypeRepository.GetById( id );
-        return roomType == null ? null : Mapper.Mapper.ToRoomTypeDTO( roomType );
+        return roomType == null ? null : roomType.ConvertToDto();
     }
 
     public async Task Update( int id, RoomTypeRequestDTO roomTypeDTO )
@@ -56,9 +52,7 @@ public class RoomTypeService : IRoomTypeService
         {
             throw new KeyNotFoundException( $"RoomType with id {id} not found." );
         }
-
         UpdateRoom( roomType, roomTypeDTO );
-        await _unitOfWork.CommitAsync();
     }
 
     private void UpdateRoom( RoomType roomType, RoomTypeRequestDTO roomTypeDTO )

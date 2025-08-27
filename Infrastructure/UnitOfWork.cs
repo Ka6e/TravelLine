@@ -1,4 +1,6 @@
-﻿namespace Infrastructure;
+﻿using Domain.Repositories;
+
+namespace Infrastructure;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly BookingManagerDbContext _dbContext;

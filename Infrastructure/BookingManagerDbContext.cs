@@ -13,6 +13,8 @@ public class BookingManagerDbContext : DbContext
     public DbSet<Property> Properties { get; set; }
     public DbSet<RoomType> RoomTypes { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<Amenity> Amenities { get; set; }
+    public DbSet<Service> Services { get; set; }
 
     protected override void OnModelCreating( ModelBuilder modelBuilder )
     {

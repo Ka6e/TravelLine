@@ -1,27 +1,23 @@
-﻿using System.Net.Http.Headers;
-using Application.DTO;
+﻿using Application.DTO;
+using Application.Extensions;
 using Application.Interface;
 using Domain.Entities;
 using Domain.Repositories;
-using Infrastructure;
 
 namespace Application.Servicies;
 public class PropertyService : IPropertySevice
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IPropertyRepository _propertyRepository;
 
-    public PropertyService( IPropertyRepository propertyRepository, IUnitOfWork unitOfWork )
+    public PropertyService( IPropertyRepository propertyRepository )
     {
         _propertyRepository = propertyRepository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<int> Create( PropertyDTO propertyDTO )
     {
-        Property property = Mapper.Mapper.ToProperty( propertyDTO );
+        Property property = propertyDTO.ConvertToEntity();
         _propertyRepository.Create( property );
-        await _unitOfWork.CommitAsync();
 
         return property.Id;
     }
@@ -35,21 +31,19 @@ public class PropertyService : IPropertySevice
         }
 
         _propertyRepository.Delete( property );
-        await _unitOfWork.CommitAsync();
     }
 
     public async Task<List<PropertyDTO>> GetAll()
     {
         List<Property> properties = await _propertyRepository.GetAll();
-        var filtered = properties.Where(p => p.IsDeleated ==  false );
-        
-        return filtered.Select( p => Mapper.Mapper.ToPropertyDTO( p ) ).ToList();
+
+        return properties.Select( p => p.ConvertToDto() ).ToList();
     }
 
     public async Task<PropertyDTO?> GetById( int id )
     {
         Property property = await _propertyRepository.GetById( id );
-        return property == null ? null : Mapper.Mapper.ToPropertyDTO( property );
+        return property == null ? null : property.ConvertToDto();
     }
 
     public async Task Update( int id, PropertyDTO propertyDTO )
@@ -60,7 +54,6 @@ public class PropertyService : IPropertySevice
             throw new KeyNotFoundException( $"Property with id {id} not found." );
         }
         UpdateProperty( property, propertyDTO );
-        await _unitOfWork.CommitAsync();
     }
 
     public async Task<List<RoomTypeDTO>> GetRoomTypesProperty( int id )
@@ -71,7 +64,7 @@ public class PropertyService : IPropertySevice
             throw new KeyNotFoundException( $"Property with id {id} not found." );
         }
 
-        return rooms == null ? null : rooms.Select( r => Mapper.Mapper.ToRoomTypeDTO( r ) ).ToList();
+        return rooms == null ? null : rooms.Select( r => r.ConvertToDto() ).ToList();
     }
 
 

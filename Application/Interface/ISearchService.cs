@@ -3,5 +3,5 @@
 namespace Application.Interface;
 public interface ISearchService
 {
-    Task<List<SearchResponseDTO>> Search(SearchRequesDTO searchRequesDTO);
+    public Task<List<SearchResponseDTO>> Search(SearchRequesDTO searchRequesDTO);
 }
