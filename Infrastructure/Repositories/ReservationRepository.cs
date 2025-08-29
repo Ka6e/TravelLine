@@ -38,8 +38,7 @@ internal class ReservationRepository : IReservationRepository
             && r.RoomTypeId == roomTypeId
             && r.IsCanceled == false
             && r.ArrivalDate < departureDate
-            && r.DepartureDate > arrivalDate
-            && r.Guest != null);
+            && r.DepartureDate > arrivalDate);
     }
 
     public async Task<List<Reservation>> GetFiltredReservations(
@@ -77,6 +76,6 @@ internal class ReservationRepository : IReservationRepository
             query = query.Where( r => r.Currency == currency );
         }
 
-        return await query.ToListAsync();
+        return await query.Include(r => r.Guest).ToListAsync();
     }
 }

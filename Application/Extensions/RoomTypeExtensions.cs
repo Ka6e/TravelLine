@@ -24,6 +24,30 @@ public static class RoomTypeExtensions
         return room;
     }
 
+    public static RoomType ConvertToEntity( this RoomTypeRequestDTO requestDTO )
+    {
+
+        return new RoomType(
+            requestDTO.PropertyId,
+            requestDTO.Name,
+            requestDTO.DailyPrice,
+            requestDTO.Currency,
+            requestDTO.MinPersonCount,
+            requestDTO.MaxPersonCount
+            );
+    }
+
+    public static RoomType ConvertToEntity( this RoomTypeUpdate roomType )
+    {
+        return new RoomType(
+            roomType.PropertyId,
+            roomType.Name,
+            roomType.DailyPrice,
+            roomType.Currency,
+            roomType.MinPersonCount,
+            roomType.MaxPersonCount
+            );
+    }
     public static RoomTypeDTO ConvertToDto( this RoomType roomType )
     {
         return new RoomTypeDTO

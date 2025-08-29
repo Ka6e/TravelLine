@@ -3,8 +3,8 @@
 namespace Application.Interface;
 public interface IRoomTypeService
 {
-    public Task<int> Create( RoomTypeDTO roomType);
-    public Task Update(int id, RoomTypeRequestDTO roomType );
+    public Task<int> Create( RoomTypeRequestDTO roomType);
+    public Task Update(int id, RoomTypeUpdate roomType );
     public Task<RoomTypeDTO?> GetById( int id );
     public Task<List<RoomTypeDTO>> GetAll();
     public Task Delete( int id );

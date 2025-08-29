@@ -20,7 +20,7 @@ public class RoomTypeService : IRoomTypeService
         _amenityRepository = amenityRepository;
     }
 
-    public async Task<int> Create( RoomTypeDTO roomTypeDto )
+    public async Task<int> Create( RoomTypeRequestDTO roomTypeDto )
     {
         RoomType room = roomTypeDto.ConvertToEntity();
         _roomTypeRepository.Create( room );
@@ -52,7 +52,7 @@ public class RoomTypeService : IRoomTypeService
         return roomType == null ? null : roomType.ConvertToDto();
     }
 
-    public async Task Update( int id, RoomTypeRequestDTO roomTypeDTO )
+    public async Task Update( int id, RoomTypeUpdate roomTypeDTO )
     {
         RoomType roomType = await _roomTypeRepository.GetById( id );
         if ( roomType == null )
@@ -85,7 +85,7 @@ public class RoomTypeService : IRoomTypeService
         }
     }
 
-    public async Task AddAmenities( int roomId, List<int> amenityIds )   
+    public async Task AddAmenities( int roomId, List<int> amenityIds )
     {
         RoomType roomType = await _roomTypeRepository.GetById( roomId );
         if ( roomType == null )
@@ -107,7 +107,7 @@ public class RoomTypeService : IRoomTypeService
             roomType.AddAmenity( amenity );
         }
     }
-    private async Task UpdateRoom( RoomType roomType, RoomTypeRequestDTO roomTypeDTO )
+    private async Task UpdateRoom( RoomType roomType, RoomTypeUpdate roomTypeDTO )
     {
         roomType.SetName( roomTypeDTO.Name );
         roomType.SetDailyPrice( roomTypeDTO.DailyPrice );

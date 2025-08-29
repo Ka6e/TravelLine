@@ -37,7 +37,7 @@ public class RoomTypesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRoom( [FromBody] RoomTypeDTO roomType )
+    public async Task<IActionResult> CreateRoom( [FromBody] RoomTypeRequestDTO roomType )
     {
         int newId = await _roomTypeService.Create( roomType );
         await _unitOfWork.CommitAsync();
@@ -45,7 +45,7 @@ public class RoomTypesController : ControllerBase
     }
 
     [HttpPut( "{id}" )]
-    public async Task<IActionResult> UpdateRoom( int id, [FromBody] RoomTypeRequestDTO roomDTO )
+    public async Task<IActionResult> UpdateRoom( int id, [FromBody] RoomTypeUpdate roomDTO )
     {
         try
         {
@@ -67,7 +67,7 @@ public class RoomTypesController : ControllerBase
         return NoContent();
     }
 
-    [HttpPatch( "{id}/services" )]
+    [HttpPatch( "{id}/addServices" )]
     public async Task<IActionResult> AddServices( int id, [FromBody] List<int> serviceIds )
     {
         if ( serviceIds == null || !serviceIds.Any() )
@@ -80,7 +80,7 @@ public class RoomTypesController : ControllerBase
         return NoContent();
     }
 
-    [HttpPatch( "{id}/amenities" )]
+    [HttpPatch( "{id}/addAmenities" )]
     public async Task<IActionResult> AddAmenity( int id, [FromBody] List<int> amenityIds )
     {
         if ( amenityIds == null || !amenityIds.Any() )

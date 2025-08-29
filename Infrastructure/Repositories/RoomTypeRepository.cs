@@ -25,22 +25,15 @@ internal class RoomTypeRepository : IRoomTypeRepository
 
     public async Task<List<RoomType>> GetAll()
     {
-        return await _dbContext.RoomTypes.Where( rt => rt.IsDeleted == false ).ToListAsync();
+        return await _dbContext.RoomTypes
+            .Where( rt => rt.IsDeleted == false )
+            .Include( rt => rt.Services )
+            .Include( rt => rt.Amenities )
+            .ToListAsync();
     }
 
     public async Task<RoomType?> GetById( int id )
     {
         return await _dbContext.RoomTypes.FirstOrDefaultAsync( r => r.Id == id );
     }
-
-    //public async Task AddAmenity( int roomId, int serviceId)
-    //{
-    //    RoomType room = await GetById( roomId );
-    //    Service service = 
-    //}
-
-    //public void AddService( Service service )
-    //{
-    //    throw new NotImplementedException();
-    //}
 }

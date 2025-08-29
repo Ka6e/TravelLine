@@ -7,12 +7,16 @@ using Domain.Repositories;
 namespace Application.Servicies;
 public class ReservationService : IReservartionService
 {
-    private readonly IReservationRepository _repository;
+    private readonly IReservationRepository _reservationRepository;
+    private readonly IPropertyRepository _propertyRepository;
     private readonly IRoomTypeRepository _roomTypeRepository;
 
-    public ReservationService( IReservationRepository repository, IRoomTypeRepository roomTypeRepository )
+    public ReservationService( IReservationRepository repository,
+        IPropertyRepository propertyRepository,
+        IRoomTypeRepository roomTypeRepository )
     {
-        _repository = repository;
+        _reservationRepository = repository;
+        _propertyRepository = propertyRepository;
         _roomTypeRepository = roomTypeRepository;
     }
 
@@ -22,25 +26,32 @@ public class ReservationService : IReservartionService
         {
             throw new InvalidOperationException( "This room is already booked for the selected dates." );
         }
-        Reservation reservation = reservationDTO.ConvertToEntity();
+
+        Property property = await _propertyRepository.GetById(reservationDTO.PropertyId);
+        if ( property == null )
+        {
+            throw new KeyNotFoundException( "Property doesn't exist." );
+        }
 
         RoomType room = await _roomTypeRepository.GetById( reservationDTO.RoomTypeId );
         if ( room == null )
         {
-            throw new ArgumentException( "Room doesn't exist" );
+            throw new KeyNotFoundException( "Room doesn't exist" );
         }
+
+        Reservation reservation = reservationDTO.ConvertToEntity();
         reservation.CalculateTotal( room );
-        _repository.Create( reservation );
+        _reservationRepository.Create( reservation );
     }
     public async Task<ReservationResponseDTO?> GetById( int id )
     {
-        Reservation reservation = await _repository.GetById( id );
+        Reservation reservation = await _reservationRepository.GetById( id );
         return reservation == null ? null : reservation.ConvertToResponseDto();
     }
 
     public async Task<List<ReservationResponseDTO>> GetAll( ReservationFilterDTO reservationFilter )
     {
-        List<Reservation> reservation = await _repository.GetFiltredReservations(
+        List<Reservation> reservation = await _reservationRepository.GetFiltredReservations(
             reservationFilter.ArrivalDate,
             reservationFilter.DepartureDate,
             reservationFilter.ArrivalTime,
@@ -55,14 +66,14 @@ public class ReservationService : IReservartionService
 
     private async Task<bool> IsValidReservation( ReservationRequestDTO reservationDTO )
     {
-        bool isExistReservaation = await _repository.ExistReservation(
+        bool isExistReservaation = await _reservationRepository.ExistReservation(
             reservationDTO.PropertyId,
             reservationDTO.RoomTypeId,
             reservationDTO.ArrivalDate,
             reservationDTO.DepartureDate
             );
 
-        return isExistReservaation;
+        return !isExistReservaation;
     }
 
     //private IEnumerable<Reservation> FilterList( List<Reservation> reservations, ReservationFilterDTO reservationFilterDTO )
