@@ -31,8 +31,8 @@ public class Reservation
     {
         PropertyId = propertyId;
         RoomTypeId = roomId;
-        SetDate( arrivalDate, departureDate);
-        SetTime(arrivalTime, departuretime);
+        SetDate( arrivalDate, departureDate );
+        SetTime( arrivalTime, departuretime );
         SetGuest( guestName, guestPhoneNumber );
         SetCurrency( currency );
     }
@@ -84,14 +84,25 @@ public class Reservation
         {
             throw new ArgumentNullException( nameof( roomType ) );
         }
+
         int nights = DepartureDate.Day - ArrivalDate.Day;
         if ( nights <= 0 )
         {
             throw new ArgumentException( "Reservation must be at least 1 night." );
         }
-        Total = roomType.DailyPrice * nights;
-    }
 
+        List<Service> services = roomType.Services;
+        decimal servicesPrice = 0;
+        if ( services != null )
+        {
+            foreach ( Service service in services )
+            {
+                servicesPrice += service.Price;
+            }
+        }
+
+        Total = roomType.DailyPrice * nights + servicesPrice;
+    }
     public void Cancel()
     {
         IsCanceled = true;

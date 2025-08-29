@@ -7,12 +7,18 @@ public class Service
     public string Name { get; private set; }
     public decimal Price { get; private set; }
     public bool IsActive { get; private set; }
+    public List<RoomType> RoomTypes { get; private set; } = new List<RoomType>();
 
     public Service( string name, decimal price, bool isActive )
     {
         SetName( name );
         SetPrice( price );
         SetActive( isActive );
+    }
+
+    protected Service()
+    {
+        
     }
 
     public void SetName( string name )

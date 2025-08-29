@@ -7,7 +7,8 @@ public class BookingManagerDbContextFactory : IDesignTimeDbContextFactory<Bookin
     public BookingManagerDbContext CreateDbContext( string[] args )
     {
         var optionsBuilder = new DbContextOptionsBuilder<BookingManagerDbContext>();
-        optionsBuilder.UseSqlServer( "Server=127.0.0.1,1433;Database=Booking;User Id=sa;Password=Secret1_;TrustServerCertificate=True;" );
+        optionsBuilder.UseSqlServer( "Server=127.0.0.1,1433;Database=Booking;User Id=sa;Password=Secret1_;TrustServerCertificate=True;",
+            b => b.MigrationsAssembly( "Infrastructure.Migrations" ) );
 
         return new BookingManagerDbContext( optionsBuilder.Options );
     }

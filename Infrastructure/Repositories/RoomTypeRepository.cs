@@ -32,4 +32,15 @@ internal class RoomTypeRepository : IRoomTypeRepository
     {
         return await _dbContext.RoomTypes.FirstOrDefaultAsync( r => r.Id == id );
     }
+
+    //public async Task AddAmenity( int roomId, int serviceId)
+    //{
+    //    RoomType room = await GetById( roomId );
+    //    Service service = 
+    //}
+
+    //public void AddService( Service service )
+    //{
+    //    throw new NotImplementedException();
+    //}
 }

@@ -8,4 +8,5 @@ public interface IRoomTypeService
     public Task<RoomTypeDTO?> GetById( int id );
     public Task<List<RoomTypeDTO>> GetAll();
     public Task Delete( int id );
+    public Task AddService( int roomId, List<int> serviceIds );
 }

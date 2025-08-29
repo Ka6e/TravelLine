@@ -8,7 +8,7 @@ public class Property
     public string Address { get; private set; }
     public double Latitude { get; private set; }
     public double Longitude { get; private set; }
-    public bool IsDeleated { get; private set; } = false;
+    public bool IsDeleted { get; private set; } = false;
     public List<RoomType> RoomTypes { get; } = new List<RoomType>();
     public List<Reservation> Reservations { get; } = new List<Reservation>();
 
@@ -86,7 +86,7 @@ public class Property
 
     public void Delete( )
     {
-        IsDeleated = true;
+        IsDeleted = true;
     }
 
     private bool isValidString( string value )

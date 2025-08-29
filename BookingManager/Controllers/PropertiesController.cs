@@ -56,7 +56,7 @@ public class PropertiesController : ControllerBase
     {
         int newId = await _propertyService.Create( property );
         await _unitOfWork.CommitAsync();
-        return CreatedAtAction( nameof( GetProperty ), new { id = newId }, newId );
+        return CreatedAtAction( nameof( CreateProperty ), new { id = newId }, newId );
     }
 
     [HttpPut( "{id}" )]

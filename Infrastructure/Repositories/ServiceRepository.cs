@@ -38,4 +38,12 @@ internal class ServiceRepository : IServiceRepository
     {
         return await _dbContext.Services.FirstOrDefaultAsync( s => s.Id == id );
     }
+
+    public async Task<List<Service>> GetByIds( List<int> ids )
+    {
+        return await _dbContext.Services
+            .Where( s => ids.Contains( s.Id ) )
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

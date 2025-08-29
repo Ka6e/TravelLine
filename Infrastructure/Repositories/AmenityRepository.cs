@@ -38,4 +38,12 @@ internal class AmenityRepository : IAmenityRepository
     {
         return await _dbContext.Amenities.FirstOrDefaultAsync( a => a.Id == id );
     }
+
+    public async Task<List<Amenity>> GetByIds( List<int> ids )
+    {
+        return await _dbContext.Amenities
+            .Where( a => ids.Contains( a.Id ) )
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

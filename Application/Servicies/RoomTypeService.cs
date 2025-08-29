@@ -8,9 +8,16 @@ namespace Application.Servicies;
 public class RoomTypeService : IRoomTypeService
 {
     private readonly IRoomTypeRepository _roomTypeRepository;
-    public RoomTypeService( IRoomTypeRepository roomTypeRepository)
+    private readonly IServiceRepository _serviceRepository;
+    private readonly IAmenityRepository _amenityRepository;
+    public RoomTypeService(
+        IRoomTypeRepository roomTypeRepository,
+        IServiceRepository serviceRepository,
+        IAmenityRepository amenityRepository )
     {
         _roomTypeRepository = roomTypeRepository;
+        _serviceRepository = serviceRepository;
+        _amenityRepository = amenityRepository;
     }
 
     public async Task<int> Create( RoomTypeDTO roomTypeDto )
@@ -34,7 +41,7 @@ public class RoomTypeService : IRoomTypeService
     public async Task<List<RoomTypeDTO>> GetAll()
     {
         List<RoomType> roomTypeDTOs = await _roomTypeRepository.GetAll();
-        var filtered = roomTypeDTOs.Where(rt => rt.IsDeleted == false );
+        var filtered = roomTypeDTOs.Where( rt => rt.IsDeleted == false );
 
         return filtered.Select( r => r.ConvertToDto() ).ToList();
     }
@@ -55,12 +62,62 @@ public class RoomTypeService : IRoomTypeService
         UpdateRoom( roomType, roomTypeDTO );
     }
 
-    private void UpdateRoom( RoomType roomType, RoomTypeRequestDTO roomTypeDTO )
+    public async Task AddService( int roomId, List<int> serviceIds )
+    {
+        RoomType roomType = await _roomTypeRepository.GetById( roomId );
+        if ( roomType == null )
+        {
+            throw new KeyNotFoundException( $"RoomType with {roomId} not found." );
+        }
+
+        List<Service> services = await _serviceRepository.GetByIds( serviceIds );
+
+        HashSet<int> foundIds = services.Select( s => s.Id ).ToHashSet();
+        List<int> missingIds = serviceIds.Where( id => !foundIds.Contains( id ) ).ToList();
+        if ( missingIds.Any() )
+        {
+            throw new KeyNotFoundException( $"Services with ids {string.Join( ", ", missingIds )} not found." );
+        }
+
+        foreach ( var service in services )
+        {
+            roomType.AddServicies( service );
+        }
+    }
+
+    public async Task AddAmenity( int roomId, List<int> amenityIds )   
+    {
+        RoomType roomType = await _roomTypeRepository.GetById( roomId );
+        if ( roomType == null )
+        {
+            throw new KeyNotFoundException( $"RoomType with {roomId} not found." );
+        }
+
+        List<Amenity> amenities = await _amenityRepository.GetByIds( amenityIds );
+
+        HashSet<int> foundIds = amenities.Select( s => s.Id ).ToHashSet();
+        List<int> missingIds = foundIds.Where( id => !foundIds.Contains( id ) ).ToList();
+        if ( missingIds.Any() )
+        {
+            throw new KeyNotFoundException( $"Services with ids {string.Join( ", ", missingIds )} not found." );
+        }
+
+        foreach ( var amenity in amenities )
+        {
+            roomType.AddAmenity( amenity );
+        }
+    }
+    private async Task UpdateRoom( RoomType roomType, RoomTypeRequestDTO roomTypeDTO )
     {
         roomType.SetName( roomTypeDTO.Name );
         roomType.SetDailyPrice( roomTypeDTO.DailyPrice );
         roomType.SetCapacity( roomTypeDTO.MinPersonCount, roomTypeDTO.MaxPersonCount );
-        roomType.SetServicies( roomTypeDTO.Servicies );
-        roomType.SetAmenities( roomTypeDTO.Amenities );
+
+        //List<Service> services = await _serviceRepository.GetById(roomTypeDTO.Servicies.Select(s => s);
+        //List<Amenity> amenities = await _amenityRepository.GetAll();
+        //тут разобраться
+
+        roomType.SetServicies( roomTypeDTO.Servicies.Select( s => s.ConvertToEntity() ).ToList() );
+        roomType.SetAmenities( roomTypeDTO.Amenities.Select( a => a.ConvertToEntity() ).ToList() );
     }
 }

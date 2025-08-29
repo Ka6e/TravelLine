@@ -9,6 +9,6 @@ public class RoomTypeDTO
     public Currency Currency { get; set; }
     public int MinPersonCount { get; set; }
     public int MaxPersonCount { get; set; }
-    public RoomServicie Servicies { get; set; }
-    public Amenity Amenities { get; set; }
+    public List<ServiceDTO> Servicies { get; set; }
+    public List<AmenityDTO> Amenities { get; set; }
 }

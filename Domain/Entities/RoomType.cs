@@ -11,8 +11,8 @@ public class RoomType
     public Currency Currency { get; private set; }
     public int MinPersonCount { get; private set; }
     public int MaxPersonCount { get; private set; }
-    public RoomServicie Servicies { get; private set; }
-    public Amenity Amenities { get; private set; }
+    public List<Service> Services { get; private set; } = new List<Service>();
+    public List<Amenity> Amenities { get; private set; } = new List<Amenity> { };
     public List<Reservation> Reservations { get; } = new List<Reservation>();
     public bool IsDeleted { get; private set; } = false;
 
@@ -22,18 +22,13 @@ public class RoomType
         decimal price,
         Currency currency,
         int minPersonCount,
-        int maxPersonCount,
-        RoomServicie roomServicie,
-        Amenity amenity )
+        int maxPersonCount )
     {
         PropertyId = propertyId;
         SetName( name );
-        SetServicies( roomServicie );
         Currency = currency;
         SetDailyPrice( price );
         SetCapacity( minPersonCount, maxPersonCount );
-        SetServicies( roomServicie );
-        SetAmenities( amenity );
     }
 
     protected RoomType()
@@ -72,14 +67,24 @@ public class RoomType
         MaxPersonCount = maxPersons;
     }
 
-    public void SetServicies( RoomServicie servicie )
+    public void AddServicies( Service service )
     {
-        Servicies = servicie;
+        Services.Add( service );
     }
 
-    public void SetAmenities( Amenity amenity )
+    public void AddAmenity( Amenity amenity )
     {
-        Amenities = amenity;
+        Amenities.Add( amenity );
+    }
+
+    public void SetServicies( List<Service> services )
+    {
+        Services = services;
+    }
+
+    public void SetAmenities( List<Amenity> amenities )
+    {
+        Amenities = amenities;
     }
 
     public void Delete()

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "..\Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "..\Application\Application.csproj", "{F915B3C4-1C90-4A4A-8C39-CBF7BAC6019C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infastructure.Migrations", "..\Infastructure.Migrations\Infastructure.Migrations.csproj", "{8D382E4F-746D-4058-B3C2-913E87040BEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Migrations", "..\Infrastructure.Migrations\Infrastructure.Migrations.csproj", "{611730A2-59A8-4082-8206-858B73F33DCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{F915B3C4-1C90-4A4A-8C39-CBF7BAC6019C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F915B3C4-1C90-4A4A-8C39-CBF7BAC6019C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F915B3C4-1C90-4A4A-8C39-CBF7BAC6019C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D382E4F-746D-4058-B3C2-913E87040BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D382E4F-746D-4058-B3C2-913E87040BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D382E4F-746D-4058-B3C2-913E87040BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D382E4F-746D-4058-B3C2-913E87040BEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{611730A2-59A8-4082-8206-858B73F33DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{611730A2-59A8-4082-8206-858B73F33DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{611730A2-59A8-4082-8206-858B73F33DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{611730A2-59A8-4082-8206-858B73F33DCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

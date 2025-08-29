@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.Extensions;
 using Application.Interface;
 using Domain.Entities;
 using Domain.Repositories;
@@ -36,8 +37,8 @@ public class SearchService : ISearchService
                 MaxPersonCount = r.MaxPersonCount,
                 MinPersonCount = r.MinPersonCount,
                 Currency = r.Currency,
-                Servicies = r.Servicies,
-                Amenities = r.Amenities,
+                Servicies = r.Services.Select( s => s.ConvertToDto() ).ToList(),
+                Amenities = r.Amenities.Select( a => a.ConvertToDto() ).ToList(),
             } ).ToList(),
         } ).ToList();
     }

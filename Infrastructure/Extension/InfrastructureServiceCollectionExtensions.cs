@@ -15,13 +15,16 @@ public static class InfrastructureServiceCollectionExtensions
             throw new ArgumentNullException( "Connection string must not be null or empty" );
         }
 
-        services.AddDbContext<BookingManagerDbContext>( op => op.UseSqlServer(connectionString:  connectionString) );
+        services.AddDbContext<BookingManagerDbContext>( op => op.UseSqlServer( connectionString: connectionString ) );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IPropertyRepository, PropertyRepository>();
         services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
         services.AddScoped<IReservationRepository, ReservationRepository>();
-        
+        services.AddScoped<IAmenityRepository, AmenityRepository>();
+        services.AddScoped<IServiceRepository, ServiceRepository>();
+        services.AddScoped<ISearchRepository, SearchRepository>();
+
         return services;
     }
 }

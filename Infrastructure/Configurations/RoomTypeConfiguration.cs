@@ -28,13 +28,11 @@ public class RoomTypeConfiguration : IEntityTypeConfiguration<RoomType>
         builder.Property( r => r.MaxPersonCount )
             .IsRequired();
 
-        builder.Property( r => r.Servicies )
-            .HasConversion<string>()
-            .IsRequired();
+        builder.HasMany( r => r.Services )
+            .WithMany( s => s.RoomTypes );
 
-        builder.Property( r => r.Amenities )
-            .HasConversion<string>()
-            .IsRequired();
+        builder.HasMany( r => r.Amenities )
+            .WithMany( a => a.RoomTypes );
 
         builder.HasMany( r => r.Reservations )
             .WithOne( res => res.RoomType )

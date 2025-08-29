@@ -4,24 +4,26 @@ public class Amenity
     public int Id { get; private set; }
     public string Name { get; private set; }
     public bool IsActive { get; private set; } = true;
+    public List<RoomType> RoomTypes { get; private set; } = new List<RoomType>();
 
-    public Amenity(string name)
+    public Amenity( string name, bool isActive )
     {
-        Name = ValidateString(name);
+        Name = ValidateString( name );
+        SetActive( isActive );
     }
 
     protected Amenity()
     {
-        
+
     }
 
     public void SetActive( bool active )
     {
         IsActive = active;
     }
-    public string ValidateString(string name)
+    public string ValidateString( string name )
     {
-        if ( String.IsNullOrWhiteSpace(name) )
+        if ( String.IsNullOrWhiteSpace( name ) )
         {
             throw new ArgumentNullException( $"{nameof( name )} string must not be null or empty" );
         }

@@ -25,7 +25,7 @@ internal class PropertyRepository : IPropertyRepository
 
     public async Task<List<Property>> GetAll()
     {
-        return await _dbContext.Properties.Where( p => p.IsDeleated == false ).ToListAsync();
+        return await _dbContext.Properties.Where( p => p.IsDeleted == false ).ToListAsync();
     }
 
     public async Task<Property?> GetById( int id )

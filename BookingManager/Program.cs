@@ -1,9 +1,5 @@
-using Domain.Repositories;
-using Infrastructure;
 using Application.Interface;
-using Infrastructure.Repositories;
 using Application.Servicies;
-using Microsoft.EntityFrameworkCore;
 using Infrastructure.Extension;
 
 namespace BookingManager;
@@ -21,16 +17,13 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddInfrastructure( builder.Configuration );
-        //builder.Services.AddDbContext<BookingManagerDbContext>( op => 
-        //op.UseSqlServer( builder.Configuration.GetConnectionString( "DefaultConnection" ) ) );
-        //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-        //builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
-        //builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
-        //builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
         builder.Services.AddScoped<IPropertySevice, PropertyService>();
         builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
         builder.Services.AddScoped<ISearchService, SearchService>();
         builder.Services.AddScoped<IReservartionService, ReservationService>();
+        builder.Services.AddScoped<IAmenityService, AmenityService>();
+        builder.Services.AddScoped<IServiceService, ServiceService>();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
