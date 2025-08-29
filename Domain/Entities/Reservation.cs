@@ -1,4 +1,4 @@
-﻿using Domain.Enum;
+﻿using Domain.Enums;
 
 namespace Domain.Entities;
 public class Reservation
@@ -12,8 +12,8 @@ public class Reservation
     public DateOnly DepartureDate { get; private set; }
     public TimeOnly ArrivalTime { get; private set; }
     public TimeOnly DepartureTime { get; private set; }
-    public string GuestName { get; private set; }
-    public string GuestPhoneNumber { get; private set; }
+    public int GuestId { get; private set; }
+    public Guest Guest { get; private set; }
     public decimal Total { get; private set; }
     public Currency Currency { get; private set; }
     public bool IsCanceled { get; private set; } = false;
@@ -25,15 +25,18 @@ public class Reservation
         DateOnly departureDate,
         TimeOnly arrivalTime,
         TimeOnly departuretime,
-        string guestName,
-        string guestPhoneNumber,
+        Guest guest,
+        //string guestName,
+        //string guestPhoneNumber,
         Currency currency )
     {
         PropertyId = propertyId;
         RoomTypeId = roomId;
+        GuestId = guest.Id;
         SetDate( arrivalDate, departureDate );
         SetTime( arrivalTime, departuretime );
-        SetGuest( guestName, guestPhoneNumber );
+        Guest = guest;
+        //SetGuest( guestName, guestPhoneNumber );
         SetCurrency( currency );
     }
 
@@ -59,19 +62,19 @@ public class Reservation
         DepartureTime = departureTime;
     }
 
-    public void SetGuest( string guest, string guestPhoneNumber )
-    {
-        if ( string.IsNullOrEmpty( guest ) )
-        {
-            throw new ArgumentException( "Guest name cannot be empty." );
-        }
-        if ( string.IsNullOrEmpty( guestPhoneNumber ) )
-        {
-            throw new ArgumentException( "Guest name cannot be empty." );
-        }
-        GuestName = guest;
-        GuestPhoneNumber = guestPhoneNumber;
-    }
+    //public void SetGuest( string guest, string guestPhoneNumber )
+    //{
+    //    if ( string.IsNullOrEmpty( guest ) )
+    //    {
+    //        throw new ArgumentException( "Guest name cannot be empty." );
+    //    }
+    //    if ( string.IsNullOrEmpty( guestPhoneNumber ) )
+    //    {
+    //        throw new ArgumentException( "Guest name cannot be empty." );
+    //    }
+    //    GuestName = guest;
+    //    GuestPhoneNumber = guestPhoneNumber;
+    //}
 
     public void SetCurrency( Currency currency )
     {

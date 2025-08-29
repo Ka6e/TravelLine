@@ -1,30 +1,33 @@
-﻿using System.Xml.Linq;
+﻿using System.Globalization;
+using System.Xml.Linq;
 
 namespace Domain.Entities;
 public class Guest
 {
     public int Id { get; private set; }
-    public string FullName { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }  
     public string PhoneNumber { get; private set; }
     public string Email { get; private set; }
+    public List<Reservation> Reservations { get; private set; } = new List<Reservation>();
 
-
-    public Guest( string name, string phone, string email )
+    public Guest( string firstName, string lastName, string phone, string email )
     {
-        SetName( name );
+        FirstName = SetString( firstName );
+        LastName = SetString( lastName );
         SetPhone( phone );
         SetEmail( email );
     }
 
     protected Guest() { }
 
-    public void SetName( string name )
+    public string SetString( string name )
     {
         if ( String.IsNullOrWhiteSpace( name ) )
         {
             throw new ArgumentNullException( $"{nameof( name )} must not be null or empty." );
         }
-        FullName = name;
+        return name;
     }
 
     public void SetPhone( string phone )

@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Enum;
+using Domain.Enums;
 
 namespace Domain.Repositories;
 public interface IReservationRepository

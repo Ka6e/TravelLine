@@ -1,7 +1,7 @@
 ﻿using Domain.Enums;
 
 namespace Application.DTO;
-public class ReservationResponseDTO
+public class ReservationRequestDTO
 {
     public int PropertyId { get; set; }
     public int RoomTypeId { get; set; }
@@ -10,6 +10,5 @@ public class ReservationResponseDTO
     public TimeOnly ArrivalTime { get; set; }
     public TimeOnly DepartureTime { get; set; }
     public GuestDTO Guest { get; set; }
-    public decimal Total { get; set; }
     public Currency Currency { get; set; }
 }

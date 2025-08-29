@@ -16,7 +16,7 @@ public class ReservationService : IReservartionService
         _roomTypeRepository = roomTypeRepository;
     }
 
-    public async Task CreateReservation( ReservationDTO reservationDTO )
+    public async Task CreateReservation( ReservationRequestDTO reservationDTO )
     {
         if ( !await IsValidReservation( reservationDTO ) )
         {
@@ -53,7 +53,7 @@ public class ReservationService : IReservartionService
         return reservation == null ? null : reservation.Select( r => r.ConvertToResponseDto() ).ToList();
     }
 
-    private async Task<bool> IsValidReservation( ReservationDTO reservationDTO )
+    private async Task<bool> IsValidReservation( ReservationRequestDTO reservationDTO )
     {
         bool isExistReservaation = await _repository.ExistReservation(
             reservationDTO.PropertyId,

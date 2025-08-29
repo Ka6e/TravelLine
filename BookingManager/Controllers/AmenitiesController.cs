@@ -49,7 +49,7 @@ public class AmenitiesController : ControllerBase
         return CreatedAtAction( nameof( CreateAmenity ), new { id = newId }, newId );
     }
 
-    [HttpPatch( "{id}" )]
+    [HttpPatch( "{id}/disactivate" )]
     public async Task<IActionResult> DisactivateAmenity( int id )
     {
         try
@@ -79,7 +79,7 @@ public class AmenitiesController : ControllerBase
         }
     }
 
-    [HttpPut( "{id}/disactivate" )]
+    [HttpPut( "{id}" )]
     public async Task<IActionResult> UpdateAmenity( int id, AmenityDTO amenityDTO )
     {
         try

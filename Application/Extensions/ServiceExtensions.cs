@@ -8,6 +8,7 @@ public static class ServiceExtensions
     {
         return new Service(
             serviceDto.Name,
+            serviceDto.Currency,
             serviceDto.Price,
             serviceDto.IsActive );
     }
@@ -17,6 +18,7 @@ public static class ServiceExtensions
         return new ServiceDTO
         {
             Name = service.Name,
+            Currency = service.Currency,
             Price = service.Price,
             IsActive = service.IsActive
         };

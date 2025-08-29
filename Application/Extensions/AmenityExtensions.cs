@@ -14,6 +14,7 @@ public static class AmenityExtensions
         return new AmenityDTO
         {
             Name = amenity.Name,
+            IsActive = amenity.IsActive,
         };
     }
 }

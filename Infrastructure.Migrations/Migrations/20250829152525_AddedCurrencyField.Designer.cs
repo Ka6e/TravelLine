@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations.Migrations
 {
     [DbContext(typeof(BookingManagerDbContext))]
-    partial class BookingManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250829152525_AddedCurrencyField")]
+    partial class AddedCurrencyField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,37 +59,6 @@ namespace Infrastructure.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Amenity", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.Guest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Guest", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Property", b =>
@@ -155,8 +127,13 @@ namespace Infrastructure.Migrations.Migrations
                     b.Property<TimeOnly>("DepartureTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("GuestId")
-                        .HasColumnType("int");
+                    b.Property<string>("GuestName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsCanceled")
                         .HasColumnType("bit");
@@ -172,8 +149,6 @@ namespace Infrastructure.Migrations.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GuestId");
 
                     b.HasIndex("PropertyId");
 
@@ -282,12 +257,6 @@ namespace Infrastructure.Migrations.Migrations
 
             modelBuilder.Entity("Domain.Entities.Reservation", b =>
                 {
-                    b.HasOne("Domain.Entities.Guest", "Guest")
-                        .WithMany("Reservations")
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Property", "Property")
                         .WithMany("Reservations")
                         .HasForeignKey("PropertyId")
@@ -299,8 +268,6 @@ namespace Infrastructure.Migrations.Migrations
                         .HasForeignKey("RoomTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Guest");
 
                     b.Navigation("Property");
 
@@ -331,11 +298,6 @@ namespace Infrastructure.Migrations.Migrations
                         .HasForeignKey("ServicesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.Guest", b =>
-                {
-                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("Domain.Entities.Property", b =>

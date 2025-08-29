@@ -8,7 +8,7 @@ public class Amenity
 
     public Amenity( string name, bool isActive )
     {
-        Name = ValidateString( name );
+        ValidateString( name );
         SetActive( isActive );
     }
 
@@ -21,12 +21,12 @@ public class Amenity
     {
         IsActive = active;
     }
-    public string ValidateString( string name )
+    public void ValidateString( string name )
     {
         if ( String.IsNullOrWhiteSpace( name ) )
         {
             throw new ArgumentNullException( $"{nameof( name )} string must not be null or empty" );
         }
-        return name;
+        Name = name;
     }
 }

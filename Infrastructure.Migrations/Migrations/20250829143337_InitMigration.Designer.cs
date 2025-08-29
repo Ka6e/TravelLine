@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations.Migrations
 {
     [DbContext(typeof(BookingManagerDbContext))]
-    [Migration("20250829132930_InitMigration")]
+    [Migration("20250829143337_InitMigration")]
     partial class InitMigration
     {
         /// <inheritdoc />
@@ -84,7 +84,7 @@ namespace Infrastructure.Migrations.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("IsDeleated")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<double>("Latitude")

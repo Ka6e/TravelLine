@@ -19,8 +19,11 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
             .HasPrecision( 18, 2 )
             .IsRequired();
 
-        builder.Property( s => s.IsActive )
+        builder.Property( s => s.Currency)
+            .HasConversion<string>()
             .IsRequired();
 
+        builder.Property( s => s.IsActive )
+            .IsRequired();
     }
 }

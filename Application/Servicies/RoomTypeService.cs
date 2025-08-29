@@ -62,7 +62,7 @@ public class RoomTypeService : IRoomTypeService
         UpdateRoom( roomType, roomTypeDTO );
     }
 
-    public async Task AddService( int roomId, List<int> serviceIds )
+    public async Task AddServices( int roomId, List<int> serviceIds )
     {
         RoomType roomType = await _roomTypeRepository.GetById( roomId );
         if ( roomType == null )
@@ -85,7 +85,7 @@ public class RoomTypeService : IRoomTypeService
         }
     }
 
-    public async Task AddAmenity( int roomId, List<int> amenityIds )   
+    public async Task AddAmenities( int roomId, List<int> amenityIds )   
     {
         RoomType roomType = await _roomTypeRepository.GetById( roomId );
         if ( roomType == null )

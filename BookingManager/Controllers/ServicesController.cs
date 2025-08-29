@@ -41,7 +41,7 @@ public class ServicesController : ControllerBase
         return Ok( serviceDTOs );
     }
 
-    [HttpPost( "{id}" )]
+    [HttpPost]
     public async Task<IActionResult> CreateService( [FromBody] ServiceDTO serviceDTO )
     {
         int newId = await _service.Create( serviceDTO );

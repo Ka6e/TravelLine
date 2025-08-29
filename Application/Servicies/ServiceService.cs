@@ -38,7 +38,7 @@ public class ServiceService : IServiceService
         {
             throw new KeyNotFoundException( "Service doesn't exist." );
         }
-        _repository.Activate( service );
+        _repository.Disactivate( service );
     }
 
     public async Task<List<ServiceDTO>> GetAll()

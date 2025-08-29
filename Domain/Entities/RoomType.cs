@@ -1,4 +1,4 @@
-﻿using Domain.Enum;
+﻿using Domain.Enums;
 
 namespace Domain.Entities;
 public class RoomType
@@ -12,7 +12,7 @@ public class RoomType
     public int MinPersonCount { get; private set; }
     public int MaxPersonCount { get; private set; }
     public List<Service> Services { get; private set; } = new List<Service>();
-    public List<Amenity> Amenities { get; private set; } = new List<Amenity> { };
+    public List<Amenity> Amenities { get; private set; } = new List<Amenity>();
     public List<Reservation> Reservations { get; } = new List<Reservation>();
     public bool IsDeleted { get; private set; } = false;
 
@@ -26,8 +26,8 @@ public class RoomType
     {
         PropertyId = propertyId;
         SetName( name );
-        Currency = currency;
         SetDailyPrice( price );
+        SetCurency( currency );
         SetCapacity( minPersonCount, maxPersonCount );
     }
 
@@ -87,6 +87,14 @@ public class RoomType
         Amenities = amenities;
     }
 
+    public void SetCurency(Currency currency)
+    {
+        if ( !Enum.IsDefined( typeof( Currency ), currency ) )
+        {
+            throw new ArgumentException( $"Invalid currency: {currency}" );
+        }
+        Currency = currency;    
+    }
     public void Delete()
     {
         IsDeleted = true;

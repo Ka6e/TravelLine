@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Enum;
+using Domain.Enums;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +38,8 @@ internal class ReservationRepository : IReservationRepository
             && r.RoomTypeId == roomTypeId
             && r.IsCanceled == false
             && r.ArrivalDate < departureDate
-            && r.DepartureDate > arrivalDate );
+            && r.DepartureDate > arrivalDate
+            && r.Guest != null);
     }
 
     public async Task<List<Reservation>> GetFiltredReservations(
@@ -65,7 +66,7 @@ internal class ReservationRepository : IReservationRepository
         }
         if ( !String.IsNullOrWhiteSpace( guestName ) )
         {
-            query = query.Where( r => r.GuestName == guestName );
+            query = query.Where( r => r.Guest.FirstName == guestName );
         }
         if ( total != null && total != 0 )
         {

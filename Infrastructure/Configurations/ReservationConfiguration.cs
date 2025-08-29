@@ -31,11 +31,10 @@ public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
         builder.Property( res => res.DepartureTime )
             .IsRequired();
 
-        builder.Property( res => res.GuestName )
-            .IsRequired();
-
-        builder.Property( res => res.GuestPhoneNumber )
-            .IsRequired();
+        builder.HasOne( res => res.Guest )
+            .WithMany( g => g.Reservations )
+            .IsRequired()
+            .OnDelete( DeleteBehavior.Restrict );
 
         builder.Property( res => res.Total )
             .HasPrecision( 18, 2 )

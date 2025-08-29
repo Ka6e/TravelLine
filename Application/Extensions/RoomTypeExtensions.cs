@@ -6,8 +6,8 @@ public static class RoomTypeExtensions
 {
     public static RoomType ConvertToEntity( this RoomTypeDTO roomTypeDTO )
     {
-        List<Service> services = roomTypeDTO.Servicies.Select( s => s.ConvertToEntity() ).ToList();
-        List<Amenity> amenities = roomTypeDTO.Amenities.Select( s => s.ConvertToEntity() ).ToList();
+        //List<Service> services = roomTypeDTO.Servicies.Select( s => s.ConvertToEntity() ).ToList();
+        //List<Amenity> amenities = roomTypeDTO.Amenities.Select( s => s.ConvertToEntity() ).ToList();
 
         RoomType room = new RoomType(
             roomTypeDTO.PropertyId,
@@ -18,8 +18,8 @@ public static class RoomTypeExtensions
             roomTypeDTO.MaxPersonCount
             );
 
-        room.SetServicies( services );
-        room.SetAmenities( amenities );
+        //room.SetServicies( services );
+        //room.SetAmenities( amenities );
 
         return room;
     }

@@ -71,15 +71,25 @@ public class RoomTypesController : ControllerBase
     public async Task<IActionResult> AddServices( int id, [FromBody] List<int> serviceIds )
     {
         if ( serviceIds == null || !serviceIds.Any() )
+        {
             return BadRequest( "ServiceIds cannot be empty." );
+        }
 
-        await _roomTypeService.AddService( id, serviceIds );
+        await _roomTypeService.AddServices( id, serviceIds );
+        await _unitOfWork.CommitAsync();
         return NoContent();
     }
 
     [HttpPatch( "{id}/amenities" )]
     public async Task<IActionResult> AddAmenity( int id, [FromBody] List<int> amenityIds )
     {
+        if ( amenityIds == null || !amenityIds.Any() )
+        {
+            return BadRequest( "AmenityIds cannot be empty." );
+        }
 
+        await _roomTypeService.AddAmenities( id, amenityIds );
+        await _unitOfWork.CommitAsync();
+        return NoContent();
     }
 }
