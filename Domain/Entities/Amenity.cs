@@ -3,24 +3,17 @@ public class Amenity
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
-    //public bool IsActive { get; private set; } = true;
     public List<RoomAmenities> RoomAmenities { get; private set; } = new List<RoomAmenities>();
 
     public Amenity( string name )
     {
         ValidateString( name );
-        //SetActive( isActive );
     }
 
     protected Amenity()
     {
 
     }
-
-    //public void SetActive( bool active )
-    //{
-    //    IsActive = active;
-    //}
     public void ValidateString( string name )
     {
         if ( String.IsNullOrWhiteSpace( name ) )

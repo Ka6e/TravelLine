@@ -46,9 +46,4 @@ public class Service
         }
         Currency = currency;
     }
-
-    //public void SetActive( bool isActive )
-    //{
-    //    IsActive = isActive;
-    //}
 }

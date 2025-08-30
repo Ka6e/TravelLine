@@ -59,20 +59,6 @@ public class Reservation
         DepartureTime = departureTime;
     }
 
-    //public void SetGuest( string guest, string guestPhoneNumber )
-    //{
-    //    if ( string.IsNullOrEmpty( guest ) )
-    //    {
-    //        throw new ArgumentException( "Guest name cannot be empty." );
-    //    }
-    //    if ( string.IsNullOrEmpty( guestPhoneNumber ) )
-    //    {
-    //        throw new ArgumentException( "Guest name cannot be empty." );
-    //    }
-    //    GuestName = guest;
-    //    GuestPhoneNumber = guestPhoneNumber;
-    //}
-
     public void SetCurrency( Currency currency )
     {
         Currency = currency;
@@ -99,15 +85,6 @@ public class Reservation
                 servicesPrice += roomService.Service.Price;
             }
         }
-        //List<Service> services = roomType.Services;
-        //decimal servicesPrice = 0;
-        //if ( services != null )
-        //{
-        //    foreach ( Service service in services )
-        //    {
-        //        servicesPrice += service.Price;
-        //    }
-        //}
 
         Total = roomType.DailyPrice * nights + servicesPrice;
     }
