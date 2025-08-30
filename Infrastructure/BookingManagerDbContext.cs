@@ -26,5 +26,7 @@ public class BookingManagerDbContext : DbContext
         modelBuilder.ApplyConfiguration( new ServiceConfiguration() );
         modelBuilder.ApplyConfiguration( new AmenityConfiguration() );
         modelBuilder.ApplyConfiguration( new GuestConfiguration() );
+        modelBuilder.ApplyConfiguration( new RoomAmenitiesConfiguration() );
+        modelBuilder.ApplyConfiguration( new RoomServiceConfiguration() );
     }
 }

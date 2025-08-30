@@ -7,15 +7,12 @@ public class Service
     public string Name { get; private set; }
     public Currency Currency { get; private set; }
     public decimal Price { get; private set; }
-    public bool IsActive { get; private set; }
-    public List<RoomType> RoomTypes { get; private set; } = new List<RoomType>();
+    public List<RoomService> RoomServices { get; private set; } = new List<RoomService>();
 
-    public Service( string name,Currency currency, decimal price, bool isActive )
+    public Service( string name,Currency currency, decimal price)
     {
         SetName( name );
-
         SetPrice( price );
-        SetActive( isActive );
     }
 
     protected Service()
@@ -50,8 +47,8 @@ public class Service
         Currency = currency;
     }
 
-    public void SetActive( bool isActive )
-    {
-        IsActive = isActive;
-    }
+    //public void SetActive( bool isActive )
+    //{
+    //    IsActive = isActive;
+    //}
 }

@@ -50,36 +50,6 @@ public class ServicesController : ControllerBase
         return CreatedAtAction( nameof( CreateService ), new { id = newId }, newId );
     }
 
-    [HttpPatch( "{id}/disactivate" )]
-    public async Task<IActionResult> DisactivateService( int id )
-    {
-        try
-        {
-            await _service.Disactivate( id );
-            await _unitOfWork.CommitAsync();
-            return Ok();
-        }
-        catch ( KeyNotFoundException ex )
-        {
-            return NotFound( ex.Message );
-        }
-    }
-
-    [HttpPatch( "{id}/activate" )]
-    public async Task<IActionResult> ActivateService( int id )
-    {
-        try
-        {
-            await _service.Activate( id );
-            await _unitOfWork.CommitAsync();
-            return Ok();
-        }
-        catch ( KeyNotFoundException ex )
-        {
-            return NotFound( ex.Message );
-        }
-    }
-
     [HttpPut( "{id}" )]
     public async Task<IActionResult> UpdateService(int id, [FromBody] ServiceDTO serviceDTO )
     {

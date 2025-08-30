@@ -49,36 +49,6 @@ public class AmenitiesController : ControllerBase
         return CreatedAtAction( nameof( CreateAmenity ), new { id = newId }, newId );
     }
 
-    [HttpPatch( "{id}/disactivate" )]
-    public async Task<IActionResult> DisactivateAmenity( int id )
-    {
-        try
-        {
-            await _amenityService.Disactivate( id );
-            await _unitOfWork.CommitAsync();
-            return Ok();
-        }
-        catch ( KeyNotFoundException ex )
-        {
-            return NotFound( ex.Message );
-        }
-    }
-
-    [HttpPatch( "{id}/activate" )]
-    public async Task<IActionResult> ActivateAmenity( int id )
-    {
-        try
-        {
-            await _amenityService.Activate( id );
-            await _unitOfWork.CommitAsync();
-            return Ok();
-        }
-        catch ( KeyNotFoundException ex )
-        {
-            return NotFound( ex.Message );
-        }
-    }
-
     [HttpPut( "{id}" )]
     public async Task<IActionResult> UpdateAmenity( int id, AmenityDTO amenityDTO )
     {

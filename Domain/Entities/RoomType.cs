@@ -11,8 +11,8 @@ public class RoomType
     public Currency Currency { get; private set; }
     public int MinPersonCount { get; private set; }
     public int MaxPersonCount { get; private set; }
-    public List<Service> Services { get; private set; } = new List<Service>();
-    public List<Amenity> Amenities { get; private set; } = new List<Amenity>();
+    public List<RoomService> RoomServices { get; private set; } = new List<RoomService>();
+    public List<RoomAmenities> RoomAmenities { get; private set; } = new List<RoomAmenities>();
     public List<Reservation> Reservations { get; } = new List<Reservation>();
     public bool IsDeleted { get; private set; } = false;
 
@@ -35,6 +35,7 @@ public class RoomType
     {
 
     }
+
     public void SetName( string name )
     {
         if ( string.IsNullOrWhiteSpace( name ) )
@@ -67,24 +68,48 @@ public class RoomType
         MaxPersonCount = maxPersons;
     }
 
-    public void AddServicies( Service service )
+    public void AddServicies( Service service, bool isAtive = true )
     {
-        Services.Add( service );
+        if ( service == null )
+        {
+            throw new ArgumentNullException( nameof( service ) );
+        }
+
+        if ( RoomServices.Any( rs => rs.ServiceId == service.Id ) )
+        {
+            throw new InvalidOperationException( "Service already added to this room." );
+        }
+
+        RoomServices.Add( new RoomService
+        {
+            RoomType = this,
+            RoomTypeId = this.Id,
+            Service = service,
+            ServiceId = service.Id,
+            IsActive = isAtive
+        } );
     }
 
-    public void AddAmenity( Amenity amenity )
+    public void AddAmenity( Amenity amenity, bool isActive = true )
     {
-        Amenities.Add( amenity );
-    }
+        if ( amenity == null )
+        {
+            throw new ArgumentNullException( nameof( amenity ) );
+        }
 
-    public void SetServicies( List<Service> services )
-    {
-        Services = services;
-    }
+        if ( RoomAmenities.Any( ra => ra.AmenityId == amenity.Id ) )
+        {
+            throw new InvalidOperationException( "Amenirt already added to this room." );
+        }
 
-    public void SetAmenities( List<Amenity> amenities )
-    {
-        Amenities = amenities;
+        RoomAmenities.Add( new RoomAmenities
+        {
+            RoomType = this,
+            RoomTypeId = this.Id,
+            Amenity = amenity,
+            AmenityId = amenity.Id,
+            IsActive = isActive
+        } );
     }
 
     public void SetCurency(Currency currency)

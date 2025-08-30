@@ -23,7 +23,8 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
             .HasConversion<string>()
             .IsRequired();
 
-        builder.Property( s => s.IsActive )
-            .IsRequired();
+        builder.HasMany( s => s.RoomServices )
+            .WithOne( rs => rs.Service )
+            .HasForeignKey( rs => rs.ServiceId );
     }
 }

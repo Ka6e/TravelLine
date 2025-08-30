@@ -1,5 +1,6 @@
 ﻿namespace Application.DTO;
-public class AmenityDTO
+public class AmenityRequestDTO
 {
+    public int Id { get; set; }
     public string Name { get; set; }
 }

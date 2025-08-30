@@ -37,8 +37,8 @@ public class SearchService : ISearchService
                 MaxPersonCount = r.MaxPersonCount,
                 MinPersonCount = r.MinPersonCount,
                 Currency = r.Currency,
-                Servicies = r.Services.Select( s => s.ConvertToDto() ).ToList(),
-                Amenities = r.Amenities.Select( a => a.ConvertToDto() ).ToList(),
+                Servicies = r.RoomServices.Select( s => s.Service.ConvertToDto() ).ToList(),
+                Amenities = r.RoomAmenities.Select( a => a.Amenity.ConvertToDto() ).ToList(),
             } ).ToList(),
         } ).ToList();
     }

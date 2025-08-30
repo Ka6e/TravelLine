@@ -10,4 +10,8 @@ public interface IRoomTypeService
     public Task Delete( int id );
     public Task AddServices( int roomId, List<int> serviceIds );
     public Task AddAmenities( int roomId, List<int> amenitiesIds );
+    public Task ActivateService ( int roomId, int serviceId );
+    public Task DisactivateService ( int roomId, int serviceId );
+    public Task ActivateAmenity ( int roomId, int amenityId );
+    public Task DisactivateAmenity ( int roomId, int amenityId );
 }

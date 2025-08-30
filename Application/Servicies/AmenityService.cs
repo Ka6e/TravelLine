@@ -13,16 +13,6 @@ public class AmenityService : IAmenityService
     {
         _repository = repository;
     }
-    public async Task Activate( int id )
-    {
-        Amenity amenity = await _repository.GetById( id );
-        if ( amenity == null )
-        {
-            throw new KeyNotFoundException( "This amenity doesnt exist." );
-        }
-
-        _repository.Activate( amenity );
-    }
 
     public async Task<int> Create( AmenityDTO amenityDto )
     {
@@ -30,17 +20,6 @@ public class AmenityService : IAmenityService
         _repository.Create( amenity );
 
         return amenity.Id;
-    }
-
-    public async Task Disactivate( int id )
-    {
-        Amenity amenity = await _repository.GetById( id );
-        if ( amenity == null )
-        {
-            throw new KeyNotFoundException( "This amenity doesnt exist." );
-        }
-
-        _repository.Disactivate( amenity );
     }
 
     public async Task<List<AmenityDTO>> GetAll()

@@ -17,12 +17,27 @@ namespace Infrastructure.Migrations.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Amenity", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Guest",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Guest", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,8 +66,8 @@ namespace Infrastructure.Migrations.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,30 +100,6 @@ namespace Infrastructure.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AmenityRoomType",
-                columns: table => new
-                {
-                    AmenitiesId = table.Column<int>(type: "int", nullable: false),
-                    RoomTypesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AmenityRoomType", x => new { x.AmenitiesId, x.RoomTypesId });
-                    table.ForeignKey(
-                        name: "FK_AmenityRoomType_Amenity_AmenitiesId",
-                        column: x => x.AmenitiesId,
-                        principalTable: "Amenity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AmenityRoomType_RoomType_RoomTypesId",
-                        column: x => x.RoomTypesId,
-                        principalTable: "RoomType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reservation",
                 columns: table => new
                 {
@@ -120,8 +111,7 @@ namespace Infrastructure.Migrations.Migrations
                     DepartureDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ArrivalTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     DepartureTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    GuestName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GuestPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GuestId = table.Column<int>(type: "int", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsCanceled = table.Column<bool>(type: "bit", nullable: false)
@@ -129,6 +119,12 @@ namespace Infrastructure.Migrations.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservation_Guest_GuestId",
+                        column: x => x.GuestId,
+                        principalTable: "Guest",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reservation_Property_PropertyId",
                         column: x => x.PropertyId,
@@ -144,33 +140,59 @@ namespace Infrastructure.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoomTypeService",
+                name: "RoomAmenity",
                 columns: table => new
                 {
-                    RoomTypesId = table.Column<int>(type: "int", nullable: false),
-                    ServicesId = table.Column<int>(type: "int", nullable: false)
+                    RoomTypeId = table.Column<int>(type: "int", nullable: false),
+                    AmenityId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoomTypeService", x => new { x.RoomTypesId, x.ServicesId });
+                    table.PrimaryKey("PK_RoomAmenity", x => new { x.RoomTypeId, x.AmenityId });
                     table.ForeignKey(
-                        name: "FK_RoomTypeService_RoomType_RoomTypesId",
-                        column: x => x.RoomTypesId,
+                        name: "FK_RoomAmenity_Amenity_AmenityId",
+                        column: x => x.AmenityId,
+                        principalTable: "Amenity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomAmenity_RoomType_RoomTypeId",
+                        column: x => x.RoomTypeId,
+                        principalTable: "RoomType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomService",
+                columns: table => new
+                {
+                    RoomTypeId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomService", x => new { x.RoomTypeId, x.ServiceId });
+                    table.ForeignKey(
+                        name: "FK_RoomService_RoomType_RoomTypeId",
+                        column: x => x.RoomTypeId,
                         principalTable: "RoomType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RoomTypeService_Service_ServicesId",
-                        column: x => x.ServicesId,
+                        name: "FK_RoomService_Service_ServiceId",
+                        column: x => x.ServiceId,
                         principalTable: "Service",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AmenityRoomType_RoomTypesId",
-                table: "AmenityRoomType",
-                column: "RoomTypesId");
+                name: "IX_Reservation_GuestId",
+                table: "Reservation",
+                column: "GuestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservation_PropertyId",
@@ -183,27 +205,35 @@ namespace Infrastructure.Migrations.Migrations
                 column: "RoomTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RoomAmenity_AmenityId",
+                table: "RoomAmenity",
+                column: "AmenityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomService_ServiceId",
+                table: "RoomService",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoomType_PropertyId",
                 table: "RoomType",
                 column: "PropertyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoomTypeService_ServicesId",
-                table: "RoomTypeService",
-                column: "ServicesId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AmenityRoomType");
-
-            migrationBuilder.DropTable(
                 name: "Reservation");
 
             migrationBuilder.DropTable(
-                name: "RoomTypeService");
+                name: "RoomAmenity");
+
+            migrationBuilder.DropTable(
+                name: "RoomService");
+
+            migrationBuilder.DropTable(
+                name: "Guest");
 
             migrationBuilder.DropTable(
                 name: "Amenity");

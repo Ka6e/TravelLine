@@ -26,8 +26,6 @@ public class Reservation
         TimeOnly arrivalTime,
         TimeOnly departuretime,
         Guest guest,
-        //string guestName,
-        //string guestPhoneNumber,
         Currency currency )
     {
         PropertyId = propertyId;
@@ -36,7 +34,6 @@ public class Reservation
         SetDate( arrivalDate, departureDate );
         SetTime( arrivalTime, departuretime );
         Guest = guest;
-        //SetGuest( guestName, guestPhoneNumber );
         SetCurrency( currency );
     }
 
@@ -88,21 +85,29 @@ public class Reservation
             throw new ArgumentNullException( nameof( roomType ) );
         }
 
-        int nights = DepartureDate.Day - ArrivalDate.Day;
+        int nights = (DepartureDate.ToDateTime(TimeOnly.MinValue) - ArrivalDate.ToDateTime(TimeOnly.MinValue)).Days;
         if ( nights <= 0 )
         {
             throw new ArgumentException( "Reservation must be at least 1 night." );
         }
 
-        List<Service> services = roomType.Services;
         decimal servicesPrice = 0;
-        if ( services != null )
+        foreach ( var roomService in roomType.RoomServices )
         {
-            foreach ( Service service in services )
+            if ( roomService.IsActive )
             {
-                servicesPrice += service.Price;
+                servicesPrice += roomService.Service.Price;
             }
         }
+        //List<Service> services = roomType.Services;
+        //decimal servicesPrice = 0;
+        //if ( services != null )
+        //{
+        //    foreach ( Service service in services )
+        //    {
+        //        servicesPrice += service.Price;
+        //    }
+        //}
 
         Total = roomType.DailyPrice * nights + servicesPrice;
     }

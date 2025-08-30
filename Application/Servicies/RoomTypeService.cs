@@ -49,6 +49,7 @@ public class RoomTypeService : IRoomTypeService
     public async Task<RoomTypeDTO?> GetById( int id )
     {
         RoomType roomType = await _roomTypeRepository.GetById( id );
+
         return roomType == null ? null : roomType.ConvertToDto();
     }
 
@@ -112,12 +113,73 @@ public class RoomTypeService : IRoomTypeService
         roomType.SetName( roomTypeDTO.Name );
         roomType.SetDailyPrice( roomTypeDTO.DailyPrice );
         roomType.SetCapacity( roomTypeDTO.MinPersonCount, roomTypeDTO.MaxPersonCount );
+    }
 
-        //List<Service> services = await _serviceRepository.GetById(roomTypeDTO.Servicies.Select(s => s);
-        //List<Amenity> amenities = await _amenityRepository.GetAll();
-        //тут разобраться
+    public async Task ActivateService( int roomId, int serviceId )
+    {
+        RoomType roomType = await _roomTypeRepository.GetById( roomId );
+        if ( roomType == null )
+        {
+            throw new KeyNotFoundException( $"Room with {roomId}id doesn't exist" );
+        }
 
-        roomType.SetServicies( roomTypeDTO.Servicies.Select( s => s.ConvertToEntity() ).ToList() );
-        roomType.SetAmenities( roomTypeDTO.Amenities.Select( a => a.ConvertToEntity() ).ToList() );
+        RoomService service = roomType.RoomServices.FirstOrDefault(rs => rs.ServiceId == serviceId );
+        if ( service == null )
+        {
+            throw new KeyNotFoundException( "Room doesn't contain this service" );
+        }
+
+        service.IsActive = true;
+    }
+
+    public async Task DisactivateService( int roomId, int serviceId )
+    {
+        RoomType roomType = await _roomTypeRepository.GetById( roomId );
+        if ( roomType == null )
+        {
+            throw new KeyNotFoundException( $"Room with {roomId}id doesn't exist" );
+        }
+
+        RoomService service = roomType.RoomServices.FirstOrDefault( rs => rs.ServiceId == serviceId );
+        if ( service == null )
+        {
+            throw new KeyNotFoundException( "Room doesn't contain this service" );
+        }
+
+        service.IsActive = false;
+    }
+
+    public async Task ActivateAmenity( int roomId, int amenityId )
+    {
+        RoomType roomType = await _roomTypeRepository.GetById( roomId );
+        if ( roomType == null )
+        {
+            throw new KeyNotFoundException( $"Room with {roomId}id doesn't exist" );
+        }
+
+        RoomAmenities amenitie = roomType.RoomAmenities.FirstOrDefault( ra => ra.AmenityId == amenityId );
+        if ( amenitie == null )
+        {
+            throw new KeyNotFoundException( "Room doesn't contain this amenity" );
+        }
+
+        amenitie.IsActive = true;
+    }
+
+    public async Task DisactivateAmenity( int roomId, int amenityId )
+    {
+        RoomType roomType = await _roomTypeRepository.GetById( roomId );
+        if ( roomType == null )
+        {
+            throw new KeyNotFoundException( $"Room with {roomId}id doesn't exist" );
+        }
+
+        RoomAmenities amenitie = roomType.RoomAmenities.FirstOrDefault( ra => ra.AmenityId == amenityId );
+        if ( amenitie == null )
+        {
+            throw new KeyNotFoundException( "Room doesn't contain this amenity" );
+        }
+
+        amenitie.IsActive = false;
     }
 }

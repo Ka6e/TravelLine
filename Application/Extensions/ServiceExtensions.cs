@@ -9,8 +9,7 @@ public static class ServiceExtensions
         return new Service(
             serviceDto.Name,
             serviceDto.Currency,
-            serviceDto.Price,
-            serviceDto.IsActive );
+            serviceDto.Price);
     }
 
     public static ServiceDTO ConvertToDto(this Service service )
@@ -20,7 +19,6 @@ public static class ServiceExtensions
             Name = service.Name,
             Currency = service.Currency,
             Price = service.Price,
-            IsActive = service.IsActive
         };
     }
 }

@@ -14,8 +14,5 @@ public class AmenityConfiguration : IEntityTypeConfiguration<Amenity>
         builder.Property( a => a.Name)
             .HasMaxLength(100)
             .IsRequired();
-
-        builder.Property( a => a.IsActive )
-            .IsRequired();
     }
 }

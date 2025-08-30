@@ -67,7 +67,6 @@ public class PropertyService : IPropertySevice
         return rooms == null ? null : rooms.Select( r => r.ConvertToDto() ).ToList();
     }
 
-
     private void UpdateProperty( Property property, PropertyDTO propertyDTO )
     {
         property.SetName( propertyDTO.Name );

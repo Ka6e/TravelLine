@@ -7,6 +7,4 @@ public interface IServiceService
     public Task Update( int id, ServiceDTO serviceDTO );
     public Task<ServiceDTO?> GetById( int id );
     public Task<List<ServiceDTO>> GetAll();
-    public Task Disactivate( int id );
-    public Task Activate( int id );
 }

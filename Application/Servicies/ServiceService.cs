@@ -13,15 +13,6 @@ public class ServiceService : IServiceService
     {
         _repository = repository;
     }
-    public async Task Activate( int id )
-    {
-        Service service = await _repository.GetById( id );
-        if ( service == null )
-        {
-            throw new KeyNotFoundException( "Service doesn't exist." );
-        }
-        _repository.Activate( service );
-    }
 
     public async Task<int> Create( ServiceDTO serviceDto )
     {
@@ -29,16 +20,6 @@ public class ServiceService : IServiceService
         _repository.Create( service );
 
         return service.Id;
-    }
-
-    public async Task Disactivate( int id )
-    {
-        Service service = await _repository.GetById( id );
-        if ( service == null )
-        {
-            throw new KeyNotFoundException( "Service doesn't exist." );
-        }
-        _repository.Disactivate( service );
     }
 
     public async Task<List<ServiceDTO>> GetAll()

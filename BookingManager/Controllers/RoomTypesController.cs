@@ -67,6 +67,66 @@ public class RoomTypesController : ControllerBase
         return NoContent();
     }
 
+    [HttpPatch( "{id}/activateService" )]
+    public async Task<IActionResult> ActivateService( int id, int serviceId )
+    {
+        try
+        {
+            await _roomTypeService.ActivateService( id, serviceId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpPatch( "{id}/disactivateService" )]
+    public async Task<IActionResult> DisactivateService( int id, int serviceId )
+    {
+        try
+        {
+            await _roomTypeService.DisactivateService( id, serviceId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpPatch( "{id}/activateAmenity" )]
+    public async Task<IActionResult> ActivateAmenity( int id, int amenityId )
+    {
+        try
+        {
+            await _roomTypeService.ActivateAmenity( id, amenityId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpPatch( "{id}/disactivateAmenity" )]
+    public async Task<IActionResult> DisactivateAmenity( int id, int amenityId )
+    {
+        try
+        {
+            await _roomTypeService.DisactivateAmenity( id, amenityId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
     [HttpPatch( "{id}/addServices" )]
     public async Task<IActionResult> AddServices( int id, [FromBody] List<int> serviceIds )
     {

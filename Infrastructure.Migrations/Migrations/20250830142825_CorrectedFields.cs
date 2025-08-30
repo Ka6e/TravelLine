@@ -5,25 +5,30 @@
 namespace Infrastructure.Migrations.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedCurrencyField : Migration
+    public partial class CorrectedFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AlterColumn<string>(
                 name: "Currency",
-                table: "Service",
+                table: "RoomType",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                oldClrType: typeof(int),
+                oldType: "int");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+            migrationBuilder.AlterColumn<int>(
                 name: "Currency",
-                table: "Service");
+                table: "RoomType",
+                type: "int",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
         }
     }
 }

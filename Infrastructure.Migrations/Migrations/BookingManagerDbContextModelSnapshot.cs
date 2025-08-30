@@ -22,21 +22,6 @@ namespace Infrastructure.Migrations.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AmenityRoomType", b =>
-                {
-                    b.Property<int>("AmenitiesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomTypesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AmenitiesId", "RoomTypesId");
-
-                    b.HasIndex("RoomTypesId");
-
-                    b.ToTable("AmenityRoomType");
-                });
-
             modelBuilder.Entity("Domain.Entities.Amenity", b =>
                 {
                     b.Property<int>("Id")
@@ -44,9 +29,6 @@ namespace Infrastructure.Migrations.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -182,6 +164,42 @@ namespace Infrastructure.Migrations.Migrations
                     b.ToTable("Reservation", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.RoomAmenities", b =>
+                {
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AmenityId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RoomTypeId", "AmenityId");
+
+                    b.HasIndex("AmenityId");
+
+                    b.ToTable("RoomAmenity", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomService", b =>
+                {
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RoomTypeId", "ServiceId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("RoomService", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.RoomType", b =>
                 {
                     b.Property<int>("Id")
@@ -190,8 +208,9 @@ namespace Infrastructure.Migrations.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Currency")
-                        .HasColumnType("int");
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DailyPrice")
                         .HasPrecision(18, 2)
@@ -233,9 +252,6 @@ namespace Infrastructure.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -248,36 +264,6 @@ namespace Infrastructure.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Service", (string)null);
-                });
-
-            modelBuilder.Entity("RoomTypeService", b =>
-                {
-                    b.Property<int>("RoomTypesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServicesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoomTypesId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("RoomTypeService");
-                });
-
-            modelBuilder.Entity("AmenityRoomType", b =>
-                {
-                    b.HasOne("Domain.Entities.Amenity", null)
-                        .WithMany()
-                        .HasForeignKey("AmenitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.RoomType", null)
-                        .WithMany()
-                        .HasForeignKey("RoomTypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Reservation", b =>
@@ -307,6 +293,44 @@ namespace Infrastructure.Migrations.Migrations
                     b.Navigation("RoomType");
                 });
 
+            modelBuilder.Entity("Domain.Entities.RoomAmenities", b =>
+                {
+                    b.HasOne("Domain.Entities.Amenity", "Amenity")
+                        .WithMany("RoomAmenities")
+                        .HasForeignKey("AmenityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.RoomType", "RoomType")
+                        .WithMany("RoomAmenities")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Amenity");
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomService", b =>
+                {
+                    b.HasOne("Domain.Entities.RoomType", "RoomType")
+                        .WithMany("RoomServices")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Service", "Service")
+                        .WithMany("RoomServices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("Domain.Entities.RoomType", b =>
                 {
                     b.HasOne("Domain.Entities.Property", "Property")
@@ -318,19 +342,9 @@ namespace Infrastructure.Migrations.Migrations
                     b.Navigation("Property");
                 });
 
-            modelBuilder.Entity("RoomTypeService", b =>
+            modelBuilder.Entity("Domain.Entities.Amenity", b =>
                 {
-                    b.HasOne("Domain.Entities.RoomType", null)
-                        .WithMany()
-                        .HasForeignKey("RoomTypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("RoomAmenities");
                 });
 
             modelBuilder.Entity("Domain.Entities.Guest", b =>
@@ -348,6 +362,15 @@ namespace Infrastructure.Migrations.Migrations
             modelBuilder.Entity("Domain.Entities.RoomType", b =>
                 {
                     b.Navigation("Reservations");
+
+                    b.Navigation("RoomAmenities");
+
+                    b.Navigation("RoomServices");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Service", b =>
+                {
+                    b.Navigation("RoomServices");
                 });
 #pragma warning restore 612, 618
         }

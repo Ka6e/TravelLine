@@ -17,18 +17,6 @@ internal class AmenityRepository : IAmenityRepository
         _dbContext.Amenities.Add( amenity );
     }
 
-    public void Activate( Amenity amenity )
-    {
-        amenity.SetActive( true );
-        _dbContext.Amenities.Update( amenity );
-    }
-
-    public void Disactivate( Amenity amenity )
-    {
-        amenity.SetActive( false );
-        _dbContext.Amenities.Update( amenity );
-    }
-
     public async Task<List<Amenity>> GetAll()
     {
         return await _dbContext.Amenities.ToListAsync();

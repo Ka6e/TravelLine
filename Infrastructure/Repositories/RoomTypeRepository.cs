@@ -27,13 +27,20 @@ internal class RoomTypeRepository : IRoomTypeRepository
     {
         return await _dbContext.RoomTypes
             .Where( rt => rt.IsDeleted == false )
-            .Include( rt => rt.Services )
-            .Include( rt => rt.Amenities )
+            .Include( rt => rt.RoomServices )
+            .ThenInclude( rs => rs.Service )
+            .Include( rt => rt.RoomAmenities )
+            .ThenInclude( ra => ra.Amenity )
             .ToListAsync();
     }
 
     public async Task<RoomType?> GetById( int id )
     {
-        return await _dbContext.RoomTypes.FirstOrDefaultAsync( r => r.Id == id );
+        return await _dbContext.RoomTypes
+            .Include( rt => rt.RoomServices )
+            .ThenInclude( rs => rs.Service )
+            .Include( rt => rt.RoomAmenities )
+            .ThenInclude( ra => ra.Amenity )
+            .FirstOrDefaultAsync( r => r.Id == id );
     }
 }

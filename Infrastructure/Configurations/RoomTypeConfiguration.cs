@@ -22,17 +22,23 @@ public class RoomTypeConfiguration : IEntityTypeConfiguration<RoomType>
             .HasPrecision( 18, 2 )
             .IsRequired();
 
+        builder.Property( r => r.Currency)
+            .HasConversion<string>()
+            .IsRequired();
+
         builder.Property( r => r.MinPersonCount )
             .IsRequired();
 
         builder.Property( r => r.MaxPersonCount )
             .IsRequired();
 
-        builder.HasMany( r => r.Services )
-            .WithMany( s => s.RoomTypes );
+        builder.HasMany( r => r.RoomServices )
+            .WithOne( rs => rs.RoomType)
+            .HasForeignKey( rs => rs.RoomTypeId);
 
-        builder.HasMany( r => r.Amenities )
-            .WithMany( a => a.RoomTypes );
+        builder.HasMany( r => r.RoomAmenities )
+            .WithOne( a => a.RoomType )
+            .HasForeignKey( a => a.RoomTypeId );
 
         builder.HasMany( r => r.Reservations )
             .WithOne( res => res.RoomType )

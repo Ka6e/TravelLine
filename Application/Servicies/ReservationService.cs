@@ -75,34 +75,4 @@ public class ReservationService : IReservartionService
 
         return !isExistReservaation;
     }
-
-    //private IEnumerable<Reservation> FilterList( List<Reservation> reservations, ReservationFilterDTO reservationFilterDTO )
-    //{
-    //    IEnumerable<Reservation> query = reservations;
-
-    //    if ( reservationFilterDTO.ArrivalDate != null && reservationFilterDTO.DepartureDate != null )
-    //    {
-    //        query = query.Where( r => r.ArrivalDate == reservationFilterDTO.ArrivalDate
-    //         && r.DepartureDate == reservationFilterDTO.DepartureDate );
-    //    }
-    //    if ( reservationFilterDTO.ArrivalTime != null && reservationFilterDTO.DepartureTime != null )
-    //    {
-    //        query = query.Where( r => r.ArrivalTime == reservationFilterDTO.ArrivalTime
-    //        && r.DepartureTime == reservationFilterDTO.DepartureTime );
-    //    }
-    //    if ( !string.IsNullOrWhiteSpace( reservationFilterDTO.GuestName ) )
-    //    {
-    //        query = query.Where( r => r.GuestName == reservationFilterDTO.GuestName );
-    //    }
-    //    if ( reservationFilterDTO.Total != null && reservationFilterDTO.Total != 0 )
-    //    {
-    //        query = query.Where( r => r.Total == reservationFilterDTO.Total );
-    //    }
-    //    if ( reservationFilterDTO.Currency != null )
-    //    {
-    //        query = query.Where( r => r.Currency == reservationFilterDTO.Currency );
-    //    }
-
-    //    return query;
-    //}
 }

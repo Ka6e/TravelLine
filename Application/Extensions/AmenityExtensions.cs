@@ -6,7 +6,7 @@ public static class AmenityExtensions
 {
     public static Amenity ConvertToEntity( this AmenityDTO amenityDTO )
     {
-        return new Amenity( amenityDTO.Name, amenityDTO.IsActive );
+        return new Amenity( amenityDTO.Name );
     }
 
     public static AmenityDTO ConvertToDto( this Amenity amenity )
@@ -14,7 +14,6 @@ public static class AmenityExtensions
         return new AmenityDTO
         {
             Name = amenity.Name,
-            IsActive = amenity.IsActive,
         };
     }
 }

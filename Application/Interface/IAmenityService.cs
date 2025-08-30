@@ -7,6 +7,4 @@ public interface IAmenityService
     public Task Update( int id, AmenityDTO amenity );
     public Task<AmenityDTO?> GetById( int id );
     public Task<List<AmenityDTO>> GetAll();
-    public Task Disactivate( int id );
-    public Task Activate( int id );
 }
