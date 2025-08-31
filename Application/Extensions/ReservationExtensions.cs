@@ -14,10 +14,10 @@ public static class ReservationExtensions
             request.ArrivalTime,
             request.DepartureTime,
             request.Guest.ConvertToEntity(),
-            request.Currency);
+            request.Currency );
     }
 
-    public static ReservationResponseDTO ConvertToResponseDto(this Reservation reservation )
+    public static ReservationResponseDTO ConvertToResponseDto( this Reservation reservation )
     {
         return new ReservationResponseDTO
         {

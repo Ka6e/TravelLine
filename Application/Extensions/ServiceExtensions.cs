@@ -9,10 +9,10 @@ public static class ServiceExtensions
         return new Service(
             serviceDto.Name,
             serviceDto.Currency,
-            serviceDto.Price);
+            serviceDto.Price );
     }
 
-    public static ServiceDTO ConvertToDto(this Service service )
+    public static ServiceDTO ConvertToDto( this Service service )
     {
         return new ServiceDTO
         {

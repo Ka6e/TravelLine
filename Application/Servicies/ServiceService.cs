@@ -9,7 +9,7 @@ public class ServiceService : IServiceService
 {
     private readonly IServiceRepository _repository;
 
-    public ServiceService(IServiceRepository repository)
+    public ServiceService( IServiceRepository repository )
     {
         _repository = repository;
     }
@@ -25,7 +25,7 @@ public class ServiceService : IServiceService
     public async Task<List<ServiceDTO>> GetAll()
     {
         List<Service> services = await _repository.GetAll();
-        return services.Select( s => s.ConvertToDto() ).ToList(); 
+        return services.Select( s => s.ConvertToDto() ).ToList();
     }
 
     public async Task<ServiceDTO?> GetById( int id )

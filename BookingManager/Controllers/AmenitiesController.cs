@@ -37,6 +37,7 @@ public class AmenitiesController : ControllerBase
         {
             return NotFound();
         }
+
         return Ok( amenityDTO );
     }
 
@@ -56,8 +57,8 @@ public class AmenitiesController : ControllerBase
         {
             await _amenityService.Update( id, amenityDTO );
             await _unitOfWork.CommitAsync();
-            return Ok();
 
+            return Ok();
         }
         catch ( KeyNotFoundException ex )
         {

@@ -9,7 +9,7 @@ public class AmenityService : IAmenityService
 {
     private readonly IAmenityRepository _repository;
 
-    public AmenityService(IAmenityRepository repository)
+    public AmenityService( IAmenityRepository repository )
     {
         _repository = repository;
     }
@@ -25,8 +25,8 @@ public class AmenityService : IAmenityService
     public async Task<List<AmenityDTO>> GetAll()
     {
         List<Amenity> amenities = await _repository.GetAll();
-        
-        return amenities.Select( a => a.ConvertToDto()).ToList();
+
+        return amenities.Select( a => a.ConvertToDto() ).ToList();
     }
 
     public async Task<AmenityDTO?> GetById( int id )
@@ -39,7 +39,7 @@ public class AmenityService : IAmenityService
     public async Task Update( int id, AmenityDTO amenityDto )
     {
         Amenity amenity = await _repository.GetById( id );
-        if( amenity == null )
+        if ( amenity == null )
         {
             throw new KeyNotFoundException( "This amenity doesnt exist." );
         }

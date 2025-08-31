@@ -53,6 +53,6 @@ public class ReservationsController : ControllerBase
         {
             return NoContent();
         }
-        return Ok( Ok( reservationDTO ) );
+        return Ok( reservationDTO );
     }
 }
