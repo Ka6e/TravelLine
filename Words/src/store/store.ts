@@ -32,7 +32,7 @@ export const useWordStore = create<WordStore>()(
             updateWord: (id, rus, eng) => {
                 set({
                     words: get().words.map((word) =>
-                        word.id === id ? { ...word, word: rus, translation: eng } : word
+                        word.id === id ? { ...word, russian: rus, english: eng } : word
                     ),
                 });
             },

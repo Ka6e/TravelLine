@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import { HomePage } from './pages/HomePage'
-import { AddWordPage } from './pages/AddWordPage'
-import { DictionaryPage } from './pages/DictionaryPage'
-import { EditWordPage } from './pages/EditWordPage'
+import { AddWordPage } from './pages/AddWord/AddWordPage'
+import { DictionaryPage } from './pages/Dictionary/DictionaryPage'
+import { EditWordPage } from './pages/EditWord/EditWordPage'
 import { TestPage } from './pages/TestPage/TestPage'
 import { ResultPage } from './pages/ResultPage'
 
