@@ -1,0 +1,22 @@
+.review {
+    display: flex;
+    color: black;
+    margin-bottom: 25px;
+}
+
+.avatar {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 100px;
+    margin-right: 18px;
+}
+
+.reviewHeader {
+    max-width: 451px;
+    width: 100%;
+    text-align: left;
+}
+
+.grade{
+    margin-left: 10px;
+}

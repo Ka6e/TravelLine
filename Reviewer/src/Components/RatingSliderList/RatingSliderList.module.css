@@ -1,0 +1,7 @@
+
+.sliderList {
+    max-width: 367px;
+    width: 100%;
+    max-height: 296px;
+    transform: translateX(-15px);
+}
