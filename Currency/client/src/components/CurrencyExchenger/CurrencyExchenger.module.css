@@ -1,0 +1,61 @@
+.currencyExchanger {
+    background-color: white;
+    color: black;
+    width: 900px;
+    min-height: 335px;
+    border-radius: 25px;
+    padding: 20px;
+    -webkit-box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 10px 10px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.date {
+    color: grey;
+}
+
+.currencyAboutOpen {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+.fromCurrency {
+    color: grey;
+}
+
+.toCurrency {
+    color: black;
+    font-size: xx-large;
+}
+
+.header {
+    min-height: 112px;
+}
+
+.button {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.currencyInputs {
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 2px solid #f4f4f4;
+    position: relative;
+}
+
+.currencyAbout {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+.currencyAboutOpen {
+    max-height: 500px; 
+    opacity: 1;
+}
