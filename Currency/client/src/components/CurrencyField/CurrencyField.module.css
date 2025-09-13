@@ -1,0 +1,27 @@
+.currencyField {
+    display: flex;
+    width: 500px;
+    border-radius: 10px;
+    border: 2px solid #f4f4f4;
+    margin-bottom: 15px;
+}
+
+.inputField{
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border: 0;
+    max-width: 80px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-right: 2px solid #f4f4f4;
+}
+
+.currencySelect {
+    border: 0;
+    width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: white;
+    color: black;
+}
