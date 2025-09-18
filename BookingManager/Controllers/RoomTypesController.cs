@@ -1,0 +1,155 @@
+﻿using Application.DTO;
+using Application.Interface;
+using Domain.Repositories;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BookingManager.Controllers;
+
+[ApiController]
+[Route( "api/roomtypes" )]
+public class RoomTypesController : ControllerBase
+{
+    private readonly IRoomTypeService _roomTypeService;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public RoomTypesController( IRoomTypeService roomTypeService, IUnitOfWork unitOfWork )
+    {
+        _roomTypeService = roomTypeService;
+        _unitOfWork = unitOfWork;
+    }
+
+    [HttpGet( "{id}" )]
+    public async Task<IActionResult> GetRoom( int id )
+    {
+        var roomType = await _roomTypeService.GetById( id );
+        if ( roomType == null )
+        {
+            return NotFound();
+        }
+        return Ok( roomType );
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetRooms()
+    {
+        List<RoomTypeDTO> roomTypes = await _roomTypeService.GetAll();
+        return Ok( roomTypes );
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateRoom( [FromBody] RoomTypeRequestDTO roomType )
+    {
+        int newId = await _roomTypeService.Create( roomType );
+        await _unitOfWork.CommitAsync();
+        return CreatedAtAction( nameof( CreateRoom ), new { id = newId }, newId );
+    }
+
+    [HttpPut( "{id}" )]
+    public async Task<IActionResult> UpdateRoom( int id, [FromBody] RoomTypeUpdate roomDTO )
+    {
+        try
+        {
+            await _roomTypeService.Update( id, roomDTO );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpDelete( "{id}" )]
+    public async Task<IActionResult> DeleteRoomType( int id )
+    {
+        await _roomTypeService.Delete( id );
+        await _unitOfWork.CommitAsync();
+        return NoContent();
+    }
+
+    [HttpPatch( "{id}/activateService" )]
+    public async Task<IActionResult> ActivateService( int id, int serviceId )
+    {
+        try
+        {
+            await _roomTypeService.ActivateService( id, serviceId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpPatch( "{id}/disactivateService" )]
+    public async Task<IActionResult> DisactivateService( int id, int serviceId )
+    {
+        try
+        {
+            await _roomTypeService.DisactivateService( id, serviceId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpPatch( "{id}/activateAmenity" )]
+    public async Task<IActionResult> ActivateAmenity( int id, int amenityId )
+    {
+        try
+        {
+            await _roomTypeService.ActivateAmenity( id, amenityId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpPatch( "{id}/disactivateAmenity" )]
+    public async Task<IActionResult> DisactivateAmenity( int id, int amenityId )
+    {
+        try
+        {
+            await _roomTypeService.DisactivateAmenity( id, amenityId );
+            await _unitOfWork.CommitAsync();
+            return Ok();
+        }
+        catch ( KeyNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+    }
+
+    [HttpPatch( "{id}/addServices" )]
+    public async Task<IActionResult> AddServices( int id, [FromBody] List<int> serviceIds )
+    {
+        if ( serviceIds == null || !serviceIds.Any() )
+        {
+            return BadRequest( "ServiceIds cannot be empty." );
+        }
+
+        await _roomTypeService.AddServices( id, serviceIds );
+        await _unitOfWork.CommitAsync();
+        return NoContent();
+    }
+
+    [HttpPatch( "{id}/addAmenities" )]
+    public async Task<IActionResult> AddAmenity( int id, [FromBody] List<int> amenityIds )
+    {
+        if ( amenityIds == null || !amenityIds.Any() )
+        {
+            return BadRequest( "AmenityIds cannot be empty." );
+        }
+
+        await _roomTypeService.AddAmenities( id, amenityIds );
+        await _unitOfWork.CommitAsync();
+        return NoContent();
+    }
+}
