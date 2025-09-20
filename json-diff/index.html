@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Json diff</title>
+  <link rel="stylesheet" href="./src/styles/common.css" />
+  <link rel="stylesheet" href="./src/styles/auth.css">
+  <link rel="stylesheet" href="./src/styles/compare.css">
+  <link rel="stylesheet" href="./src/styles/header.css">
+  <link rel="stylesheet" href="./src/styles/start-page.css">
+  <link rel="stylesheet" href="./src/styles/footer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <h1 class="header__logo">JSON-DIFF</h1>
+      <div class="header__user">
+        <a class="header__login">Log in</a>
+        <div class="logined-user">
+          <a class="header__greet"></a>
+          <a class="header__logout">Log out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="start-page">
+      <p class="start-page__text">
+        Compare <span class="bold-red">two JSON objects</span> and see the
+        <span class="bold-orange">differences</span>
+      </p>
+      <a class="start-page__start">Start</a>
+    </section>
+    <section class="login">
+      <form action="" class="login__form">
+        <h1 class="login__title">Login form</h1>
+        <div class="login__field">
+          <label for="login-input" class="login__label">LOGIN
+            <input name="login" id="login-input" class="login__input" size="35">
+          </label>
+          <p class="login__error"></p>
+        </div>
+        <button class="login__button">SIGN IN</button>
+      </form>
+    </section>
+    <section class="compare">
+      <form class="compare__form">
+        <div class="compare__old-json">
+          <div class="compare__json-area">
+            <p class="compare__label">OLD JSON</p>
+            <textarea name="oldJson" id='oldJson' class="compare__textarea" cols="50" rows="14"></textarea>
+          </div>
+          <p class="oldJson-error"></p>
+        </div>
+        <div class="compare__new-json">
+          <div class="compare__json-area">
+            <p class="compare__label">NEW JSON</p>
+            <textarea name="newJson" id="newJson" class="compare__textarea" cols="50" rows="14"></textarea>
+          </div>
+          <p class="newJson-error"></p>
+        </div>
+        <button class="compare__button">Show difference</button>
+        <pre class="compare-result"></pre>
+      </form>
+    </section>
+  </main>
+  <footer class="footer">
+    <p class="footer__text">Copyright 2025 ©</p>
+  </footer>
+  <script type="module" src="./src/scripts/index.js"></script>
+</body>
+
+</html>
